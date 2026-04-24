@@ -1,0 +1,44 @@
+# OS artifacts
+.DS_Store
+Thumbs.db
+
+# Editor / IDE
+.vscode/
+*.code-workspace
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+.vs/
+.idea/
+
+# Generated and build output
+/fsh-generated/
+/input-cache/
+/output/
+/temp/
+/template/
+
+# Python artifacts
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+venv.bak/
+
+# Node / package manager
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Temporary files
+*.log
+*.tmp
+*.bak
+*.cache
+*~
+*.swp
