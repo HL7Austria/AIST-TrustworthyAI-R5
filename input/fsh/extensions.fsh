@@ -8,6 +8,7 @@ Id: ext-model-card
 Title: "Model Card Reference"
 Description: "A reference to the DocumentReference resource that acts as the Model Card, containing detailed
  documentation, intended purpose, and risk assessments."
+ Context: Device
 * ^context[+].type = #element
 * ^context[=].expression = "Device" 
 * value[x] only Reference(DocumentReference)
@@ -17,6 +18,7 @@ Extension: ThirdCountryDataTransfer
 Id: third-country-data-transfer
 Title: "Third-Country Data Transfer"
 Description: "Captures if patient data is transferred outside the EU by this device."
+Context: Device
 * extension contains
     transferFlag 1..1 MS and
     destinationCountry 0..* MS
@@ -32,6 +34,7 @@ Extension: AIPerformanceMetrics
 Id: ai-performance-metrics
 Title: "AI Performance Metrics"
 Description: "Captures quantitative metrics and bias disclosures."
+Context: DocumentReference
 * ^context[0].type = #element
 * ^context[0].expression = "DocumentReference"
 * extension contains
@@ -50,6 +53,7 @@ Extension: AITrainingData
 Id: ai-training-data
 Title: "AI Training Data Metadata"
 Description: "Details regarding provenance, EHDS categories, and data quality."
+Context: DocumentReference
 * extension contains
     provenance 1..1 MS and
     ehdsCategory 0..* MS and
@@ -68,6 +72,7 @@ Extension: AIPrivacyMetadata
 Id: ai-privacy-metadata
 Title: "AI Privacy Metadata"
 Description: "GDPR and AI Act privacy parameters. Third country transfer flags and data retention policies at the model level."
+Context: DocumentReference
 * extension contains
     retention 1..1 MS and
     transferFlag 1..1 MS and
@@ -85,6 +90,7 @@ Extension: EHDSPUsageCategory
 Id: ehds-usage-category
 Title: "EHDS Usage Category"
 Description: "Categorizes the data processing as Primary Care or Secondary Use according to the EHDS."
+Context: Provenance
 * value[x] only CodeableConcept
 * valueCodeableConcept from EHDS_UsageCategoryVS (required)
 
@@ -92,6 +98,7 @@ Extension: EHDSDataPermit
 Id: ehds-data-permit
 Title: "EHDS Data Permit"
 Description: "The unique ID of the Health Data Access Body permit (required if secondary use)."
+Context: Provenance
 * value[x] only Identifier
 
 
@@ -103,6 +110,7 @@ Extension: CaseSpecificIndication
 Id: case-specific-indication
 Title: "Case-Specific Indication"
 Description: "The clinical reason why the AI was used for this specific patient."
+Context: Observation
 * value[x] only CodeableConcept
 * valueCodeableConcept from EUCaseSpecificIndicationVS (extensible)
 
@@ -110,6 +118,7 @@ Extension: PatientAIInfoProvidedFlag
 Id: patient-ai-info-provided
 Title: "Patient AI Info Provided Flag"
 Description: "Confirmation that the patient was informed about the use of AI systems according to AI Act transparency rules."
+Context: Consent
 * value[x] only boolean
 
 // =======================================================
@@ -120,6 +129,7 @@ Extension: AISystemTrainingStatus
 Id: ai-system-training-status
 Title: "AI System Specific Training"
 Description: "Mandatory flag indicating whether the human actor has received specific training for the utilized AI tool."
+Context: ArtifactAssessment.content.author, PractitionerRole
 * value[x] only boolean
 * valueBoolean ^short = "True if training was completed"
 
@@ -127,6 +137,7 @@ Extension: EU_AI_ExplanationRequested
 Id: eu-ai-explanation-requested
 Title: "EU AI Act Explanation Requested Flag"
 Description: "Flag indicating if the patient (data subject) explicitly requested a clear and meaningful explanation of the AI's role and the clinical decision."
+Context: Communication
 * ^context[+].type = #element
 * ^context[=].expression = "Communication"
 * value[x] only boolean
@@ -141,6 +152,7 @@ Extension: LogIntegritySignature
 Id: eu-ai-log-integrity
 Title: "EU AI Act Log Integrity Signature"
 Description: "Cryptographic signature or verification hash to ensure the integrity, accountability, and non-repudiation of the AI execution audit log."
+Context: AuditEvent
 * ^context[+].type = #element
 * ^context[=].expression = "AuditEvent"
 * value[x] only Signature

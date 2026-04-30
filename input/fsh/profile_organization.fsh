@@ -4,7 +4,6 @@ Id: eu-ai-organization
 Title: "EU AI Responsible Organization"
 Description: "An organization acting as a manufacturer or deployer (owner) of an AI system, containing required regulatory contacts."
 
-
 // =======================================================
 // SLICING FÜR KONTAKTPERSONEN (SYS-08, SYS-12)
 // =======================================================

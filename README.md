@@ -2,7 +2,7 @@
 # AIST-TrustworthyAI-R5: FHIR Implementation Guide for AI Transparency
 
 ![FHIR Version](https://img.shields.io/badge/FHIR-R5-firebrick.svg)
-![Build Status](https://img.shields.io/badge/build-passing-brightgreen.svg) ![FSH](https://img.shields.io/badge/FSH-supported-blue.svg)
+![FSH](https://img.shields.io/badge/FSH-supported-blue.svg)
 
 This repository contains the HL7 FHIR Implementation Guide (IG) developed as part of a Master's thesis. It provides a standardized, interoperable data model to fulfill the transparency, accountability, and traceability requirements of the **EU AI Act**, the **GDPR**, and the **European Health Data Space (EHDS)** in clinical settings.
 

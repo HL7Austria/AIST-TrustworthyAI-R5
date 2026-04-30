@@ -7,7 +7,7 @@ Id: EUAIActCodeSystem
 Title: "EU AI Act Custom Codes"
 Description: "Central repository of legal and technical terms according to the EU AI Act."
 * ^status = #active
-* ^experimental = true 
+* ^experimental = false 
 * ^caseSensitive = true
 
 // Core categories (SYS-01, SYS-05)
@@ -85,6 +85,9 @@ Description: "Central repository of legal and technical terms according to the E
 * #gdpr-art-9-2-i "Public Health (Art. 9(2)(i))"
 * #gdpr-art-9-2-j "Research (Art. 9(2)(j))"
 
+//SYS-11
+* #eu-ai-database-id "EU AI Database Identifier" "Identifier for an AI system registration in the EU AI database or an equivalent AI system registry."
+
 
 // =======================================================
 // 2. VALUESETS (Aktiv verwendete Filter)
@@ -95,7 +98,7 @@ Id: eu-case-specific-indication-vs
 Title: "EU AI Case-Specific Indication ValueSet"
 Description: "Clinical and administrative reasons for AI application."
 * ^status = #active
-* ^experimental = true
+* ^experimental = false
 * EUAIActCodeSystem#triage
 * EUAIActCodeSystem#screening
 * EUAIActCodeSystem#second-opinion
@@ -108,7 +111,7 @@ Id: eu-ai-performance-metric-vs
 Title: "AI Performance Metric ValueSet"
 Description: "Codes for technical quality and performance metrics."
 * ^status = #active
-* ^experimental = true
+* ^experimental = false
 * EUAIActCodeSystem#accuracy
 * EUAIActCodeSystem#sensitivity
 * EUAIActCodeSystem#specificity
@@ -119,7 +122,7 @@ Id: ehds-usage-category-vs
 Title: "EHDS Usage Category ValueSet"
 Description: "Defines whether the data usage is primary care or secondary use."
 * ^status = #active
-* ^experimental = true
+* ^experimental = false
 * EUAIActCodeSystem#primary-use
 * EUAIActCodeSystem#secondary-use
 
@@ -129,7 +132,7 @@ Id: ehds-data-category-vs
 Title: "EHDS Data Category ValueSet (Final Regulation 2025/327)"
 Description: "Mandatory categories of electronic health data for secondary use according to Art. 51 EHDS."
 * ^status = #active
-* ^experimental = true
+* ^experimental = false
 * EUAIActCodeSystem#ehr
 * EUAIActCodeSystem#health-factors
 * EUAIActCodeSystem#healthcare-resources
@@ -154,7 +157,7 @@ Id: eu-ai-data-quality-vs
 Title: "AI Data Quality ValueSet"
 Description: "Attributes describing the quality of training data."
 * ^status = #active
-* ^experimental = true
+* ^experimental = false
 * EUAIActCodeSystem#representative
 * EUAIActCodeSystem#error-free
 * EUAIActCodeSystem#complete
@@ -178,6 +181,7 @@ Description: "Codes representing the type of human oversight or intervention."
 CodeSystem: GDPRArt6CodeSystem
 Id: gdpr-art6-codesystem
 Title: "GDPR Art 6 Legal Basis"
+Description: "Codes representing legal bases for processing personal data according to GDPR Article 6."
 * ^status = #active
 * ^experimental = false
 * ^caseSensitive = true
@@ -188,6 +192,7 @@ Title: "GDPR Art 6 Legal Basis"
 CodeSystem: GDPRArt9CodeSystem
 Id: gdpr-art9-codesystem
 Title: "GDPR Art 9 Exceptions"
+Description: "Codes representing exceptions for processing special categories of personal data according to GDPR Article 9."
 * ^status = #active
 * ^experimental = false
 * ^caseSensitive = true
@@ -202,11 +207,13 @@ Title: "GDPR Art 9 Exceptions"
 ValueSet: GDPR_Art6_LegalBasisVS
 Id: gdpr-art6-legal-basis-vs
 Title: "GDPR Art 6 Legal Basis for AI"
+Description: "Value set including GDPR Article 6 legal bases relevant for documenting the lawful processing of personal data."
 * ^experimental = false
 * include codes from system GDPRArt6CodeSystem
 
 ValueSet: GDPR_Art9_ExceptionVS
 Id: gdpr-art9-exception-vs
 Title: "GDPR Art 9 Exception for AI Health Data"
+Description: "Value set including GDPR Article 9 exceptions relevant for documenting the processing of special categories of personal data, including health data."
 * ^experimental = false
 * include codes from system GDPRArt9CodeSystem

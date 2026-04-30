@@ -3,7 +3,7 @@ Parent: Device
 Id: eu-ai-device
 Title: "EU AI Act Compliant Device"
 Description: "A Device profile representing an AI system, fulfilling EU AI Act metadata requirements."
-* ^experimental = false  
+
 
 // =======================================================
 // 1. SYSTEM METADATA (SYS-01, SYS-02)
@@ -18,13 +18,17 @@ Description: "A Device profile representing an AI system, fulfilling EU AI Act m
 
 // SYS-11
 * identifier ^slicing.discriminator.type = #value
-* identifier ^slicing.discriminator.path = "system"
+* identifier ^slicing.discriminator.path = "type"
 * identifier ^slicing.rules = #open
 
 * identifier contains euDatabaseId 1..1 MS
-* identifier[euDatabaseId].system = "http://ec.europa.eu/ai-database" 
+* identifier[euDatabaseId].type 1..1 MS
+* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
+* identifier[euDatabaseId].system 1..1 MS
 * identifier[euDatabaseId].value 1..1 MS
-* identifier[euDatabaseId] ^short = "Official EU High-Risk AI Database URI (UDI)"
+* identifier[euDatabaseId] ^short = "EU AI database registration identifier"
+* identifier[euDatabaseId] ^definition = "Identifier used to document the AI system's registration entry in the EU AI database or an equivalent AI system registry."
+
 
 // =======================================================
 // SYS-02.1 SYS-02.2, SYS-08
@@ -52,7 +56,7 @@ Description: "A Device profile representing an AI system, fulfilling EU AI Act m
 // =======================================================
 // dynamic features (SYS-03b, SYS-07.1, USE-01)
 // =======================================================
-* property ^slicing.discriminator.type = #pattern
+* property ^slicing.discriminator.type = #value
 * property ^slicing.discriminator.path = "type"
 * property ^slicing.rules = #open
 

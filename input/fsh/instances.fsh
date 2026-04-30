@@ -78,11 +78,11 @@ Description: "The specific High-Risk AI System instance deployed at St. Chronos.
 * contact[1].system = #phone 
 * contact[1].use = #work
 
-* identifier[euDatabaseId].system = "http://ec.europa.eu/ai-database"
+* identifier[euDatabaseId].system = "http://example.org/fhir/eu-ai-transparency/sid/eu-ai-database"
 * identifier[euDatabaseId].value = "EU-AI-2042-XJ992"
 
 * conformsTo[0].specification.text = "ISO 13485:2016 Medical devices - QMS"
-* conformsTo[1].specification.text = "EU AI Act High-Risk Compliance "
+* conformsTo[1].specification.text = "EU AI Act High-Risk Compliance"
 
 * note[0].text = "Maintenance: Hardware calibration required every 12 months."
 * note[1].text = "Security: Software patches are deployed monthly via remote update."
@@ -113,9 +113,9 @@ Description: "Regulatory metadata, performance metrics, and technical documentat
 * extension[performance].extension[biasDisclosure].valueString = "Validated evenly across standard demographics."
 
 * extension[training].extension[provenance].valueString = "Data from Fictional Central Health Grid"
-* extension[training].extension[ehdsCategory].valueCodeableConcept = http://example.org/ehds#imaging "Medical Imaging"
+* extension[training].extension[ehdsCategory].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
 * extension[training].extension[ehdsPermit].valueIdentifier.value = "EHDS-TEST-2042-991"
-* extension[training].extension[dataQuality].valueCodeableConcept = http://example.org/quality#high "High Quality"
+* extension[training].extension[dataQuality].valueCodeableConcept = EUAIActCodeSystem#representative "Representative"
 
 * extension[privacy].extension[retention].valueDuration = 10 'a'
 * extension[privacy].extension[transferFlag].valueBoolean = false
@@ -154,7 +154,8 @@ Description: "The preliminary clinical result generated autonomously by the AI."
 * method.text = "AuraScan Neural Engine v3.1"
 * extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#screening "Screening"
 * effectiveDateTime = "2026-04-08T08:00:00Z"
-
+//performer started ai execution
+* performer = Reference(doctor-aris-thorne)
 Instance: doc-ai-heatmap
 InstanceOf: DocumentReference
 Usage: #example
@@ -180,7 +181,7 @@ Description: "Cryptographically signed trace connecting the CT scan, the AI devi
 * agent[0].who = Reference(device-aurascan-ai)
 * agent[0].requestor = false
 * entity[inputData].what = Reference(input-ct-thorax)
-* entity[referenceDb].what.identifier.system = "http://aurascan.test/databases"
+* entity[referenceDb].what.identifier.system = "http://example.org/fhir/eu-ai-transparency/identifier/reference-database"
 * entity[referenceDb].what.identifier.value = "Atlas-Version-9"
 * entity[outputData].what = Reference(observation-ai-nodule)
 
@@ -192,7 +193,6 @@ Description: "Lineage linking the clinical observation directly back to the CT s
 * target = Reference(observation-ai-nodule)
 * occurredPeriod.start = "2026-04-08T08:00:00Z"
 * occurredPeriod.end = "2026-04-08T08:00:05Z"
-* authorization[0].concept.coding = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
 // LAW-01a: Art. 6
 * authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-b
 // LAW-01b: Art. 9
@@ -201,8 +201,9 @@ Description: "Lineage linking the clinical observation directly back to the CT s
 * agent[0].who = Reference(device-aurascan-ai)
 * entity[0].role = #source
 * entity[0].what = Reference(input-ct-thorax)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use
-
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#secondary-use "Secondary Use"
+* extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/eu-ai-transparency/sid/ehds-data-permit"
+* extension[dataPermit].valueIdentifier.value = "EHDS-TEST-2042-991"
 // =======================================================
 // 5. HUMAN OVERSIGHT (The Intervention)
 // =======================================================

@@ -3,7 +3,7 @@ Parent: Consent
 Id: eu-ai-consent
 Title: "EU AI & EHDS Consent Profile"
 Description: "A profile on the Consent resource to capture GDPR legal basis and EHDS secondary use opt-out."
-* ^experimental = true //because i use decision
+
 * status = #active
 * category = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
 

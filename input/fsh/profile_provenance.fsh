@@ -4,7 +4,6 @@ Id: eu-ai-provenance
 Title: "EU AI Act Provenance (Human-in-the-Loop)"
 Description: "Records the execution of an AI system, including human oversight and data provenance."
 
-
 // =======================================================
 // 1. ZIEL & ZEIT (SYS-10.1)
 // =======================================================
@@ -20,7 +19,7 @@ Description: "Records the execution of an AI system, including human oversight a
 // 2. GDPR (LAW-01a & LAW-01b)
 // =======================================================
 * authorization 1..* MS
-* authorization ^slicing.discriminator.type = #pattern
+* authorization ^slicing.discriminator.type = #value
 * authorization ^slicing.discriminator.path = "concept.coding.system"
 * authorization ^slicing.rules = #open
 
