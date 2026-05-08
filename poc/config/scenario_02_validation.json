@@ -1,0 +1,16 @@
+{
+  "scenarioOutputId": "scenario-02-validation",
+  "aiOutputConfig": {
+    "forceOutput": false
+  },
+  "humanOversightConfig": {
+    "enabled": true,
+    "mode": "human-validation",
+    "reviewedAt": "2026-03-01T10:20:00Z",
+    "reviewerId": "practitionerrole-reviewer-001",
+    "rationale": "The simulated AI output was reviewed and accepted."
+  },
+  "patientExplanationConfig": {
+    "enabled": false
+  }
+}
