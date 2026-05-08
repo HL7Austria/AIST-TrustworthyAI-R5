@@ -1,0 +1,150 @@
+{
+  "scenarioId": "scenario-01-acceptance",
+  "scenarioDescription": "Synthetic early warning risk assessment in a suspected infection scenario before simulated AI execution.",
+
+  "clinicalContext": {
+    "scenarioType": "suspected-infection-early-warning-risk-assessment",
+    "simulationBasis": "simplified-news2-inspired-scoring",
+    "caseSpecificIndication": "suspected-infection-early-warning-risk-assessment",
+    "note": "NEWS2 is used only as a plausibility framework for selecting synthetic vital parameters and threshold ranges. This scenario does not implement or validate NEWS2 as a clinical decision model."
+  },
+
+  "patient": {
+    "id": "patient-001",
+    "gender": "female",
+    "birthDate": "1959-04-12"
+  },
+
+  "encounter": {
+    "id": "encounter-001",
+    "type": "ambulatory",
+    "clinicalIndication": "suspected-infection-early-warning-risk-assessment",
+    "startedAt": "2026-03-01T10:00:00Z",
+    "endedAt": "2026-03-01T10:30:00Z"
+  },
+
+  "inputData": {
+    "observedAt": "2026-03-01T10:10:00Z",
+
+    "temperature": {
+      "value": 38.6,
+      "unit": "Cel"
+    },
+
+    "heartRate": {
+      "value": 112,
+      "unit": "/min"
+    },
+
+    "respiratoryRate": {
+      "value": 23,
+      "unit": "/min"
+    },
+
+    "bloodPressure": {
+      "systolic": 96,
+      "diastolic": 61,
+      "unit": "mmHg"
+    },
+
+    "oxygenSaturation": {
+      "value": 92,
+      "unit": "%",
+      "news2Scale": "scale-1"
+    },
+
+    "supplementalOxygen": {
+      "value": false
+    },
+
+    "consciousnessStatus": {
+      "value": "alert"
+    }
+  },
+
+  "manufacturerOrganization": {
+    "id": "organization-examplemed",
+    "name": "ExampleMed AI GmbH",
+    "type": "manufacturer",
+    "contactEmail": "contact@examplemed.example",
+    "dpoContactEmail": "dpo@examplemed.example",
+    "incidentReportingEmail": "incidents@examplemed.example"
+  },
+
+  "operatorOrganization": {
+    "id": "organization-examplehospital",
+    "name": "Example Hospital",
+    "type": "healthcare-provider",
+    "contactEmail": "contact@examplehospital.example"
+  },
+
+  "aiSystem": {
+    "id": "device-riskassist-ai",
+    "name": "RiskAssist AI",
+    "version": "1.0.0",
+    "manufacturerOrganizationId": "organization-examplemed",
+    "ownerOrganizationId": "organization-examplehospital",
+    "euDatabaseId": "EU-AI-000123",
+    "ceMarked": true,
+    "notifiedBodyId": "NB-0000",
+    "expectedLifetime": {
+      "value": 5,
+      "unit": "years"
+    },
+    "intendedPurpose": "AI-assisted early warning risk assessment based on synthetic NEWS2-inspired vital parameters",
+    "medicalPurpose": "Supportive risk stratification in acute care settings",
+    "targetPopulation": "Adult patients with suspected infection in an acute care setting",
+    "maintenanceNote": "Synthetic maintenance information for PoC purposes.",
+    "qmsCertification": "Synthetic QMS certification reference for PoC purposes.",
+    "modelCardId": "modelcard-riskassist-ai",
+    "dataTransfer": {
+      "crossBorderTransfer": false,
+      "thirdCountryTransfer": false
+    }
+  },
+
+  "modelCard": {
+    "id": "modelcard-riskassist-ai",
+    "title": "RiskAssist AI Model Card",
+    "description": "Synthetic model card for a deterministic AI-output simulation component used in the PoC.",
+    "url": "https://example.org/riskassist/model-card",
+    "contentType": "text/html",
+    "technicalDocumentationUrl": "https://example.org/riskassist/technical-documentation",
+    "modelType": "deterministic simulation component",
+    "trainingDataDescription": "No real training data are used. The component is used only to simulate AI-like outputs for the PoC.",
+    "dataQualityDescription": "Synthetic placeholder data quality description for PoC purposes.",
+    "performanceDescription": "No clinically validated performance metrics are claimed.",
+    "privacyDescription": "No real patient data are processed. The scenario uses synthetic data only.",
+    "limitations": "The simulated output is not intended for clinical use and does not represent a validated AI model."
+  },
+
+  "legalContext": {
+    "usageCategory": "primary-use",
+    "gdprArt6": "gdpr-art-6-1-d",
+    "gdprArt9": "gdpr-art-9-2-h",
+    "patientInfoProvided": true,
+    "patientOptOut": false,
+    "automatedDecision": false
+  },
+
+  "humanReviewer": {
+    "id": "practitionerrole-reviewer-001",
+    "practitionerId": "practitioner-001",
+    "name": "Dr. Anna Example",
+    "organizationId": "organization-examplehospital",
+    "specialty": "Internal Medicine",
+    "roleCode": "human-overseer",
+    "aiSpecificTrainingCompleted": true
+  },
+
+  "mappingDefaults": {
+  "observationStatus": "final",
+  "encounterStatus": "completed",
+  "auditEventAction": "C",
+  "auditEventCodeSystem": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+  "auditEventCode": "rest",
+  "auditEventCodeDisplay": "RESTful Operation",
+  "humanOversightWorkflowStatus": "active",
+  "provenanceActivity": "ai-output-generation"
+}
+}

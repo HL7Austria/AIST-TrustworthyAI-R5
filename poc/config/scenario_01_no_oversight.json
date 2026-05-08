@@ -1,0 +1,12 @@
+{
+  "scenarioOutputId": "scenario-01-ai-only",
+  "aiOutputConfig": {
+    "forceOutput": false
+  },
+  "humanOversightConfig": {
+    "enabled": false
+  },
+  "patientExplanationConfig": {
+    "enabled": false
+  }
+}
