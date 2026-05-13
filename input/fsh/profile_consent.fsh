@@ -21,5 +21,6 @@ Description: "A profile on the Consent resource to capture GDPR legal basis and 
 * decision 1..1 MS
 * decision ^short = "deny (Opt-out) | permit (Consent)"
 
+* provision 1..1 MS
 * provision.purpose 1..* MS
 * provision.purpose = http://terminology.hl7.org/CodeSystem/v3-ActReason#RESCH

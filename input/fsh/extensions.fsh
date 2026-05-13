@@ -39,7 +39,7 @@ Context: DocumentReference
 * ^context[0].expression = "DocumentReference"
 * extension contains
     metric 1..* MS and
-    biasDisclosure 0..1 MS
+    biasDisclosure 0..* MS
 * extension[metric].extension contains
     type 1..1 MS and
     value 1..1 MS
@@ -58,7 +58,7 @@ Context: DocumentReference
     provenance 1..1 MS and
     ehdsCategory 0..* MS and
     ehdsPermit 0..* MS and
-    dataQuality 1..1 MS
+    dataQuality 0..1 MS
 * extension[provenance].value[x] only string
 * extension[ehdsPermit].value[x] only Identifier
 * extension[ehdsCategory].value[x] only CodeableConcept

@@ -30,6 +30,7 @@ Description: "Central repository of legal and technical terms according to the E
 * #accuracy "Accuracy"
 * #sensitivity "Sensitivity"
 * #specificity "Specificity"
+* #not-clinically-validated "Not Clinically Validated"
 
 // Case-Specific Indication (USE-04)
 * #triage "Triage and Prioritization"
@@ -115,6 +116,7 @@ Description: "Codes for technical quality and performance metrics."
 * EUAIActCodeSystem#accuracy
 * EUAIActCodeSystem#sensitivity
 * EUAIActCodeSystem#specificity
+* EUAIActCodeSystem#not-clinically-validated
 
 
 ValueSet: EHDS_UsageCategoryVS
