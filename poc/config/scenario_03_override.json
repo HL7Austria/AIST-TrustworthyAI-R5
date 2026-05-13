@@ -1,5 +1,5 @@
 {
-  "scenarioOutputId": "scenario-03-override",
+  "scenarioOutputId": "sc-03-override",
   "aiOutputConfig": {
     "forceOutput": true,
     "riskCategory": "low-risk",
