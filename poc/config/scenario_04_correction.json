@@ -1,5 +1,5 @@
 {
-  "scenarioOutputId": "scenario-04-correction-explanation",
+  "scenarioOutputId": "sc-04-correction-exp",
   "aiOutputConfig": {
     "forceOutput": true,
     "riskCategory": "low-risk",

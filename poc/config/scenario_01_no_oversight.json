@@ -1,5 +1,5 @@
 {
-  "scenarioOutputId": "scenario-01-ai-only",
+  "scenarioOutputId": "sc-01-ai-only",
   "aiOutputConfig": {
     "forceOutput": false
   },
