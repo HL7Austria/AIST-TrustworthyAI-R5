@@ -19,7 +19,7 @@ Description: "Defines the qualifications, specialty, and AI-specific training of
 // 2. CLINICAL SPECIALTY (HL-02.1)
 // =======================================================
 * specialty 1..* MS
-* specialty ^short = "Clinical specialty (e.g., Radiology) required for oversight"
+* specialty ^short = "Clinical specialty required for oversight"
 
 // =======================================================
 // 3. EXTENSIONS: AI TRAINING STATUS (HL-02.2)

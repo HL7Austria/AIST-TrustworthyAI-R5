@@ -14,7 +14,7 @@ Description: "Documents the professional review and clinical decision-making reg
 // 2. TARGET ARTIFACT (The AI Output: Observation)
 // =======================================================
 * artifactReference 1..1 MS
-* artifactReference only Reference(Observation or DiagnosticReport)
+* artifactReference only Reference(Observation)
 * artifact[x] ^short = "Reference to the AI-generated Observation"
 
 // =======================================================
