@@ -21,23 +21,26 @@ publisher:
   # email: test@example.org
 
 resources:
-  Device/device-aurascan-ai:
-    description: "Example of a high-risk AI system with EU AI Act metadata."
-  DocumentReference/modelcard-aurascan:
-    description: "The AI Model Card containing human-readable risk and purpose documentation."
-  Observation/observation-ai-nodule:
-    description: "AI-generated clinical observation linked to a human-in-the-loop oversight protocol."
-  Provenance/prov-ai-lineage:
-    description: "Oversight protocol documenting data lineage of AI results."
-  Organization/org-aetheria-health:
-    description: "Organization acting as the AI Provider (Manufacturer) with incident reporting contact."
-  Organization/org-chronos-medical:
-    description: "Healthcare Organization (Deployer) with Data Protection Officer (DPO) contact."
-  Consent/consent-vance-ai:
-    description: "Patient consent instance illustrating GDPR compliance and EHDS secondary use opt-out."
-  PractitionerRole/role-dr-thorne:
-    description: "Specialized role ensuring the 'appropriate expertise' requirement for AI oversight (Art. 14)."
-
+  Device/device-riskassist-ai:
+    description: "Example AI system used for the NEWS2-inspired PoC scenario."
+  DocumentReference/modelcard-riskassist-ai:
+    description: "Synthetic model card for the RiskAssist AI PoC system."
+  Observation/sc-02-validation-ai-observation-risk-001:
+    description: "AI-generated early warning risk assessment output."
+  Provenance/sc-02-validation-provenance-ai-output-001:
+    description: "Provenance linking the AI-generated output to the AI system and input observations."
+  AuditEvent/sc-02-validation-audit-event-ai-execution-001:
+    description: "Audit event documenting the simulated AI execution."
+  Organization/organization-examplemed:
+    description: "Manufacturer organization for the synthetic AI system."
+  Organization/organization-examplehospital:
+    description: "Healthcare organization operating the synthetic AI system."
+  Consent/sc-02-validation-consent-ai-use-001:
+    description: "Consent and patient information context for AI-related processing."
+  PractitionerRole/practitionerrole-reviewer-001:
+    description: "Human reviewer role used for AI output validation."
+  ArtifactAssessment/sc-02-validation-human-oversight-001:
+    description: "Human oversight assessment documenting validation of the AI output."
 # The dependencies property corresponds to IG.dependsOn. The key is the
 # package id and the value is the version (or dev/current). For advanced
 # use cases, the value can be an object with keys for id, uri, and version.
