@@ -20,7 +20,7 @@ Description: "Documents the fulfillment of the patient's right to a clear and me
 * subject ^short = "The patient who received the explanation"
 
 * sender 1..1 MS
-* sender only Reference(Practitioner or PractitionerRole)
+* sender only Reference(PractitionerRole)
 * sender ^short = "The human-in-the-loop providing the explanation"
 
 // =======================================================
