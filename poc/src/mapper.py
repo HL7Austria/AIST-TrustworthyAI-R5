@@ -98,23 +98,18 @@ def map_encounter(metadata: dict[str, Any]) -> dict[str, Any]:
 
 def map_organization(metadata: dict[str, Any], organization: dict[str, Any]) -> dict[str, Any]:
     fhir = metadata["fhirMapping"]["organization"]
-    contact = [
-        {
-            "telecom": [
-                {
-                    "system": "email",
-                    "value": organization["contactEmail"],
-                    "use": "work",
-                }
-            ]
-        }
-    ]
+
+    contact = []
 
     if "dpoContactEmail" in organization:
         contact.append(
             {
                 "purpose": cc_from_meta(fhir["dpoContactPurpose"]),
-                "name": [{"text": fhir["dpoContactPurpose"]["text"]}],
+                "name":[
+                    {
+                        "text": fhir["dpoContactPurpose"]["text"]
+                    }
+                ],
                 "telecom": [
                     {
                         "system": "email",
@@ -129,7 +124,11 @@ def map_organization(metadata: dict[str, Any], organization: dict[str, Any]) -> 
         contact.append(
             {
                 "purpose": cc_from_meta(fhir["incidentContactPurpose"]),
-                "name": [{"text": fhir["incidentContactPurpose"]["text"]}],
+                "name": [
+                    {
+                        "text": fhir["incidentContactPurpose"]["text"]
+                    }
+                ],
                 "telecom": [
                     {
                         "system": "email",
@@ -140,15 +139,19 @@ def map_organization(metadata: dict[str, Any], organization: dict[str, Any]) -> 
             }
         )
 
-    return {
+    resource = {
         "resourceType": "Organization",
         "id": organization["id"],
         "meta": create_meta(PROFILE_EU_AI_ORGANIZATION),
         "active": organization["active"],
         "type": [{"text": organization["type"]}],
         "name": organization["name"],
-        "contact": contact,
     }
+
+    if contact:
+        resource["contact"] = contact
+
+    return resource
 
 
 def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
