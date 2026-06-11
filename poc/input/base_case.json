@@ -110,11 +110,13 @@
     "active": true
   },
   "operatorOrganization": {
-    "id": "organization-examplehospital",
-    "name": "Example Hospital",
-    "type": "healthcare-provider",
-    "contactEmail": "contact@examplehospital.example",
-    "active": true
+  "id": "organization-examplehospital",
+  "name": "Example Hospital",
+  "type": "healthcare-provider",
+  "contactEmail": "contact@examplehospital.example",
+  "dpoContactEmail": "dpo@examplehospital.example",
+  "incidentReportingEmail": "incidents@examplehospital.example",
+  "active": true
   },
   "aiSystem": {
     "id": "device-riskassist-ai",
