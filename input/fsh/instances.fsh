@@ -151,8 +151,7 @@ Description: "Synthetic model card for the deterministic AI-output simulation co
 * content[1].attachment.contentType = #text/html
 * content[1].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation"
 * content[1].attachment.title = "Technical Documentation"
-* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = EUAIActCodeSystem#not-clinically-validated "Not clinically validated"
-* extension[performance].extension[metric][0].extension[value].valueQuantity = 0 '1' "1"
+* extension[clinicalValidationStatus].valueCodeableConcept = EUAIActCodeSystem#not-clinically-validated "Not Clinically Validated"
 * extension[performance].extension[biasDisclosure].valueString = "No bias evaluation is claimed for this synthetic PoC model."
 * extension[training].extension[provenance].valueString = "No real training data are used. The component is used only to simulate AI-like outputs for the PoC."
 * extension[training].extension[ehdsCategory].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
@@ -270,6 +269,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * component[1].valueInteger = 9
 * note[0].text = "Urgent clinical review recommended"
 * extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[automatedDecision].valueBoolean = false
 * performer = Reference(organization-examplehospital)
 
 Instance: sc-02-validation-audit-event-ai-execution-001
@@ -368,6 +368,7 @@ Title: "Assessment: Human Validation of AI Output"
 Description: "The simulated AI output is reviewed and accepted by the human reviewer."
 * workflowStatus = #published
 * artifactReference = Reference(sc-02-validation-ai-observation-risk-001)
+* date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
 * content[0].author.extension[ai-system-training-status].valueBoolean = true
 * content[0].classifier = EUAIActCodeSystem#human-validation "Human Validation"

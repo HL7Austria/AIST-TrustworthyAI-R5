@@ -6,8 +6,7 @@
 Extension: EU_AIModelCardLink
 Id: ext-model-card
 Title: "Model Card Reference"
-Description: "A reference to the DocumentReference resource that acts as the Model Card, containing detailed
- documentation, intended purpose, and risk assessments."
+Description: "A reference to the DocumentReference resource that acts as the Model Card, containing detailed documentation, intended purpose, and risk assessments."
  Context: Device
 * ^context[+].type = #element
 * ^context[=].expression = "Device" 
@@ -38,16 +37,24 @@ Context: DocumentReference
 * ^context[0].type = #element
 * ^context[0].expression = "DocumentReference"
 * extension contains
-    metric 1..* MS and
+    metric 0..* MS and
     biasDisclosure 0..* MS
 * extension[metric].extension contains
-    type 1..1 MS and
-    value 1..1 MS
+    type 1..1 and
+    value 1..1 
 * extension[metric].extension[type].value[x] only CodeableConcept
 * extension[metric].extension[type].valueCodeableConcept from EU_AI_PerformanceMetricVS (extensible)
 * extension[metric].extension[value].value[x] only Quantity
 * extension[biasDisclosure].value[x] only string
 
+
+Extension: AIClinicalValidationStatus
+Id: ai-clinical-validation-status
+Title: "AI Clinical Validation Status"
+Description: "Documents whether the AI system is clinically validated, not clinically validated, under validation, or only technically validated."
+Context: DocumentReference
+* value[x] only CodeableConcept
+* valueCodeableConcept from EU_AI_ClinicalValidationStatusVS (required)
 
 Extension: AITrainingData
 Id: ai-training-data
@@ -57,14 +64,18 @@ Context: DocumentReference
 * extension contains
     provenance 1..1 MS and
     ehdsCategory 0..* MS and
+    ehdsSecondaryUsePurpose 0..* MS and
     ehdsPermit 0..* MS and
-    dataQuality 0..1 MS
+    dataQuality 0..* MS
+
 * extension[provenance].value[x] only string
 * extension[ehdsPermit].value[x] only Identifier
 * extension[ehdsCategory].value[x] only CodeableConcept
 * extension[ehdsCategory].valueCodeableConcept from EHDS_DataCategoryVS (extensible)
 * extension[dataQuality].value[x] only CodeableConcept
 * extension[dataQuality].valueCodeableConcept from EU_AI_DataQualityVS (extensible)
+* extension[ehdsSecondaryUsePurpose].value[x] only CodeableConcept
+* extension[ehdsSecondaryUsePurpose].valueCodeableConcept from EHDS_SecondaryUsePurposeVS (extensible)
 
 
 // LAW-04 & LAW-06
@@ -76,7 +87,7 @@ Context: DocumentReference
 * extension contains
     retention 1..1 MS and
     transferFlag 1..1 MS and
-    destination 0..* MS
+    destination 0..*
 * extension[retention].value[x] only Duration
 * extension[transferFlag].value[x] only boolean
 * extension[destination].value[x] only code
@@ -101,6 +112,13 @@ Description: "The unique ID of the Health Data Access Body permit (required if s
 Context: Provenance
 * value[x] only Identifier
 
+Extension: EHDSSecondaryUsePurpose
+Id: ehds-secondary-use-purpose
+Title: "EHDS Secondary Use Purpose"
+Description: "Documents the permitted purpose for secondary use of electronic health data under the EHDS."
+Context: Provenance, DocumentReference
+* value[x] only CodeableConcept
+* valueCodeableConcept from EHDS_SecondaryUsePurposeVS (required)
 
 // =======================================================
 // EXTENSIONS OBSERVATION & PATIENT (Legal/Transparency)
@@ -119,6 +137,13 @@ Id: patient-ai-info-provided
 Title: "Patient AI Info Provided Flag"
 Description: "Confirmation that the patient was informed about the use of AI systems according to AI Act transparency rules."
 Context: Consent
+* value[x] only boolean
+
+Extension: AutomatedDecisionFlag
+Id: automated-decision-flag
+Title: "Automated Decision-Making Flag"
+Description: "Indicates whether the AI-generated output was used as part of a solely automated decision-making process within the meaning of GDPR Article 22."
+Context: Observation
 * value[x] only boolean
 
 // =======================================================
@@ -141,7 +166,7 @@ Context: Communication
 * ^context[+].type = #element
 * ^context[=].expression = "Communication"
 * value[x] only boolean
-* valueBoolean 1..1 MS
+* valueBoolean 1..1
 * valueBoolean ^short = "True, if the patient actively requested an explanation."
 
 // =======================================================
@@ -156,10 +181,10 @@ Context: AuditEvent
 * ^context[+].type = #element
 * ^context[=].expression = "AuditEvent"
 * value[x] only Signature
-* value[x] 1..1 MS
-* valueSignature.type 1..* MS
-* valueSignature.when 1..1 MS
+* value[x] 1..1
+* valueSignature.type 1..*
+* valueSignature.when 1..1
 * valueSignature.who only Reference(Device)
-* valueSignature.data 1..1 MS
+* valueSignature.data 1..1
 
 

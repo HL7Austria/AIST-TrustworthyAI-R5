@@ -39,6 +39,8 @@ EXT_PATIENT_AI_INFO_PROVIDED = f"{CANONICAL}/StructureDefinition/patient-ai-info
 EXT_AI_TRAINING_STATUS = f"{CANONICAL}/StructureDefinition/ai-system-training-status"
 EXT_EXPLANATION_REQUESTED = f"{CANONICAL}/StructureDefinition/eu-ai-explanation-requested"
 EXT_LOG_INTEGRITY = f"{CANONICAL}/StructureDefinition/eu-ai-log-integrity"
+EXT_AI_CLINICAL_VALIDATION_STATUS = f"{CANONICAL}/StructureDefinition/ai-clinical-validation-status"
+EXT_AUTOMATED_DECISION = f"{CANONICAL}/StructureDefinition/automated-decision-flag"
 
 CS_EU_AI_ACT = f"{CANONICAL}/CodeSystem/EUAIActCodeSystem"
 CS_GDPR_ART6 = f"{CANONICAL}/CodeSystem/gdpr-art6-codesystem"
@@ -275,6 +277,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
         "id": model_card["id"],
         "meta": create_meta(PROFILE_EU_AI_MODELCARD),
         "status": fhir["status"],
+        "subject": fhir_reference("Device", metadata["aiSystem"]["id"]),
         "type": cc_from_meta(fhir["type"]),
         "description": model_card["description"],
         "content": [
@@ -304,7 +307,12 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
         extensions.append(
             {"url": EXT_AI_PERFORMANCE_METRICS, "extension": performance_metric_extensions}
         )
-
+    extensions.append(
+    {
+        "url": EXT_AI_CLINICAL_VALIDATION_STATUS,
+        "valueCodeableConcept": cc_from_meta(model_card["clinicalValidationStatus"]),
+    }
+    )
     training_data_ext = []
     if "trainingDataDescription" in model_card:
         training_data_ext.append(
@@ -354,6 +362,21 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
 def map_consent(metadata: dict[str, Any]) -> dict[str, Any]:
     consent = metadata["generatedMetadata"]["consent"]
 
+    provision_purpose = consent.get("provisionPurpose")
+
+    provision = {}
+
+    if provision_purpose is not None:
+        coding = {
+            "system": provision_purpose["system"],
+            "code": provision_purpose["code"],
+        }
+
+        if "display" in provision_purpose:
+            coding["display"] = provision_purpose["display"]
+
+        provision["purpose"] = [coding]
+
     return {
         "resourceType": "Consent",
         "id": consent["id"],
@@ -363,7 +386,7 @@ def map_consent(metadata: dict[str, Any]) -> dict[str, Any]:
         "category": [cc_from_meta(consent["category"])],
         "subject": fhir_reference("Patient", metadata["patient"]["id"]),
         "date": consent["date"],
-        "provision":[{"purpose": [consent["provisionPurpose"]]}],
+        "provision": [provision],
         "extension": [
             {
                 "url": EXT_PATIENT_AI_INFO_PROVIDED,
@@ -524,14 +547,18 @@ def map_ai_observation(metadata: dict[str, Any]) -> dict[str, Any]:
         "id": ai_output["id"],
         "meta": create_meta(PROFILE_EU_AI_OBSERVATION),
         "extension": [
-            {
-                "url": EXT_CASE_SPECIFIC_INDICATION,
-                "valueCodeableConcept": codeable_concept(
-                    CS_EU_AI_ACT,
-                    ai_output["caseSpecificIndication"],
-                    ai_output["caseSpecificIndicationDisplay"],
-                ),
-            }
+        {
+        "url": EXT_CASE_SPECIFIC_INDICATION,
+        "valueCodeableConcept": codeable_concept(
+            CS_EU_AI_ACT,
+            ai_output["caseSpecificIndication"],
+            ai_output["caseSpecificIndicationDisplay"],
+        ),
+        },
+        {
+        "url": EXT_AUTOMATED_DECISION,
+        "valueBoolean": ai_output["automatedDecision"],
+            },
         ],
         "status": fhir["status"],
         "code": {"text": fhir["codeText"]},
@@ -649,6 +676,7 @@ def map_human_oversight_assessment(metadata: dict[str, Any]) -> dict[str, Any]:
         "resourceType": "ArtifactAssessment",
         "id": oversight["id"],
         "meta": create_meta(PROFILE_EU_AI_HUMAN_OVERSIGHT),
+        "date": oversight["reviewedAt"],
         "workflowStatus": oversight["workflowStatus"],
         "artifactReference": fhir_reference("Observation", oversight["assessedAiOutputId"]),
         "content": [

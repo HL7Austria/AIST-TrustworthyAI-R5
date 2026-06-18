@@ -157,15 +157,12 @@
     "dataQualityDisplay": "Complete",
     "dataQualityDescription": "The simulated component does not use real data and is designed to produce deterministic outputs based on the defined input parameters.",
     "performanceDescription": "No clinically validated performance metrics are claimed.",
-    "performanceMetrics": [
-      {
-      "typeCode": "not-clinically-validated",
-      "typeDisplay": "Not clinically validated",
-      "value": 0,
-      "unit": "1",
-      "code": "1"
-  }
-    ],
+    "clinicalValidationStatus": {
+    "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+    "code": "not-clinically-validated",
+    "display": "Not Clinically Validated"
+    },
+"performanceMetrics": [],
     "biasDisclosure": "No bias evaluation is claimed for this synthetic PoC model.",
     "privacyDescription": "No real patient data are processed. The scenario uses synthetic data only.",
     "retention": {

@@ -1,8 +1,8 @@
 Profile: EU_AIPatientExplanation
 Parent: Communication
 Id: eu-ai-patient-explanation
-Title: "EU AI Act Patient Right to Explanation"
-Description: "Documents the fulfillment of the patient's right to a clear and meaningful explanation regarding the AI's role and the clinical decision (LAW-07)."
+Title: "EU AI Patient Explanation Communication"
+Description: "A Communication profile documenting patient-facing information about the AI-supported workflow, including the role of the AI system and the related clinical review where applicable."
 
 // =======================================================
 // 1. BASICS & STATUS
