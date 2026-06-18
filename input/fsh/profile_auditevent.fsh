@@ -1,8 +1,8 @@
 Profile: EU_AIAuditEvent
 Parent: AuditEvent
 Id: eu-ai-machine-execution-audit-event
-Title: "EU AI Act Machine Execution Audit Event"
-Description: "Logs the automated execution of an AI model, establishing the core traceability chain."
+Title: "EU AI Execution Audit Event"
+Description: "An AuditEvent profile documenting execution-related metadata of an AI-supported processing event to support retrospective reconstruction and auditability."
 
 // =======================================================
 // 1. BASICS & METADATA
@@ -38,12 +38,12 @@ Description: "Logs the automated execution of an AI model, establishing the core
 // =======================================================
 // 5. ENTITIES (The Traceability Chain: Input -> DB -> Output)
 // =======================================================
-* entity MS
+* entity
 * entity ^slicing.discriminator.type = #value
 * entity ^slicing.discriminator.path = "role"
 * entity ^slicing.rules = #open
 
-* entity contains inputData 1..* MS and referenceDb 0..* MS and outputData 1..* MS
+* entity contains inputData 1..* MS and referenceDb 0..* and outputData 1..* MS
 
 //  (SYS-10.2)
 * entity[inputData].role = http://terminology.hl7.org/CodeSystem/object-role#4

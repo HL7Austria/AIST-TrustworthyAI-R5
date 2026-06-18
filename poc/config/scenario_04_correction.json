@@ -1,0 +1,28 @@
+{
+  "scenarioOutputId": "sc-04-correction-exp",
+  "aiOutputConfig": {
+    "forceOutput": true,
+    "riskCategory": "low-risk",
+    "confidence": 0.68,
+    "recommendation": "No immediate escalation suggested"
+  },
+  "humanOversightConfig": {
+    "enabled": true,
+    "mode": "human-correction",
+    "reviewedAt": "2026-03-01T10:20:00Z",
+    "reviewerId": "practitionerrole-reviewer-001",
+    "correction": {
+      "correctedClinicalObservationId": "observation-corrected-risk-001",
+      "riskCategory": "high-risk",
+      "recommendation": "Urgent clinical review recommended"
+  },
+   "rationale": "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
+},
+  "patientExplanationConfig": {
+    "enabled": true,
+    "requested": true,
+    "provided": true,
+    "sentAt": "2026-03-01T10:25:00Z",
+    "explanationText": "The AI system generated an early-warning risk category based on synthetic vital parameters. The result was reviewed and corrected by a clinician."
+  }
+}

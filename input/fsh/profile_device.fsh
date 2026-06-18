@@ -1,10 +1,8 @@
 Profile: EU_AIDevice
 Parent: Device 
 Id: eu-ai-device
-Title: "EU AI Act Compliant Device"
-Description: "A Device profile representing an AI system, fulfilling EU AI Act metadata requirements."
-
-
+Title: "EU AI System Device"
+Description: "A Device profile representing an AI system or software component, including system identification, versioning, intended purpose, and selected regulatory documentation metadata."
 // =======================================================
 // 1. SYSTEM METADATA (SYS-01, SYS-02)
 // =======================================================
@@ -36,7 +34,7 @@ Description: "A Device profile representing an AI system, fulfilling EU AI Act m
 * manufacturer 1..1 MS
 * manufacturer ^short = "Name of the AI developer/manufacturer"
 
-// Only an Organization can be the owner (e.g., the hospital)
+// Only an Organization can be the owner
 * owner only Reference(EU_AIOrganization)
 * owner 1..1 MS
 * owner ^short = "Healthcare provider responsible for the AI system"

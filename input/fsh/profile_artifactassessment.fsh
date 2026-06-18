@@ -1,20 +1,22 @@
 Profile: EU_AIHumanOversightAssessment
 Parent: ArtifactAssessment
 Id: eu-ai-human-oversight
-Title: "EU AI Act Human Oversight (HL)"
-Description: "Documents the professional review and clinical decision-making regarding AI outputs."
+Title: "EU AI Human Oversight Assessment"
+Description: "An ArtifactAssessment profile documenting professional review of an AI-generated output, including whether the result was accepted, corrected, modified, or overridden."
 
 // =======================================================
 // 1. WORKFLOW & STATUS
 // =======================================================
 * workflowStatus 1..1 MS
 * workflowStatus ^short = "draft | active | retired | unknown"
+* date 1..1 MS
+* date ^short = "Date and time of human oversight assessment"
 
 // =======================================================
 // 2. TARGET ARTIFACT (The AI Output: Observation)
 // =======================================================
 * artifactReference 1..1 MS
-* artifactReference only Reference(Observation or DiagnosticReport)
+* artifactReference only Reference(Observation)
 * artifact[x] ^short = "Reference to the AI-generated Observation"
 
 // =======================================================
@@ -24,7 +26,7 @@ Description: "Documents the professional review and clinical decision-making reg
 * content.author only Reference(EU_AIPractitionerRole)
 * content.author ^short = "Reference to the qualified human overseer"
 
-* content.author.extension contains AISystemTrainingStatus named aiTraining 1..1 MS
+* content.author.extension contains AISystemTrainingStatus named aiTraining 1..1
 * content.author.extension[aiTraining] ^short = "Did this specific human receive training for this AI?"
 
 // =======================================================
@@ -34,11 +36,11 @@ Description: "Documents the professional review and clinical decision-making reg
 * content.classifier from EU_AI_Intervention_ValueSet (extensible)
 * content.classifier ^short = "Intervention Action (e.g., Validation, Override)"
 
-* content.summary MS
+* content.summary 1..1 MS
 * content.summary ^short = "Medical/Technical rationale for the decision"
 
 // =======================================================
 // 5. EVIDENCE (HL-05)
 // =======================================================
-* content.relatedArtifact MS
+* content.relatedArtifact
 * content.relatedArtifact ^short = "Reference to heatmap or explainability tool used"

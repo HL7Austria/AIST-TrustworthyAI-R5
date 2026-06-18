@@ -2,17 +2,16 @@ Profile: EU_AIModelCard
 Parent: DocumentReference
 Id: eu-ai-model-card
 Title: "EU AI Act Model Card"
-Description: "The official AI Model Card. It mandates the inclusion of intended purpose, risk assessments, and performance metrics as per the EU AI Act and GDPR."
-
+Description: "A DocumentReference profile representing technical documentation about an AI system, such as intended use, limitations, risk-related information, performance-related information, and model documentation."
 
 // =============================================================================
 // 1. DOCUMENT METADATA & TRACEABILITY (SYS-05)
 // =============================================================================
 
 // SYS-05: Bidirectional link to the specific AI Device
-//* subject 1..1 MS
-//* subject only Reference(EU_AIDevice)
-//* subject ^short = "Reference to the specific AI System Device (Traceability)"
+* subject 1..1 MS
+* subject only Reference(EU_AIDevice)
+* subject ^short = "Reference to the specific AI System Device (Traceability)"
 
 * status 1..1 MS
 * status ^short = "current | superseded | entered-in-error"
@@ -34,7 +33,8 @@ Description: "The official AI Model Card. It mandates the inclusion of intended 
 * extension contains 
     AIPerformanceMetrics named performance 1..1 MS and
     AITrainingData named training 1..1 MS and
-    AIPrivacyMetadata named privacy 1..1 MS
+    AIPrivacyMetadata named privacy 1..1 MS and
+    AIClinicalValidationStatus named clinicalValidationStatus 1..1 MS
 
 * extension[performance] ^short = "Metrics & Bias"
 * extension[training] ^short = "EHDS Permit & Data Quality"

@@ -1,263 +1,388 @@
 // =======================================================
-// 1. BASE ACTORS (Patient, Doctor, Organizations)
+// PoC Scenario sc-02-validation
+// NEWS2-inspired AI risk output with human validation
 // =======================================================
 
-Instance: patient-elias-vance
+// =======================================================
+// 1. BASE ACTORS (Patient, Practitioner, Organizations)
+// =======================================================
+
+Instance: patient-001
 InstanceOf: Patient
 Usage: #example
-Title: "Patient: Elias Vance"
-Description: "A fictional 61-year-old patient undergoing a routine thorax CT scan."
-* name.family = "Vance"
-* name.given = "Elias"
-* birthDate = "1965-04-12"
-* gender = #male
+Title: "Patient: Synthetic Patient 001"
+Description: "A fictional female patient used in the NEWS2-inspired PoC scenario."
+* gender = #female
+* birthDate = "1959-04-12"
 
-Instance: doctor-aris-thorne
+Instance: practitioner-001
 InstanceOf: Practitioner
 Usage: #example
-Title: "Practitioner: Dr. Aris Thorne"
-Description: "The clinical expert performing the human oversight." 
-* name.family = "Thorne"
-* name.given = "Aris"
-* name.prefix = "Dr. med."
+Title: "Practitioner: Human Reviewer"
+Description: "The fictional clinician responsible for reviewing the AI-generated output."
+* name[0].family = "Reviewer"
+* name[0].given[0] = "Clinical"
+* name[0].prefix[0] = "Dr."
 
-Instance: org-aetheria-health
+Instance: organization-examplehospital
 InstanceOf: EU_AIOrganization
 Usage: #example
-Title: "Manufacturer: Aetheria HealthTech Systems"
-Description: "The fictional AI provider (Manufacturer) containing the AI Incident Reporting Contact."
-* name = "Aetheria HealthTech Systems Corp."
-* contact[incident].name.text = "AI Safety & Vigilance Nexus"
-* contact[incident].telecom[0].system = #phone
-* contact[incident].telecom[0].value = "+49 000 12345678"
-
-Instance: org-chronos-medical
-InstanceOf: EU_AIOrganization
-Usage: #example
-Title: "Deployer: St. Chronos Medical Center"
-Description: "The fictional healthcare provider (Owner/Deployer) utilizing the AI system."
-* name = "St. Chronos Medical Center"
-* contact[dpo].name.text = "DPO: Mag. Lyra Solis"
+Title: "Operator Organization: Example Hospital"
+Description: "The fictional healthcare organization operating the AI system."
+* active = true
+* type[0].text = "healthcare-provider"
+* name = "Example Hospital"
+* contact[dpo].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#ADMIN "Administrative"
+* contact[dpo].purpose.text = "Data Protection Officer"
+* contact[dpo].name[0].text = "Data Protection Officer"
 * contact[dpo].telecom[0].system = #email
-* contact[dpo].telecom[0].value = "datenschutz@chronos-medical.test"
+* contact[dpo].telecom[0].value = "dpo@examplehospital.example"
+* contact[dpo].telecom[0].use = #work
+* contact[incident].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#PATINF "Patient"
+* contact[incident].purpose.text = "AI Incident Reporting Contact"
+* contact[incident].name[0].text = "AI Incident Reporting Contact"
+* contact[incident].telecom[0].system = #email
+* contact[incident].telecom[0].value = "incidents@examplehospital.example"
+* contact[incident].telecom[0].use = #work
+
+Instance: organization-examplemed
+InstanceOf: EU_AIOrganization
+Usage: #example
+Title: "Manufacturer Organization: ExampleMed AI GmbH"
+Description: "The fictional manufacturer/provider of the RiskAssist AI system."
+* active = true
+* type[0].text = "manufacturer"
+* name = "ExampleMed AI GmbH"
+* contact[dpo].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#ADMIN "Administrative"
+* contact[dpo].purpose.text = "Data Protection Officer"
+* contact[dpo].name[0].text = "Data Protection Officer"
+* contact[dpo].telecom[0].system = #email
+* contact[dpo].telecom[0].value = "dpo@examplemed.example"
+* contact[dpo].telecom[0].use = #work
+* contact[incident].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#PATINF "Patient"
+* contact[incident].purpose.text = "AI Incident Reporting Contact"
+* contact[incident].name[0].text = "AI Incident Reporting Contact"
+* contact[incident].telecom[0].system = #email
+* contact[incident].telecom[0].value = "incidents@examplemed.example"
+* contact[incident].telecom[0].use = #work
+
+Instance: encounter-001
+InstanceOf: Encounter
+Usage: #example
+Title: "Encounter: Acute Care Assessment"
+Description: "Synthetic encounter for suspected infection and early-warning risk assessment."
+* status = #completed
+* class[0] = http://terminology.hl7.org/CodeSystem/v3-ActCode#AMB "ambulatory"
+* subject = Reference(patient-001)
+* actualPeriod.start = "2026-03-01T10:00:00Z"
+* actualPeriod.end = "2026-03-01T10:30:00Z"
+* reason[0].value[0].concept.text = "suspected-infection-early-warning-risk-assessment"
 
 // =======================================================
-// 2. PATIENT CONSENT & EHDS OPT-OUT
+// 2. PATIENT INFORMATION AND PROCESSING PERMISSION
 // =======================================================
 
-Instance: consent-vance-ai
+Instance: sc-02-validation-consent-ai-use-001
 InstanceOf: EU_AIConsent
 Usage: #example
-Title: "Consent: Elias Vance (AI & EHDS)"
-Description: "Patient was informed about AI usage but opts OUT of secondary data use."
+Title: "Consent: AI Use for PoC Scenario sc-02-validation"
+Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
 * status = #active
-* subject = Reference(patient-elias-vance)
+* decision = #permit
+* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
+* category[0].text = "Notice of Privacy Practices"
+* subject = Reference(patient-001)
+* date = "2026-03-01"
+* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#RESCH "research"
 * extension[aiInfoProvided].valueBoolean = true
-* decision = #deny
-* provision.purpose = http://terminology.hl7.org/CodeSystem/v3-ActReason#RESCH
+
 
 // =======================================================
-// 3. THE AI SYSTEM & MODEL CARD
+// 3. AI SYSTEM AND MODEL CARD
 // =======================================================
 
-Instance: device-aurascan-ai
-InstanceOf: EU_AIDevice 
+Instance: device-riskassist-ai
+InstanceOf: EU_AIDevice
 Usage: #example
-Title: "Device: AuraScan Pulmo-Net System"
-Description: "The specific High-Risk AI System instance deployed at St. Chronos."
-* name[0].value = "AuraScan Pulmo-Net Diagnostics"
+Title: "Device: RiskAssist AI"
+Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessment."
+* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
+* identifier[euDatabaseId].type.text = "EU AI Database Identifier"
+* identifier[0].system = "http://example.org/fhir/sid/eu-ai-database"
+* identifier[euDatabaseId].value = "EU-AI-000123"
+* status = #active
+* name[0].value = "RiskAssist AI"
 * name[0].type = #registered-name
-* version[0].value = "3.1.0"
-* manufacturer = "Aetheria HealthTech Systems Corp."
-* owner = Reference(org-chronos-medical)
-
-* contact[0].value = "support@aetheria-health.test"
-* contact[0].system = #email 
+* name[0].display = true
+* version[0].value = "1.0.0"
+* manufacturer = "ExampleMed AI GmbH"
+* owner = Reference(organization-examplehospital)
+* contact[0].system = #email
+* contact[0].value = "contact@examplemed.example"
 * contact[0].use = #work
-* contact[1].value = "+49 000 98765432" 
-* contact[1].system = #phone 
+* contact[1].system = #email
+* contact[1].value = "dpo@examplemed.example"
 * contact[1].use = #work
-
-* identifier[euDatabaseId].system = "http://example.org/fhir/eu-ai-transparency/sid/eu-ai-database"
-* identifier[euDatabaseId].value = "EU-AI-2042-XJ992"
-
-* conformsTo[0].specification.text = "ISO 13485:2016 Medical devices - QMS"
-* conformsTo[1].specification.text = "EU AI Act High-Risk Compliance"
-
-* note[0].text = "Maintenance: Hardware calibration required every 12 months."
-* note[1].text = "Security: Software patches are deployed monthly via remote update."
-
-* extension[modelCard].valueReference = Reference(modelcard-aurascan)
+* conformsTo[0].category.text = "quality-management-system"
+* conformsTo[0].specification.text = "Synthetic QMS certification reference for PoC purposes."
+* note[0].text = "Synthetic maintenance information for PoC purposes."
+* note[1].text = "AI-assisted early warning risk assessment based on synthetic NEWS2-inspired vital parameters."
 * extension[dataTransfer].extension[transferFlag].valueBoolean = false
-* extension[dataTransfer].extension[destinationCountry].valueCode = #AT 
-
+* extension[modelCard].valueReference = Reference(modelcard-riskassist-ai)
 * property[ceMark].valueBoolean = true
-* property[notifiedBody].valueString = "0123"
+* property[notifiedBody].valueString = "NB-0000"
 * property[expectedLifetime].valueQuantity = 5 'a' "years"
-* property[medicalPurpose].valueString = "Automated detection of lung nodules in CT Thorax scans."
-* property[targetPopulation][0].valueCodeableConcept = http://snomed.info/sct#38033009
+* property[medicalPurpose].valueString = "Supportive risk stratification in acute care settings"
+* property[targetPopulation][0].valueCodeableConcept.text = "Adult patients with suspected infection in an acute care setting"
 
-Instance: modelcard-aurascan
-InstanceOf: EU_AIModelCard 
+Instance: modelcard-riskassist-ai
+InstanceOf: EU_AIModelCard
 Usage: #example
-Title: "Model Card: AuraScan Pulmo-Net v3.1.0"
-Description: "Regulatory metadata, performance metrics, and technical documentation."
-* subject = Reference(device-aurascan-ai)
+Title: "Model Card: RiskAssist AI v1.0.0"
+Description: "Synthetic model card for the deterministic AI-output simulation component used in the PoC."
+* subject = Reference(device-riskassist-ai)
 * status = #current
-* description = "Intended for adult thorax CTs. Residual Risk: Potential for false-positive vascular artifacts."
-
-* extension[performance].extension[metric][0].extension[type].valueCodeableConcept.text = "Accuracy"
-* extension[performance].extension[metric][0].extension[value].valueQuantity = 98 '%'
-* extension[performance].extension[metric][1].extension[type].valueCodeableConcept.text = "Sensitivity"
-* extension[performance].extension[metric][1].extension[value].valueQuantity = 96 '%'
-* extension[performance].extension[biasDisclosure].valueString = "Validated evenly across standard demographics."
-
-* extension[training].extension[provenance].valueString = "Data from Fictional Central Health Grid"
+* type = EUAIActCodeSystem#model-card "AI Model Card"
+* type.text = "AI Model Card"
+* description = "Synthetic model card for a deterministic AI-output simulation component used in the PoC."
+* content[0].attachment.contentType = #text/html
+* content[0].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/model-card"
+* content[0].attachment.title = "RiskAssist AI Model Card"
+* content[1].attachment.contentType = #text/html
+* content[1].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation"
+* content[1].attachment.title = "Technical Documentation"
+* extension[clinicalValidationStatus].valueCodeableConcept = EUAIActCodeSystem#not-clinically-validated "Not Clinically Validated"
+* extension[performance].extension[biasDisclosure].valueString = "No bias evaluation is claimed for this synthetic PoC model."
+* extension[training].extension[provenance].valueString = "No real training data are used. The component is used only to simulate AI-like outputs for the PoC."
 * extension[training].extension[ehdsCategory].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
-* extension[training].extension[ehdsPermit].valueIdentifier.value = "EHDS-TEST-2042-991"
-* extension[training].extension[dataQuality].valueCodeableConcept = EUAIActCodeSystem#representative "Representative"
-
-* extension[privacy].extension[retention].valueDuration = 10 'a'
+* extension[training].extension[dataQuality].valueCodeableConcept = EUAIActCodeSystem#complete "Complete"
+* extension[privacy].extension[retention].valueDuration = 10 'a' "years"
 * extension[privacy].extension[transferFlag].valueBoolean = false
-* extension[privacy].extension[destination][0].valueCode = #AT
-
-* content[0].attachment.title = "AuraScan Technical Documentation"
-* content[0].attachment.contentType = #application/pdf
-* content[0].attachment.url = "https://aetheria-health.test/docs/v3/technical-manual.pdf"
-* content[1].attachment.title = "Human Oversight Instructions (HL-04)"
-* content[1].attachment.contentType = #text/markdown
-* content[1].attachment.url = "https://aetheria-health.test/docs/v3/oversight_guide.md"
 
 // =======================================================
-// 4. CLINICAL DATA (Input -> Output -> Traceability)
+// 4. NEWS2-INSPIRED CLINICAL INPUT DATA
 // =======================================================
 
-Instance: input-ct-thorax
-InstanceOf: ImagingStudy
+Instance: sc-02-validation-observation-temperature-001
+InstanceOf: Observation
 Usage: #example
-Title: "Input: Patient CT Thorax Scan"
-Description: "The raw CT scan data acting as the input for the AI system."
-* status = #available
-* subject = Reference(patient-elias-vance)
-* started = "2026-04-08T07:45:00Z"
+Title: "Input Observation: Body Temperature"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Body temperature"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 38.6 'Cel' "°C"
+* performer = Reference(Practitioner/practitioner-001)
 
-Instance: observation-ai-nodule
+Instance: sc-02-validation-observation-heart-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Heart Rate"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8867-4 "Heart rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 112 '/min' "beats/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(Practitioner/practitioner-001)
+
+Instance: sc-02-validation-observation-respiratory-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Respiratory Rate"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#9279-1 "Respiratory rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 23 '/min' "breaths/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(Practitioner/practitioner-001)
+
+Instance: sc-02-validation-observation-blood-pressure-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Systolic Blood Pressure"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Systolic blood pressure"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 96 'mm[Hg]' "mmHg"
+* performer = Reference(Practitioner/practitioner-001)
+
+Instance: sc-02-validation-observation-oxygen-saturation-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Oxygen Saturation"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 92 '%' "%"
+* code.coding = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(Practitioner/practitioner-001)
+
+Instance: sc-02-validation-observation-consciousness-status-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Consciousness Status"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Consciousness status"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueCodeableConcept.text = "Alert"
+* performer = Reference(Practitioner/practitioner-001)
+
+// =======================================================
+// 5. AI OUTPUT AND TRACEABILITY
+// =======================================================
+
+Instance: sc-02-validation-ai-observation-risk-001
 InstanceOf: EU_AIObservation
 Usage: #example
-Title: "Output: AI-Generated Finding (Pulmonary Nodule)"
-Description: "The preliminary clinical result generated autonomously by the AI."
-* status = #preliminary 
-* code.coding = http://snomed.info/sct#786838002 "Nodule of lung (disorder)"
-* subject = Reference(patient-elias-vance)
-* device = Reference(device-aurascan-ai) 
-* interpretation[aiGeneratedFlag].coding = EUAIActCodeSystem#ai-generated
-* method.text = "AuraScan Neural Engine v3.1"
-* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#screening "Screening"
-* effectiveDateTime = "2026-04-08T08:00:00Z"
-//performer started ai execution
-* performer = Reference(doctor-aris-thorne)
-Instance: doc-ai-heatmap
-InstanceOf: DocumentReference
-Usage: #example
-Title: "Explainability Artifact: AI Heatmap"
-Description: "A visual heatmap generated by the AI model to explain its finding."
-* status = #current
-* content[0].attachment.url = "http://chronos-medical.test/pacs/heatmaps/vance-123.png"
-* content[0].attachment.contentType = #image/png
+Title: "AI Output: Early Warning Risk Assessment"
+Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspired input parameters."
+* status = #final
+* code.text = "AI-assisted early warning risk assessment"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:15:03Z"
+* device = Reference(device-riskassist-ai)
+* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag].text = "AI Generated Result"
+* valueCodeableConcept.text = "high-risk"
+* component[0].code.text = "Confidence"
+* component[0].valueQuantity = 0.86 '1' "1"
+* component[1].code.text = "Simplified score"
+* component[1].valueInteger = 9
+* note[0].text = "Urgent clinical review recommended"
+* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[automatedDecision].valueBoolean = false
+* performer = Reference(organization-examplehospital)
 
-Instance: audit-ai-execution
+Instance: sc-02-validation-audit-event-ai-execution-001
 InstanceOf: EU_AIAuditEvent
 Usage: #example
 Title: "Audit Log: AI Execution Trace"
-Description: "Cryptographically signed trace connecting the CT scan, the AI device, and the resulting observation."
-* extension[logIntegrity].valueSignature.type = http://uri.etsi.org/01903/v1.2.2#ProofOfOrigin
-* extension[logIntegrity].valueSignature.when = "2026-04-08T08:00:06Z"
-* extension[logIntegrity].valueSignature.who = Reference(device-aurascan-ai)
-* extension[logIntegrity].valueSignature.data = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
-* recorded = "2026-04-08T08:00:06Z"
-* occurredPeriod.start = "2026-04-08T08:00:00Z"
-* occurredPeriod.end = "2026-04-08T08:00:05Z"
-* source.observer = Reference(device-aurascan-ai)
-* agent[0].who = Reference(device-aurascan-ai)
+Description: "Synthetic audit event documenting the AI execution for PoC traceability."
+* extension[logIntegrity].valueSignature.type[0] = urn:iso-astm:E1762-95:2013#1.2.840.10065.1.12.1.5 "Verification Signature"
+* extension[logIntegrity].valueSignature.when = "2026-03-01T10:15:04Z"
+* extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
+* extension[logIntegrity].valueSignature.sigFormat = #text/plain
+* extension[logIntegrity].valueSignature.data = "c2hhMjU2LTIzNGY0MmQxMzQyN2YyMzRiOWU3YTg5NTJjMGU1ZjA1MmRkZDNiNTBkMWMxMGZjY2Q0OWNjN2EwMWM5OWQ0NjA="
+* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+* code.text = "RESTful Operation"
+* action = #C
+* recorded = "2026-03-01T10:15:04Z"
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* authorization[0].text = "Document simulated AI execution for PoC traceability."
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
-* entity[inputData].what = Reference(input-ct-thorax)
-* entity[referenceDb].what.identifier.system = "http://example.org/fhir/eu-ai-transparency/identifier/reference-database"
-* entity[referenceDb].what.identifier.value = "Atlas-Version-9"
-* entity[outputData].what = Reference(observation-ai-nodule)
+* source.observer = Reference(device-riskassist-ai)
+* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][0].role.text = "Domain Resource"
+* entity[inputData][0].what = Reference(sc-02-validation-observation-temperature-001)
+* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][1].role.text = "Domain Resource"
+* entity[inputData][1].what = Reference(sc-02-validation-observation-heart-rate-001)
+* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][2].role.text = "Domain Resource"
+* entity[inputData][2].what = Reference(sc-02-validation-observation-respiratory-rate-001)
+* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][3].role.text = "Domain Resource"
+* entity[inputData][3].what = Reference(sc-02-validation-observation-blood-pressure-001)
+* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][4].role.text = "Domain Resource"
+* entity[inputData][4].what = Reference(sc-02-validation-observation-oxygen-saturation-001)
+* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][5].role.text = "Domain Resource"
+* entity[inputData][5].what = Reference(sc-02-validation-observation-consciousness-status-001)
+* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
+* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].what = Reference(sc-02-validation-ai-observation-risk-001)
 
-Instance: prov-ai-lineage
+Instance: sc-02-validation-provenance-ai-output-001
 InstanceOf: EU_AIProvenance
 Usage: #example
-Title: "Data Provenance: AI Lineage"
-Description: "Lineage linking the clinical observation directly back to the CT scan."
-* target = Reference(observation-ai-nodule)
-* occurredPeriod.start = "2026-04-08T08:00:00Z"
-* occurredPeriod.end = "2026-04-08T08:00:05Z"
-// LAW-01a: Art. 6
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-b
-// LAW-01b: Art. 9
+Title: "Provenance: AI Output Generation"
+Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
+* target = Reference(sc-02-validation-ai-observation-risk-001)
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* recorded = "2026-03-01T10:15:04Z"
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
 * authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
-
-* agent[0].who = Reference(device-aurascan-ai)
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* activity.text = "ai-output-generation"
+* agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
-* entity[0].what = Reference(input-ct-thorax)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#secondary-use "Secondary Use"
-* extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/eu-ai-transparency/sid/ehds-data-permit"
-* extension[dataPermit].valueIdentifier.value = "EHDS-TEST-2042-991"
+* entity[0].what = Reference(sc-02-validation-observation-temperature-001)
+* entity[1].role = #source
+* entity[1].what = Reference(sc-02-validation-observation-heart-rate-001)
+* entity[2].role = #source
+* entity[2].what = Reference(sc-02-validation-observation-respiratory-rate-001)
+* entity[3].role = #source
+* entity[3].what = Reference(sc-02-validation-observation-blood-pressure-001)
+* entity[4].role = #source
+* entity[4].what = Reference(sc-02-validation-observation-oxygen-saturation-001)
+* entity[5].role = #source
+* entity[5].what = Reference(sc-02-validation-observation-consciousness-status-001)
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+* extension[dataPermit].valueIdentifier.value = "EHDS-PERMIT-001"
+
 // =======================================================
-// 5. HUMAN OVERSIGHT (The Intervention)
+// 6. HUMAN OVERSIGHT: VALIDATION BY CLINICIAN
 // =======================================================
 
-Instance: role-dr-thorne
+Instance: practitionerrole-reviewer-001
 InstanceOf: EU_AIPractitionerRole
 Usage: #example
-Title: "Role: Dr. Thorne (Trained Overseer)"
-Description: "Links Dr. Thorne to the hospital and proves specific AI training."
-* practitioner = Reference(doctor-aris-thorne) 
-* specialty = http://snomed.info/sct#394914008 "Radiology"
+Title: "PractitionerRole: Human Reviewer"
+Description: "Synthetic practitioner role representing a trained internal medicine reviewer."
+* practitioner = Reference(practitioner-001)
+* organization = Reference(organization-examplehospital)
+* code[0].text = "human-overseer"
+* specialty[0].text = "Internal Medicine"
 * extension[trainingFlag].valueBoolean = true
-* organization = Reference(org-chronos-medical)
-* code = http://terminology.hl7.org/CodeSystem/practitioner-role#doctor "Doctor"
 
-Instance: oversight-dr-thorne-override
+Instance: sc-02-validation-human-oversight-001
 InstanceOf: EU_AIHumanOversightAssessment
 Usage: #example
-Title: "Assessment: Human Override of AI Finding"
-Description: "Dr. Thorne reviews the AI finding and the heatmap, determining it to be a false positive."
-* workflowStatus = #submitted 
-* date = "2026-04-08T14:05:00Z"
-* artifactReference = Reference(observation-ai-nodule)
-* content[0].author = Reference(role-dr-thorne)
+Title: "Assessment: Human Validation of AI Output"
+Description: "The simulated AI output is reviewed and accepted by the human reviewer."
+* workflowStatus = #published
+* artifactReference = Reference(sc-02-validation-ai-observation-risk-001)
+* date = "2026-03-01T10:20:00Z"
+* content[0].author = Reference(practitionerrole-reviewer-001)
 * content[0].author.extension[ai-system-training-status].valueBoolean = true
-* content[0].classifier = EUAIActCodeSystem#human-override "Human Override"
-* content[0].summary = "Clinical review of the CT and AI Heatmap confirms a vascular crossing artifact, not a true pulmonary lesion. Finding dismissed."
-* content[0].relatedArtifact[0].type = #citation
-* content[0].relatedArtifact[0].resourceReference = Reference(doc-ai-heatmap)
+* content[0].classifier = EUAIActCodeSystem#human-validation "Human Validation"
+* content[0].summary = "The simulated AI output was reviewed and accepted."
 
-// =======================================================
-// 6. PATIENT COMMUNICATION (LAW-07)
-// =======================================================
-
-Instance: doc-patient-explanation
-InstanceOf: DocumentReference
-Usage: #example
-Title: "Document: Patient AI Explanation Letter"
-Description: "A patient-friendly PDF explaining the AI's role and the doctor's override."
-* status = #current
-* type = http://loinc.org#11502-2 "Laboratory report"
-* subject = Reference(patient-elias-vance)
-* content[0].attachment.url = "http://chronos-medical.test/docs/vance-ai-info.pdf"
-* content[0].attachment.contentType = #application/pdf
-
-Instance: comm-patient-explanation
+Instance: Communication-sc-02-patient-explanation-001
 InstanceOf: EU_AIPatientExplanation
 Usage: #example
-Title: "Communication: Right to Explanation Fulfilled"
-Description: "Logs that the patient was actively informed about the human-AI decision."
+Title: "Communication: Patient-Facing AI Explanation"
+Description: "Synthetic patient-facing explanation about AI-supported processing."
 * status = #completed
-* subject = Reference(patient-elias-vance)
-* sender = Reference(role-dr-thorne)
-* extension[explanationRequested].valueBoolean = false 
-* about[0] = Reference(oversight-dr-thorne-override)
-* payload[0].contentReference = Reference(doc-patient-explanation)
-* sent = "2026-04-08T15:30:00Z"
+* extension[explanationRequested].valueBoolean = true
+* subject = Reference(patient-001)
+* sender = Reference(practitionerrole-reviewer-001)
+* about[0] = Reference(sc-02-validation-human-oversight-001)
+* sent = "2026-03-01T10:30:00Z"
+* payload[0].contentCodeableConcept.text = "The patient received an explanation that AI supported the assessment and that the result was reviewed by a clinician."

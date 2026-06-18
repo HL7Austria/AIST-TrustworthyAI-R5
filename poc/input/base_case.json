@@ -1,0 +1,388 @@
+{
+  "scenarioId": "scenario-01-acceptance",
+  "scenarioDescription": "Synthetic early warning risk assessment in a suspected infection scenario before simulated AI execution.",
+  "clinicalContext": {
+    "scenarioType": "suspected-infection-early-warning-risk-assessment",
+    "simulationBasis": "simplified-news2-inspired-scoring",
+    "caseSpecificIndication": "prognosis",
+    "caseSpecificIndicationDisplay": "Prognostic Prediction",
+    "note": "NEWS2 is used only as a plausibility framework for selecting synthetic vital parameters and threshold ranges. This scenario does not implement or validate NEWS2 as a clinical decision model."
+  },
+  "patient": {
+    "id": "patient-001",
+    "gender": "female",
+    "birthDate": "1959-04-12"
+  },
+
+  "encounter": {
+    "id": "encounter-001",
+    "type": "ambulatory",
+    "clinicalIndication": "suspected-infection-early-warning-risk-assessment",
+    "startedAt": "2026-03-01T10:00:00Z",
+    "endedAt": "2026-03-01T10:30:00Z"
+  },
+  "inputData": {
+    "observedAt": "2026-03-01T10:10:00Z",
+    "temperature": {
+      "value": 38.6,
+      "loinc": {
+        "code": "8310-5",
+        "display": "Body temperature"
+      },
+      "ucum": {
+        "unit": "°C",
+        "code": "Cel"
+      }
+    },
+    "heartRate": {
+      "value": 112,
+      "loinc": {
+        "code": "8867-4",
+        "display": "Heart rate"
+      },
+      "ucum": {
+        "unit": "beats/min",
+        "code": "/min"
+      }
+    },
+    "respiratoryRate": {
+      "value": 23,
+      "loinc": {
+        "code": "9279-1",
+        "display": "Respiratory rate"
+      },
+      "ucum": {
+        "unit": "breaths/min",
+        "code": "/min"
+      }
+    },
+    "bloodPressure": {
+      "systolic": 96,
+      "diastolic": 61,
+      "loinc": {
+        "code": "85354-9",
+        "display": "Blood pressure panel with all children optional"
+      },
+      "systolicLoinc": {
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+      },
+      "diastolicLoinc": {
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+      },
+      "ucum": {
+        "unit": "mmHg",
+        "code": "mm[Hg]"
+      }
+    },
+    "oxygenSaturation": {
+      "value": 92,
+      "news2Scale": "scale-1",
+      "loinc": {
+        "code": "2708-6",
+        "display": "Oxygen saturation in Arterial blood"
+      },
+      "ucum": {
+        "unit": "%",
+        "code": "%"
+      }
+    },
+    "supplementalOxygen": {
+      "value": false
+    },
+    "consciousnessStatus": {
+      "value": "alert",
+      "code": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
+        "code": "A",
+        "display": "Alert"
+      }
+    }
+  },
+  "manufacturerOrganization": {
+    "id": "organization-examplemed",
+    "name": "ExampleMed AI GmbH",
+    "type": "manufacturer",
+    "contactEmail": "contact@examplemed.example",
+    "dpoContactEmail": "dpo@examplemed.example",
+    "incidentReportingEmail": "incidents@examplemed.example",
+    "active": true
+  },
+  "operatorOrganization": {
+  "id": "organization-examplehospital",
+  "name": "Example Hospital",
+  "type": "healthcare-provider",
+  "contactEmail": "contact@examplehospital.example",
+  "dpoContactEmail": "dpo@examplehospital.example",
+  "incidentReportingEmail": "incidents@examplehospital.example",
+  "active": true
+  },
+  "aiSystem": {
+    "id": "device-riskassist-ai",
+    "name": "RiskAssist AI",
+    "version": "1.0.0",
+    "manufacturerOrganizationId": "organization-examplemed",
+    "ownerOrganizationId": "organization-examplehospital",
+    "euDatabaseId": "EU-AI-000123",
+    "ceMarked": true,
+    "notifiedBodyId": "NB-0000",
+    "expectedLifetime": {
+      "value": 5,
+      "unit": "years",
+      "code": "a"
+    },
+    "intendedPurpose": "AI-assisted early warning risk assessment based on synthetic NEWS2-inspired vital parameters",
+    "medicalPurpose": "Supportive risk stratification in acute care settings",
+    "targetPopulation": "Adult patients with suspected infection in an acute care setting",
+    "maintenanceNote": "Synthetic maintenance information for PoC purposes.",
+    "qmsCertification": "Synthetic QMS certification reference for PoC purposes.",
+    "modelCardId": "modelcard-riskassist-ai",
+    "dataTransfer": {
+      "crossBorderTransfer": false,
+      "thirdCountryTransfer": false
+    },
+    "status": "active"
+  },
+  "modelCard": {
+    "id": "modelcard-riskassist-ai",
+    "title": "RiskAssist AI Model Card",
+    "description": "Synthetic model card for a deterministic AI-output simulation component used in the PoC.",
+    "url": "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/model-card",
+    "contentType": "text/html",
+    "technicalDocumentationUrl": "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation",
+    "modelType": "deterministic simulation component",
+    "trainingDataDescription": "No real training data are used. The component is used only to simulate AI-like outputs for the PoC.",
+    "dataQualityCode": "complete",
+    "dataQualityDisplay": "Complete",
+    "dataQualityDescription": "The simulated component does not use real data and is designed to produce deterministic outputs based on the defined input parameters.",
+    "performanceDescription": "No clinically validated performance metrics are claimed.",
+    "clinicalValidationStatus": {
+    "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+    "code": "not-clinically-validated",
+    "display": "Not Clinically Validated"
+    },
+"performanceMetrics": [],
+    "biasDisclosure": "No bias evaluation is claimed for this synthetic PoC model.",
+    "privacyDescription": "No real patient data are processed. The scenario uses synthetic data only.",
+    "retention": {
+      "value": 10,
+      "unit": "years",
+      "code": "a"
+    },
+    "limitations": "The simulated output is not intended for clinical use and does not represent a validated AI model.",
+    "trainingData": {
+      "ehdsCategory": {
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "code": "ehr",
+        "display": "Electronic Health Records (EHRs)"
+      }
+    }
+  },
+  "legalContext": {
+    "usageCategory": "primary-use",
+    "gdprArt6": "gdpr-art-6-1-d",
+    "gdprArt9": "gdpr-art-9-2-h",
+    "patientInfoProvided": true,
+    "patientOptOut": false,
+    "automatedDecision": false,
+    "consent": {
+      "status": "active",
+      "decisionIfPatientOptOut": "deny",
+      "decisionIfNoPatientOptOut": "permit",
+      "date": "2026-03-01",
+      "category": {
+        "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
+        "code": "npp",
+        "display": "Notice of Privacy Practices"
+      },
+      "provisionPurpose": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
+        "code": "RESCH",
+        "display": "research"
+      }
+    }
+  },
+  "humanReviewer": {
+    "practitioner": {
+      "id": "practitioner-001",
+      "name": {
+        "family": "Example",
+        "given": [
+          "Anna"
+        ],
+        "prefix": [
+          "Dr."
+        ]
+      }
+    },
+    "practitionerRole": {
+      "id": "practitionerrole-reviewer-001",
+      "organizationId": "organization-examplehospital",
+      "specialty": "Internal Medicine",
+      "roleCode": "human-overseer",
+      "aiSpecificTrainingCompleted": true
+    }
+  },
+  "simulationExecution": {
+    "aiOutputGeneratedAt": "2026-03-01T10:15:03Z",
+    "executionStart": "2026-03-01T10:15:00Z",
+    "executionEnd": "2026-03-01T10:15:03Z",
+    "recordedAt": "2026-03-01T10:15:04Z"
+  },
+  "traceabilityMetadata": {
+    "auditPurpose": "Document simulated AI execution for PoC traceability.",
+    "provenancePurpose": "Document the origin of the simulated AI output."
+  },
+  "resourceIdTemplates": {
+    "inputObservations": {
+      "temperature": "observation-temperature-001",
+      "heartRate": "observation-heart-rate-001",
+      "respiratoryRate": "observation-respiratory-rate-001",
+      "bloodPressure": "observation-blood-pressure-001",
+      "oxygenSaturation": "observation-oxygen-saturation-001",
+      "consciousnessStatus": "observation-consciousness-status-001"
+    },
+    "aiObservation": "ai-observation-risk-001",
+    "execution": "execution-001",
+    "auditEvent": "audit-event-ai-execution-001",
+    "provenance": "provenance-ai-output-001",
+    "humanOversight": "human-oversight-001",
+    "correctedClinicalObservation": "observation-corrected-risk-001",
+    "patientExplanation": "patient-explanation-001",
+    "consent": "consent-ai-use-001"
+  },
+  "fhirMapping": {
+    "encounter": {
+      "status": "completed",
+      "class": {
+        "system": "http://terminology.hl7.org/CodeSystem/v3-ActCode",
+        "code": "AMB",
+        "display": "ambulatory"
+      }
+    },
+    "organization": {
+      "dpoContactPurpose": {
+        "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
+        "code": "ADMIN",
+        "display": "Administrative",
+        "text": "Data Protection Officer"
+      },
+      "incidentContactPurpose": {
+        "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
+        "code": "PATINF",
+        "display": "Patient",
+        "text": "AI Incident Reporting Contact"
+      }
+    },
+    "device": {
+      "nameType": "registered-name",
+      "nameDisplay": true,
+      "identifierSystem": "https://fh-ooe.at/fhir/eu-ai-transparency/eu-ai-database",
+      "identifierType": {
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "code": "eu-ai-database-id",
+        "display": "EU AI Database Identifier"
+      },
+      "qmsCategoryText": "quality-management-system",
+      "properties": {
+        "ceMark": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "code": "ce-mark",
+          "display": "CE Mark"
+        },
+        "notifiedBodyId": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "code": "notified-body-id",
+          "display": "Notified Body ID"
+        },
+        "expectedLifetime": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "code": "expected-lifetime",
+          "display": "Expected Lifetime"
+        },
+        "medicalPurpose": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "code": "medical-purpose",
+          "display": "Medical Purpose"
+        },
+        "targetPopulation": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "code": "target-population",
+          "display": "Target Population"
+        }
+      }
+    },
+    "modelCard": {
+      "status": "current",
+      "type": {
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "code": "model-card",
+        "display": "AI Model Card"
+      },
+      "technicalDocumentationTitle": "Technical Documentation",
+      "technicalDocumentationContentType": "text/html"
+    },
+    "inputObservations": {
+      "status": "final",
+      "category": {
+        "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+        "code": "vital-signs",
+        "display": "Vital Signs"
+      },
+      "consciousnessStatusCodeText": "Consciousness status",
+      "oxygenSaturationNotePrefix": "NEWS2 SpO2 scale",
+      "supplementalOxygenNotePrefix": "supplemental oxygen"
+    },
+    "aiObservation": {
+      "status": "final",
+      "codeText": "AI-assisted early warning risk assessment",
+      "interpretation": {
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "code": "ai-generated",
+        "display": "AI Generated Result"
+      },
+      "confidenceComponentText": "Confidence",
+      "simplifiedScoreComponentText": "Simplified score"
+    },
+    "correctedClinicalObservation": {
+      "status": "final",
+      "codeText": "Human-corrected early warning risk assessment",
+      "note": "This represents a human-corrected clinical observation derived from the original EU_AIObservation."
+    },
+    "auditEvent": {
+      "action": "C",
+      "code": {
+        "system": "http://terminology.hl7.org/CodeSystem/audit-event-type",
+        "code": "rest",
+        "display": "RESTful Operation"
+      },
+      "inputEntityRole": {
+        "system": "http://terminology.hl7.org/CodeSystem/object-role",
+        "code": "4",
+        "display": "Domain Resource"
+      },
+      "outputEntityRole": {
+        "system": "http://terminology.hl7.org/CodeSystem/object-role",
+        "code": "3",
+        "display": "Report"
+      },
+      "agentRequestor": false
+    },
+    "provenance": {
+      "activityText": "ai-output-generation",
+      "entityRole": "source"
+    },
+    "humanOversight": {
+      "workflowStatus": "published"
+    },
+    "patientExplanation": {
+      "status": "completed",
+      "category": {
+        "system": "http://terminology.hl7.org/CodeSystem/communication-category",
+        "code": "instruction",
+        "display": "Instruction"
+      }
+    }
+  }
+}

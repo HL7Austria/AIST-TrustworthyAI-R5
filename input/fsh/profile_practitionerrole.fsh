@@ -1,8 +1,8 @@
 Profile: EU_AIPractitionerRole
 Parent: PractitionerRole
 Id: eu-ai-practitionerrole
-Title: "EU AI Act Human Overseer (PractitionerRole)"
-Description: "Defines the qualifications, specialty, and AI-specific training of the human responsible for oversight of the AI system, as required by the AI Act (HL-02)."
+Title: "EU AI Practitioner Role"
+Description: "A PractitionerRole profile representing the role, qualification context, specialty, and AI-related training information of the human reviewer involved in oversight of an AI-supported workflow."
 
 // =======================================================
 // 1. CORE ROLE INFORMATION (HL-01)
@@ -19,7 +19,7 @@ Description: "Defines the qualifications, specialty, and AI-specific training of
 // 2. CLINICAL SPECIALTY (HL-02.1)
 // =======================================================
 * specialty 1..* MS
-* specialty ^short = "Clinical specialty (e.g., Radiology) required for oversight"
+* specialty ^short = "Clinical specialty required for oversight"
 
 // =======================================================
 // 3. EXTENSIONS: AI TRAINING STATUS (HL-02.2)

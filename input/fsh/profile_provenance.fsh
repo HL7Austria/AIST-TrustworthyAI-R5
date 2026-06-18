@@ -1,9 +1,8 @@
 Profile: EU_AIProvenance
 Parent: Provenance
 Id: eu-ai-provenance
-Title: "EU AI Act Provenance (Human-in-the-Loop)"
-Description: "Records the execution of an AI system, including human oversight and data provenance."
-
+Title: "EU AI Provenance"
+Description: "A Provenance profile linking an AI-generated output to the contributing AI system, source data, and relevant processing or governance context."
 // =======================================================
 // 1. ZIEL & ZEIT (SYS-10.1)
 // =======================================================
@@ -25,7 +24,7 @@ Description: "Records the execution of an AI system, including human oversight a
 
 * authorization contains 
     gdprBasis 1..1 MS and 
-    gdprException 0..1 MS
+    gdprException 1..1 MS
 * authorization[gdprBasis].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art6-codesystem"
 * authorization[gdprException].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art9-codesystem"
 
@@ -46,7 +45,7 @@ Description: "Records the execution of an AI system, including human oversight a
 // =======================================================
 * entity 1..* MS
 * entity.role = #source 
-* entity.what MS
+* entity.what
 * entity.what only Reference(Observation or ImagingStudy or DocumentReference)
 * entity.what ^short = "Source data processed by the AI"
 
@@ -55,6 +54,7 @@ Description: "Records the execution of an AI system, including human oversight a
 // =======================================================
 * extension contains
     EHDSPUsageCategory named usageCategory 1..1 MS and
+    EHDSSecondaryUsePurpose named secondaryUsePurpose 0..* MS and
     EHDSDataPermit named dataPermit 0..1 MS
 
 * extension[usageCategory] ^short = "Primary vs. Secondary Use Category"

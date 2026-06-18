@@ -1,0 +1,23 @@
+{
+  "scenarioOutputId": "sc-03-override",
+  "aiOutputConfig": {
+    "forceOutput": true,
+    "riskCategory": "low-risk",
+    "confidence": 0.68,
+    "recommendation": "No immediate escalation suggested"
+  },
+  "humanOversightConfig": {
+    "enabled": true,
+    "mode": "human-override",
+    "reviewedAt": "2026-03-01T10:20:00Z",
+    "reviewerId": "practitionerrole-reviewer-001",
+    "overrideDecision": {
+      "riskCategory": "elevated-risk",
+      "recommendation": "Clinical review recommended"
+    },
+    "rationale": "The clinician overrode the simulated AI output due to additional synthetic clinical concerns."
+  },
+  "patientExplanationConfig": {
+    "enabled": false
+  }
+}

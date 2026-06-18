@@ -1,8 +1,8 @@
 Profile: EU_AIConsent
 Parent: Consent
 Id: eu-ai-consent
-Title: "EU AI & EHDS Consent Profile"
-Description: "A profile on the Consent resource to capture GDPR legal basis and EHDS secondary use opt-out."
+Title: "EU AI Consent and Processing Context"
+Description: "A Consent profile documenting patient-facing information, permission status, and opt-out preferences for AI-supported processing where applicable."
 
 * status = #active
 * category = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
@@ -21,5 +21,5 @@ Description: "A profile on the Consent resource to capture GDPR legal basis and 
 * decision 1..1 MS
 * decision ^short = "deny (Opt-out) | permit (Consent)"
 
-* provision.purpose 1..* MS
-* provision.purpose = http://terminology.hl7.org/CodeSystem/v3-ActReason#RESCH
+* provision 1..1 MS
+* provision.purpose 0..*
