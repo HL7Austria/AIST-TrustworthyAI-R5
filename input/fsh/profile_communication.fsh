@@ -26,10 +26,6 @@ Description: "A Communication profile documenting patient-facing information abo
 // =======================================================
 // 3. CONTEXT & DECISION (LAW-07.1)
 // =======================================================
-// LAW-07.1: (Request-Tracking)
-* extension contains EU_AI_ExplanationRequested named explanationRequested 1..1 MS
-* extension[explanationRequested] ^short = "Flag: Did the patient/data subject actively request this explanation?"
-
 
 // LAW-07.1 request inforamtion about the specific decision the patient wants to have explained
 * about 1..* MS

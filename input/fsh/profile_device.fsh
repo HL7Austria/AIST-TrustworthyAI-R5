@@ -7,11 +7,11 @@ Description: "A Device profile representing an AI system or software component, 
 // 1. SYSTEM METADATA (SYS-01, SYS-02)
 // =======================================================
 * name 1..* MS
-* name.value 1..1 MS
+* name.value 1..1
 * name.value ^short = "System Name"
 
 * version 1..* MS
-* version.value 1..1 MS
+* version.value 1..1
 * version.value ^short = "System Version"
 
 // SYS-11
@@ -20,10 +20,10 @@ Description: "A Device profile representing an AI system or software component, 
 * identifier ^slicing.rules = #open
 
 * identifier contains euDatabaseId 1..1 MS
-* identifier[euDatabaseId].type 1..1 MS
+* identifier[euDatabaseId].type 1..1
 * identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
-* identifier[euDatabaseId].system 1..1 MS
-* identifier[euDatabaseId].value 1..1 MS
+* identifier[euDatabaseId].system 1..1
+* identifier[euDatabaseId].value 1..1
 * identifier[euDatabaseId] ^short = "EU AI database registration identifier"
 * identifier[euDatabaseId] ^definition = "Identifier used to document the AI system's registration entry in the EU AI database or an equivalent AI system registry."
 
@@ -48,7 +48,7 @@ Description: "A Device profile representing an AI system or software component, 
 * conformsTo 1..* MS
 * conformsTo.specification ^short = "QMS Certification"
 
-* note 1..* MS
+* note 0..* MS
 * note ^short = "Maintenance Requirements"
 
 // =======================================================
@@ -87,3 +87,4 @@ Description: "A Device profile representing an AI system or software component, 
 * extension[dataTransfer] ^short = "Third-Country Transfer Data"
 
 * extension contains EU_AIModelCardLink named modelCard 1..1 MS
+* extension[modelCard] ^short = "Reference to the AI model card"

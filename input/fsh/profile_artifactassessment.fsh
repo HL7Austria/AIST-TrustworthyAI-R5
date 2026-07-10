@@ -16,7 +16,7 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 // 2. TARGET ARTIFACT (The AI Output: Observation)
 // =======================================================
 * artifactReference 1..1 MS
-* artifactReference only Reference(Observation)
+* artifactReference only Reference(EU_AIObservation)
 * artifact[x] ^short = "Reference to the AI-generated Observation"
 
 // =======================================================
@@ -26,9 +26,6 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * content.author only Reference(EU_AIPractitionerRole)
 * content.author ^short = "Reference to the qualified human overseer"
 
-* content.author.extension contains AISystemTrainingStatus named aiTraining 1..1
-* content.author.extension[aiTraining] ^short = "Did this specific human receive training for this AI?"
-
 // =======================================================
 // 4. INTERVENTION & RATIONALE (HL-03)
 // =======================================================
@@ -36,7 +33,7 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * content.classifier from EU_AI_Intervention_ValueSet (extensible)
 * content.classifier ^short = "Intervention Action (e.g., Validation, Override)"
 
-* content.summary 1..1 MS
+* content.summary 0..1 MS
 * content.summary ^short = "Medical/Technical rationale for the decision"
 
 // =======================================================

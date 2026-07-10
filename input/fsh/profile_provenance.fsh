@@ -25,6 +25,7 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 * authorization contains 
     gdprBasis 1..1 MS and 
     gdprException 1..1 MS
+
 * authorization[gdprBasis].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art6-codesystem"
 * authorization[gdprException].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art9-codesystem"
 
@@ -53,9 +54,10 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 // 5. EHDS EXTENSIONS (LAW-03.1 & LAW-03.2)
 // =======================================================
 * extension contains
-    EHDSPUsageCategory named usageCategory 1..1 MS and
+    EHDSUsageCategory named usageCategory 1..1 MS and
     EHDSSecondaryUsePurpose named secondaryUsePurpose 0..* MS and
     EHDSDataPermit named dataPermit 0..1 MS
 
 * extension[usageCategory] ^short = "Primary vs. Secondary Use Category"
+* extension[secondaryUsePurpose] ^short = "Permitted purpose for secondary use"
 * extension[dataPermit] ^short = "Reference to the EHDS Data Access Permit"

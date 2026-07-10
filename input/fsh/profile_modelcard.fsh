@@ -13,7 +13,7 @@ Description: "A DocumentReference profile representing technical documentation a
 * subject only Reference(EU_AIDevice)
 * subject ^short = "Reference to the specific AI System Device (Traceability)"
 
-* status 1..1 MS
+* status 1..1
 * status ^short = "current | superseded | entered-in-error"
 * type 1..1 MS
 * type = EUAIActCodeSystem#model-card "AI Model Card"
@@ -36,9 +36,10 @@ Description: "A DocumentReference profile representing technical documentation a
     AIPrivacyMetadata named privacy 1..1 MS and
     AIClinicalValidationStatus named clinicalValidationStatus 1..1 MS
 
-* extension[performance] ^short = "Metrics & Bias"
-* extension[training] ^short = "EHDS Permit & Data Quality"
-* extension[privacy] ^short = "Transfer & Retention"
+* extension[performance] ^short = "Performance metrics and bias information"
+* extension[training] ^short = "Training data provenance and EHDS metadata"
+* extension[privacy] ^short = "Retention policy"
+* extension[clinicalValidationStatus] ^short = "Clinical validation status"
 
 // =======================================================
 // 4. TECHNICAL DOCUMENTATION (SYS-04, SYS-06, HL-04)
