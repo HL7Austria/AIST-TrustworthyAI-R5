@@ -1,17 +1,22 @@
 // =======================================================
-// PoC Scenario sc-02-validation
-// NEWS2-inspired AI risk output with human validation
+// PoC Instances: Scenarios 1-4
+// NEWS2-inspired AI risk output scenarios
+// =======================================================
+// sc-01-ai-only: core AI execution and traceability only
+// sc-02-validation: AI output accepted by human reviewer
+// sc-03-override: AI output overridden by human reviewer
+// sc-04-correction-exp: AI output corrected and explained to patient
 // =======================================================
 
 // =======================================================
-// 1. BASE ACTORS (Patient, Practitioner, Organizations)
+// 1. SHARED BASE ACTORS (Patient, Practitioner, Organizations)
 // =======================================================
 
 Instance: patient-001
 InstanceOf: Patient
 Usage: #example
 Title: "Patient: Synthetic Patient 001"
-Description: "A fictional female patient used in the NEWS2-inspired PoC scenario."
+Description: "A fictional female patient used in the NEWS2-inspired PoC scenarios."
 * gender = #female
 * birthDate = "1959-04-12"
 
@@ -79,26 +84,7 @@ Description: "Synthetic encounter for suspected infection and early-warning risk
 * reason[0].value[0].concept.text = "suspected-infection-early-warning-risk-assessment"
 
 // =======================================================
-// 2. PATIENT INFORMATION AND PROCESSING PERMISSION
-// =======================================================
-
-Instance: sc-02-validation-consent-ai-use-001
-InstanceOf: EU_AIConsent
-Usage: #example
-Title: "Consent: AI Use for PoC Scenario sc-02-validation"
-Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
-* status = #active
-* decision = #permit
-* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
-* category[0].text = "Notice of Privacy Practices"
-* subject = Reference(patient-001)
-* date = "2026-03-01"
-* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#RESCH "research"
-* extension[aiInfoProvided].valueBoolean = true
-
-
-// =======================================================
-// 3. AI SYSTEM AND MODEL CARD
+// 2. SHARED AI SYSTEM AND MODEL CARD
 // =======================================================
 
 Instance: device-riskassist-ai
@@ -108,7 +94,7 @@ Title: "Device: RiskAssist AI"
 Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessment."
 * identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
 * identifier[euDatabaseId].type.text = "EU AI Database Identifier"
-* identifier[0].system = "http://example.org/fhir/sid/eu-ai-database"
+* identifier[euDatabaseId].system = "http://example.org/fhir/sid/eu-ai-database"
 * identifier[euDatabaseId].value = "EU-AI-000123"
 * status = #active
 * name[0].value = "RiskAssist AI"
@@ -152,34 +138,64 @@ Description: "Synthetic model card for the deterministic AI-output simulation co
 * content[1].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation"
 * content[1].attachment.title = "Technical Documentation"
 * extension[clinicalValidationStatus].valueCodeableConcept = EUAIActCodeSystem#not-clinically-validated "Not Clinically Validated"
-* extension[performance].extension[biasDisclosure].valueString = "No bias evaluation is claimed for this synthetic PoC model."
+* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = EUAIActCodeSystem#accuracy "Accuracy"
+* extension[performance].extension[metric][0].extension[value].valueQuantity = 0.86 '1' "1"
+* extension[performance].extension[biasDisclosure][0].valueString = "No bias evaluation is claimed for this synthetic PoC model."
 * extension[training].extension[provenance].valueString = "No real training data are used. The component is used only to simulate AI-like outputs for the PoC."
-* extension[training].extension[ehdsCategory].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
-* extension[training].extension[dataQuality].valueCodeableConcept = EUAIActCodeSystem#complete "Complete"
+* extension[training].extension[ehdsCategory][0].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
+* extension[training].extension[dataQuality][0].valueCodeableConcept = EUAIActCodeSystem#complete "Complete"
 * extension[privacy].extension[retention].valueDuration = 10 'a' "years"
-* extension[privacy].extension[transferFlag].valueBoolean = false
+
+Instance: practitionerrole-reviewer-001
+InstanceOf: EU_AIPractitionerRole
+Usage: #example
+Title: "PractitionerRole: Human Reviewer"
+Description: "Synthetic practitioner role representing a trained internal medicine reviewer."
+* practitioner = Reference(practitioner-001)
+* organization = Reference(organization-examplehospital)
+* code[0].text = "human-overseer"
+* specialty[0].text = "Internal Medicine"
+* extension[trainingFlag].valueBoolean = true
+
 
 // =======================================================
-// 4. NEWS2-INSPIRED CLINICAL INPUT DATA
+// Scenario 1: AI-only execution
 // =======================================================
 
-Instance: sc-02-validation-observation-temperature-001
+Instance: sc-01-ai-only-consent-ai-use-001
+InstanceOf: EU_AIConsent
+Usage: #example
+Title: "Consent: AI Use for PoC Scenario sc-01-ai-only"
+Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
+* status = #active
+* decision = #permit
+* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
+* category[0].text = "Notice of Privacy Practices"
+* subject = Reference(patient-001)
+* date = "2026-03-01"
+* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
+* extension[aiInfoProvided].valueBoolean = true
+
+// NEWS2-inspired clinical input data for sc-01-ai-only
+
+Instance: sc-01-ai-only-observation-temperature-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Body Temperature"
+Title: "Input Observation: Body Temperature (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
-* code.text = "Body temperature"
+* code = http://loinc.org#8310-5 "Body temperature"
 * subject = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:10:00Z"
 * valueQuantity = 38.6 'Cel' "°C"
-* performer = Reference(Practitioner/practitioner-001)
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
 
-Instance: sc-02-validation-observation-heart-rate-001
+Instance: sc-01-ai-only-observation-heart-rate-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Heart Rate"
+Title: "Input Observation: Heart Rate (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
 * code = http://loinc.org#8867-4 "Heart rate"
@@ -188,12 +204,12 @@ Description: "Synthetic NEWS2-inspired input parameter."
 * effectiveDateTime = "2026-03-01T10:10:00Z"
 * valueQuantity = 112 '/min' "beats/min"
 * category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
-* performer = Reference(Practitioner/practitioner-001)
+* performer = Reference(practitioner-001)
 
-Instance: sc-02-validation-observation-respiratory-rate-001
+Instance: sc-01-ai-only-observation-respiratory-rate-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Respiratory Rate"
+Title: "Input Observation: Respiratory Rate (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
 * code = http://loinc.org#9279-1 "Respiratory rate"
@@ -202,40 +218,46 @@ Description: "Synthetic NEWS2-inspired input parameter."
 * effectiveDateTime = "2026-03-01T10:10:00Z"
 * valueQuantity = 23 '/min' "breaths/min"
 * category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
-* performer = Reference(Practitioner/practitioner-001)
+* performer = Reference(practitioner-001)
 
-Instance: sc-02-validation-observation-blood-pressure-001
+Instance: sc-01-ai-only-observation-blood-pressure-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Systolic Blood Pressure"
+Title: "Input Observation: Blood Pressure (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
-* code.text = "Systolic blood pressure"
+* code = http://loinc.org#85354-9 "Blood pressure panel with all children optional"
 * subject = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:10:00Z"
-* valueQuantity = 96 'mm[Hg]' "mmHg"
-* performer = Reference(Practitioner/practitioner-001)
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* component[0].code = http://loinc.org#8480-6 "Systolic blood pressure"
+* component[0].valueQuantity = 96 'mm[Hg]' "mmHg"
+* component[1].code = http://loinc.org#8462-4 "Diastolic blood pressure"
+* component[1].valueQuantity = 62 'mm[Hg]' "mmHg"
+* performer = Reference(practitioner-001)
 
-Instance: sc-02-validation-observation-oxygen-saturation-001
+Instance: sc-01-ai-only-observation-oxygen-saturation-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Oxygen Saturation"
+Title: "Input Observation: Oxygen Saturation (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
-* code = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* code.coding[0] = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
+* code.coding[1] = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* code.text = "Oxygen saturation in Arterial blood by Pulse oximetry"
 * subject = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:10:00Z"
 * valueQuantity = 92 '%' "%"
-* code.coding = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
 * category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
-* performer = Reference(Practitioner/practitioner-001)
+* note[0].text = "NEWS2 SpO2 scale: scale-1; supplemental oxygen: false"
+* performer = Reference(practitioner-001)
 
-Instance: sc-02-validation-observation-consciousness-status-001
+Instance: sc-01-ai-only-observation-consciousness-status-001
 InstanceOf: Observation
 Usage: #example
-Title: "Input Observation: Consciousness Status"
+Title: "Input Observation: Consciousness Status (1)"
 Description: "Synthetic NEWS2-inspired input parameter."
 * status = #final
 * code.text = "Consciousness status"
@@ -243,16 +265,222 @@ Description: "Synthetic NEWS2-inspired input parameter."
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:10:00Z"
 * valueCodeableConcept.text = "Alert"
-* performer = Reference(Practitioner/practitioner-001)
+* performer = Reference(practitioner-001)
+
+// AI output and traceability for sc-01-ai-only
+
+Instance: sc-01-ai-only-ai-observation-risk-001
+InstanceOf: EU_AIObservation
+Usage: #example
+Title: "AI Output: Early Warning Risk Assessment (1)"
+Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspired input parameters."
+* status = #final
+* code.text = "AI-assisted early warning risk assessment"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:15:03Z"
+* device = Reference(device-riskassist-ai)
+* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag].text = "AI Generated Result"
+* valueCodeableConcept.text = "high-risk"
+* component[0].code.text = "Confidence"
+* component[0].valueQuantity = 0.86 '1' "1"
+* component[1].code.text = "Simplified score"
+* component[1].valueInteger = 9
+* note[0].text = "Urgent clinical review recommended"
+* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[automatedDecision].valueBoolean = false
+* performer = Reference(organization-examplehospital)
+
+Instance: sc-01-ai-only-audit-event-ai-execution-001
+InstanceOf: EU_AIAuditEvent
+Usage: #example
+Title: "Audit Log: AI Execution Trace (1)"
+Description: "Synthetic audit event documenting the AI execution for PoC traceability."
+* extension[logIntegrity].valueSignature.type[0] = urn:iso-astm:E1762-95:2013#1.2.840.10065.1.12.1.5 "Verification Signature"
+* extension[logIntegrity].valueSignature.when = "2026-03-01T10:15:04Z"
+* extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
+* extension[logIntegrity].valueSignature.sigFormat = #text/plain
+* extension[logIntegrity].valueSignature.data = "c2hhMjU2LTFmNzg5N2U0ZWVmNDNlM2ZiYmY1M2U3MDgxYzEwYTA1ZTEyZjhhNDEzZGI5NDQxMzI0NDYzZGRhZDAzNDdlMjk="
+* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+* code.text = "RESTful Operation"
+* action = #C
+* recorded = "2026-03-01T10:15:04Z"
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* authorization[0].text = "Document simulated AI execution for PoC traceability."
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* agent[0].who = Reference(device-riskassist-ai)
+* agent[0].requestor = false
+* source.observer = Reference(device-riskassist-ai)
+* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][0].role.text = "Domain Resource"
+* entity[inputData][0].what = Reference(sc-01-ai-only-observation-temperature-001)
+* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][1].role.text = "Domain Resource"
+* entity[inputData][1].what = Reference(sc-01-ai-only-observation-heart-rate-001)
+* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][2].role.text = "Domain Resource"
+* entity[inputData][2].what = Reference(sc-01-ai-only-observation-respiratory-rate-001)
+* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][3].role.text = "Domain Resource"
+* entity[inputData][3].what = Reference(sc-01-ai-only-observation-blood-pressure-001)
+* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][4].role.text = "Domain Resource"
+* entity[inputData][4].what = Reference(sc-01-ai-only-observation-oxygen-saturation-001)
+* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][5].role.text = "Domain Resource"
+* entity[inputData][5].what = Reference(sc-01-ai-only-observation-consciousness-status-001)
+* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
+* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].what = Reference(sc-01-ai-only-ai-observation-risk-001)
+
+Instance: sc-01-ai-only-provenance-ai-output-001
+InstanceOf: EU_AIProvenance
+Usage: #example
+Title: "Provenance: AI Output Generation (1)"
+Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
+* target = Reference(sc-01-ai-only-ai-observation-risk-001)
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* recorded = "2026-03-01T10:15:04Z"
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
+* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* activity.text = "ai-output-generation"
+* agent[0].who = Reference(device-riskassist-ai)
+* entity[0].role = #source
+* entity[0].what = Reference(sc-01-ai-only-observation-temperature-001)
+* entity[1].role = #source
+* entity[1].what = Reference(sc-01-ai-only-observation-heart-rate-001)
+* entity[2].role = #source
+* entity[2].what = Reference(sc-01-ai-only-observation-respiratory-rate-001)
+* entity[3].role = #source
+* entity[3].what = Reference(sc-01-ai-only-observation-blood-pressure-001)
+* entity[4].role = #source
+* entity[4].what = Reference(sc-01-ai-only-observation-oxygen-saturation-001)
+* entity[5].role = #source
+* entity[5].what = Reference(sc-01-ai-only-observation-consciousness-status-001)
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+
 
 // =======================================================
-// 5. AI OUTPUT AND TRACEABILITY
+// Scenario 2: Validated AI output
 // =======================================================
+
+Instance: sc-02-validation-consent-ai-use-001
+InstanceOf: EU_AIConsent
+Usage: #example
+Title: "Consent: AI Use for PoC Scenario sc-02-validation"
+Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
+* status = #active
+* decision = #permit
+* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
+* category[0].text = "Notice of Privacy Practices"
+* subject = Reference(patient-001)
+* date = "2026-03-01"
+* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
+* extension[aiInfoProvided].valueBoolean = true
+
+// NEWS2-inspired clinical input data for sc-02-validation
+
+Instance: sc-02-validation-observation-temperature-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Body Temperature (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8310-5 "Body temperature"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 38.6 'Cel' "°C"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-02-validation-observation-heart-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Heart Rate (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8867-4 "Heart rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 112 '/min' "beats/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-02-validation-observation-respiratory-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Respiratory Rate (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#9279-1 "Respiratory rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 23 '/min' "breaths/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-02-validation-observation-blood-pressure-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Blood Pressure (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#85354-9 "Blood pressure panel with all children optional"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* component[0].code = http://loinc.org#8480-6 "Systolic blood pressure"
+* component[0].valueQuantity = 96 'mm[Hg]' "mmHg"
+* component[1].code = http://loinc.org#8462-4 "Diastolic blood pressure"
+* component[1].valueQuantity = 62 'mm[Hg]' "mmHg"
+* performer = Reference(practitioner-001)
+
+Instance: sc-02-validation-observation-oxygen-saturation-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Oxygen Saturation (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.coding[0] = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
+* code.coding[1] = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* code.text = "Oxygen saturation in Arterial blood by Pulse oximetry"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 92 '%' "%"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* note[0].text = "NEWS2 SpO2 scale: scale-1; supplemental oxygen: false"
+* performer = Reference(practitioner-001)
+
+Instance: sc-02-validation-observation-consciousness-status-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Consciousness Status (2)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Consciousness status"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueCodeableConcept.text = "Alert"
+* performer = Reference(practitioner-001)
+
+// AI output and traceability for sc-02-validation
 
 Instance: sc-02-validation-ai-observation-risk-001
 InstanceOf: EU_AIObservation
 Usage: #example
-Title: "AI Output: Early Warning Risk Assessment"
+Title: "AI Output: Early Warning Risk Assessment (2)"
 Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspired input parameters."
 * status = #final
 * code.text = "AI-assisted early warning risk assessment"
@@ -275,7 +503,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 Instance: sc-02-validation-audit-event-ai-execution-001
 InstanceOf: EU_AIAuditEvent
 Usage: #example
-Title: "Audit Log: AI Execution Trace"
+Title: "Audit Log: AI Execution Trace (2)"
 Description: "Synthetic audit event documenting the AI execution for PoC traceability."
 * extension[logIntegrity].valueSignature.type[0] = urn:iso-astm:E1762-95:2013#1.2.840.10065.1.12.1.5 "Verification Signature"
 * extension[logIntegrity].valueSignature.when = "2026-03-01T10:15:04Z"
@@ -319,14 +547,14 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 Instance: sc-02-validation-provenance-ai-output-001
 InstanceOf: EU_AIProvenance
 Usage: #example
-Title: "Provenance: AI Output Generation"
+Title: "Provenance: AI Output Generation (2)"
 Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
 * target = Reference(sc-02-validation-ai-observation-risk-001)
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
+* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "ai-output-generation"
@@ -344,45 +572,517 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[5].role = #source
 * entity[5].what = Reference(sc-02-validation-observation-consciousness-status-001)
 * extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
-* extension[dataPermit].valueIdentifier.value = "EHDS-PERMIT-001"
 
-// =======================================================
-// 6. HUMAN OVERSIGHT: VALIDATION BY CLINICIAN
-// =======================================================
-
-Instance: practitionerrole-reviewer-001
-InstanceOf: EU_AIPractitionerRole
-Usage: #example
-Title: "PractitionerRole: Human Reviewer"
-Description: "Synthetic practitioner role representing a trained internal medicine reviewer."
-* practitioner = Reference(practitioner-001)
-* organization = Reference(organization-examplehospital)
-* code[0].text = "human-overseer"
-* specialty[0].text = "Internal Medicine"
-* extension[trainingFlag].valueBoolean = true
+// Human oversight for sc-02-validation
 
 Instance: sc-02-validation-human-oversight-001
 InstanceOf: EU_AIHumanOversightAssessment
 Usage: #example
-Title: "Assessment: Human Validation of AI Output"
-Description: "The simulated AI output is reviewed and accepted by the human reviewer."
+Title: "Assessment: Human Validation of AI Output (2)"
+Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
 * workflowStatus = #published
 * artifactReference = Reference(sc-02-validation-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].author.extension[ai-system-training-status].valueBoolean = true
 * content[0].classifier = EUAIActCodeSystem#human-validation "Human Validation"
 * content[0].summary = "The simulated AI output was reviewed and accepted."
 
-Instance: Communication-sc-02-patient-explanation-001
+
+// =======================================================
+// Scenario 3: Human override
+// =======================================================
+
+Instance: sc-03-override-consent-ai-use-001
+InstanceOf: EU_AIConsent
+Usage: #example
+Title: "Consent: AI Use for PoC Scenario sc-03-override"
+Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
+* status = #active
+* decision = #permit
+* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
+* category[0].text = "Notice of Privacy Practices"
+* subject = Reference(patient-001)
+* date = "2026-03-01"
+* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
+* extension[aiInfoProvided].valueBoolean = true
+
+// NEWS2-inspired clinical input data for sc-03-override
+
+Instance: sc-03-override-observation-temperature-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Body Temperature (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8310-5 "Body temperature"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 38.6 'Cel' "°C"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-03-override-observation-heart-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Heart Rate (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8867-4 "Heart rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 112 '/min' "beats/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-03-override-observation-respiratory-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Respiratory Rate (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#9279-1 "Respiratory rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 23 '/min' "breaths/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-03-override-observation-blood-pressure-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Blood Pressure (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#85354-9 "Blood pressure panel with all children optional"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* component[0].code = http://loinc.org#8480-6 "Systolic blood pressure"
+* component[0].valueQuantity = 96 'mm[Hg]' "mmHg"
+* component[1].code = http://loinc.org#8462-4 "Diastolic blood pressure"
+* component[1].valueQuantity = 62 'mm[Hg]' "mmHg"
+* performer = Reference(practitioner-001)
+
+Instance: sc-03-override-observation-oxygen-saturation-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Oxygen Saturation (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.coding[0] = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
+* code.coding[1] = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* code.text = "Oxygen saturation in Arterial blood by Pulse oximetry"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 92 '%' "%"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* note[0].text = "NEWS2 SpO2 scale: scale-1; supplemental oxygen: false"
+* performer = Reference(practitioner-001)
+
+Instance: sc-03-override-observation-consciousness-status-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Consciousness Status (3)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Consciousness status"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueCodeableConcept.text = "Alert"
+* performer = Reference(practitioner-001)
+
+// AI output and traceability for sc-03-override
+
+Instance: sc-03-override-ai-observation-risk-001
+InstanceOf: EU_AIObservation
+Usage: #example
+Title: "AI Output: Early Warning Risk Assessment (3)"
+Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired input parameters."
+* status = #final
+* code.text = "AI-assisted early warning risk assessment"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:15:03Z"
+* device = Reference(device-riskassist-ai)
+* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag].text = "AI Generated Result"
+* valueCodeableConcept.text = "low-risk"
+* component[0].code.text = "Confidence"
+* component[0].valueQuantity = 0.68 '1' "1"
+* component[1].code.text = "Simplified score"
+* component[1].valueInteger = 9
+* note[0].text = "No immediate escalation suggested"
+* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[automatedDecision].valueBoolean = false
+* performer = Reference(organization-examplehospital)
+
+Instance: sc-03-override-audit-event-ai-execution-001
+InstanceOf: EU_AIAuditEvent
+Usage: #example
+Title: "Audit Log: AI Execution Trace (3)"
+Description: "Synthetic audit event documenting the AI execution for PoC traceability."
+* extension[logIntegrity].valueSignature.type[0] = urn:iso-astm:E1762-95:2013#1.2.840.10065.1.12.1.5 "Verification Signature"
+* extension[logIntegrity].valueSignature.when = "2026-03-01T10:15:04Z"
+* extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
+* extension[logIntegrity].valueSignature.sigFormat = #text/plain
+* extension[logIntegrity].valueSignature.data = "c2hhMjU2LWJiMDBlZjdhYzRjZjZiNGQxNjY2MjNkZTE5ZTgyOGVjNzJkOTIzZjRjYzg5MWI1MDEzODg4NzgwNjFmNmViYzQ="
+* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+* code.text = "RESTful Operation"
+* action = #C
+* recorded = "2026-03-01T10:15:04Z"
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* authorization[0].text = "Document simulated AI execution for PoC traceability."
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* agent[0].who = Reference(device-riskassist-ai)
+* agent[0].requestor = false
+* source.observer = Reference(device-riskassist-ai)
+* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][0].role.text = "Domain Resource"
+* entity[inputData][0].what = Reference(sc-03-override-observation-temperature-001)
+* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][1].role.text = "Domain Resource"
+* entity[inputData][1].what = Reference(sc-03-override-observation-heart-rate-001)
+* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][2].role.text = "Domain Resource"
+* entity[inputData][2].what = Reference(sc-03-override-observation-respiratory-rate-001)
+* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][3].role.text = "Domain Resource"
+* entity[inputData][3].what = Reference(sc-03-override-observation-blood-pressure-001)
+* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][4].role.text = "Domain Resource"
+* entity[inputData][4].what = Reference(sc-03-override-observation-oxygen-saturation-001)
+* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][5].role.text = "Domain Resource"
+* entity[inputData][5].what = Reference(sc-03-override-observation-consciousness-status-001)
+* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
+* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].what = Reference(sc-03-override-ai-observation-risk-001)
+
+Instance: sc-03-override-provenance-ai-output-001
+InstanceOf: EU_AIProvenance
+Usage: #example
+Title: "Provenance: AI Output Generation (3)"
+Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
+* target = Reference(sc-03-override-ai-observation-risk-001)
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* recorded = "2026-03-01T10:15:04Z"
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
+* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* activity.text = "ai-output-generation"
+* agent[0].who = Reference(device-riskassist-ai)
+* entity[0].role = #source
+* entity[0].what = Reference(sc-03-override-observation-temperature-001)
+* entity[1].role = #source
+* entity[1].what = Reference(sc-03-override-observation-heart-rate-001)
+* entity[2].role = #source
+* entity[2].what = Reference(sc-03-override-observation-respiratory-rate-001)
+* entity[3].role = #source
+* entity[3].what = Reference(sc-03-override-observation-blood-pressure-001)
+* entity[4].role = #source
+* entity[4].what = Reference(sc-03-override-observation-oxygen-saturation-001)
+* entity[5].role = #source
+* entity[5].what = Reference(sc-03-override-observation-consciousness-status-001)
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+
+// Human oversight for sc-03-override
+
+Instance: sc-03-override-human-oversight-001
+InstanceOf: EU_AIHumanOversightAssessment
+Usage: #example
+Title: "Assessment: Human Override of AI Output (3)"
+Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
+* workflowStatus = #published
+* artifactReference = Reference(sc-03-override-ai-observation-risk-001)
+* date = "2026-03-01T10:20:00Z"
+* content[0].author = Reference(practitionerrole-reviewer-001)
+* content[0].classifier = EUAIActCodeSystem#human-override "Human Override"
+* content[0].summary = "The clinician overrode the simulated low-risk AI output due to additional synthetic clinical concerns."
+
+
+// =======================================================
+// Scenario 4: Human correction with patient-facing explanation
+// =======================================================
+
+Instance: sc-04-correction-exp-consent-ai-use-001
+InstanceOf: EU_AIConsent
+Usage: #example
+Title: "Consent: AI Use for PoC Scenario sc-04-correction-exp"
+Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
+* status = #active
+* decision = #permit
+* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
+* category[0].text = "Notice of Privacy Practices"
+* subject = Reference(patient-001)
+* date = "2026-03-01"
+* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
+* extension[aiInfoProvided].valueBoolean = true
+
+// NEWS2-inspired clinical input data for sc-04-correction-exp
+
+Instance: sc-04-correction-exp-observation-temperature-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Body Temperature (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8310-5 "Body temperature"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 38.6 'Cel' "°C"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-observation-heart-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Heart Rate (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#8867-4 "Heart rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 112 '/min' "beats/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-observation-respiratory-rate-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Respiratory Rate (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#9279-1 "Respiratory rate"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 23 '/min' "breaths/min"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-observation-blood-pressure-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Blood Pressure (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code = http://loinc.org#85354-9 "Blood pressure panel with all children optional"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* component[0].code = http://loinc.org#8480-6 "Systolic blood pressure"
+* component[0].valueQuantity = 96 'mm[Hg]' "mmHg"
+* component[1].code = http://loinc.org#8462-4 "Diastolic blood pressure"
+* component[1].valueQuantity = 62 'mm[Hg]' "mmHg"
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-observation-oxygen-saturation-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Oxygen Saturation (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.coding[0] = http://loinc.org#2708-6 "Oxygen saturation in Arterial blood"
+* code.coding[1] = http://loinc.org#59408-5 "Oxygen saturation in Arterial blood by Pulse oximetry"
+* code.text = "Oxygen saturation in Arterial blood by Pulse oximetry"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueQuantity = 92 '%' "%"
+* category = http://terminology.hl7.org/CodeSystem/observation-category#vital-signs "Vital Signs"
+* note[0].text = "NEWS2 SpO2 scale: scale-1; supplemental oxygen: false"
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-observation-consciousness-status-001
+InstanceOf: Observation
+Usage: #example
+Title: "Input Observation: Consciousness Status (4)"
+Description: "Synthetic NEWS2-inspired input parameter."
+* status = #final
+* code.text = "Consciousness status"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:10:00Z"
+* valueCodeableConcept.text = "Alert"
+* performer = Reference(practitioner-001)
+
+// AI output and traceability for sc-04-correction-exp
+
+Instance: sc-04-correction-exp-ai-observation-risk-001
+InstanceOf: EU_AIObservation
+Usage: #example
+Title: "AI Output: Early Warning Risk Assessment (4)"
+Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired input parameters."
+* status = #final
+* code.text = "AI-assisted early warning risk assessment"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:15:03Z"
+* device = Reference(device-riskassist-ai)
+* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag].text = "AI Generated Result"
+* valueCodeableConcept.text = "low-risk"
+* component[0].code.text = "Confidence"
+* component[0].valueQuantity = 0.68 '1' "1"
+* component[1].code.text = "Simplified score"
+* component[1].valueInteger = 9
+* note[0].text = "No immediate escalation suggested"
+* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[automatedDecision].valueBoolean = false
+* performer = Reference(organization-examplehospital)
+
+Instance: sc-04-correction-exp-audit-event-ai-execution-001
+InstanceOf: EU_AIAuditEvent
+Usage: #example
+Title: "Audit Log: AI Execution Trace (4)"
+Description: "Synthetic audit event documenting the AI execution for PoC traceability."
+* extension[logIntegrity].valueSignature.type[0] = urn:iso-astm:E1762-95:2013#1.2.840.10065.1.12.1.5 "Verification Signature"
+* extension[logIntegrity].valueSignature.when = "2026-03-01T10:15:04Z"
+* extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
+* extension[logIntegrity].valueSignature.sigFormat = #text/plain
+* extension[logIntegrity].valueSignature.data = "c2hhMjU2LWUwNTFjNDEzNmNhZWEwMmIyOTA5OWEyOWZhNzQ4Yzc3ZDgyNDNmNmEyYTRkMzllOTg3ODQ4ZDhlYzg3NGQ1MTA="
+* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+* code.text = "RESTful Operation"
+* action = #C
+* recorded = "2026-03-01T10:15:04Z"
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* authorization[0].text = "Document simulated AI execution for PoC traceability."
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* agent[0].who = Reference(device-riskassist-ai)
+* agent[0].requestor = false
+* source.observer = Reference(device-riskassist-ai)
+* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][0].role.text = "Domain Resource"
+* entity[inputData][0].what = Reference(sc-04-correction-exp-observation-temperature-001)
+* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][1].role.text = "Domain Resource"
+* entity[inputData][1].what = Reference(sc-04-correction-exp-observation-heart-rate-001)
+* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][2].role.text = "Domain Resource"
+* entity[inputData][2].what = Reference(sc-04-correction-exp-observation-respiratory-rate-001)
+* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][3].role.text = "Domain Resource"
+* entity[inputData][3].what = Reference(sc-04-correction-exp-observation-blood-pressure-001)
+* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][4].role.text = "Domain Resource"
+* entity[inputData][4].what = Reference(sc-04-correction-exp-observation-oxygen-saturation-001)
+* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
+* entity[inputData][5].role.text = "Domain Resource"
+* entity[inputData][5].what = Reference(sc-04-correction-exp-observation-consciousness-status-001)
+* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
+* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].what = Reference(sc-04-correction-exp-ai-observation-risk-001)
+
+Instance: sc-04-correction-exp-provenance-ai-output-001
+InstanceOf: EU_AIProvenance
+Usage: #example
+Title: "Provenance: AI Output Generation (4)"
+Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
+* target = Reference(sc-04-correction-exp-ai-observation-risk-001)
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* recorded = "2026-03-01T10:15:04Z"
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
+* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* activity.text = "ai-output-generation"
+* agent[0].who = Reference(device-riskassist-ai)
+* entity[0].role = #source
+* entity[0].what = Reference(sc-04-correction-exp-observation-temperature-001)
+* entity[1].role = #source
+* entity[1].what = Reference(sc-04-correction-exp-observation-heart-rate-001)
+* entity[2].role = #source
+* entity[2].what = Reference(sc-04-correction-exp-observation-respiratory-rate-001)
+* entity[3].role = #source
+* entity[3].what = Reference(sc-04-correction-exp-observation-blood-pressure-001)
+* entity[4].role = #source
+* entity[4].what = Reference(sc-04-correction-exp-observation-oxygen-saturation-001)
+* entity[5].role = #source
+* entity[5].what = Reference(sc-04-correction-exp-observation-consciousness-status-001)
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+
+// Human oversight for sc-04-correction-exp
+
+Instance: sc-04-correction-exp-human-oversight-001
+InstanceOf: EU_AIHumanOversightAssessment
+Usage: #example
+Title: "Assessment: Human Correction of AI Output (4)"
+Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
+* workflowStatus = #published
+* artifactReference = Reference(sc-04-correction-exp-ai-observation-risk-001)
+* date = "2026-03-01T10:20:00Z"
+* content[0].author = Reference(practitionerrole-reviewer-001)
+* content[0].classifier = EUAIActCodeSystem#human-correction "Human Correction"
+* content[0].summary = "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
+
+Instance: sc-04-correction-exp-corrected-clinical-observation-001
+InstanceOf: Observation
+Usage: #example
+Title: "Corrected Clinical Observation: Early Warning Risk Assessment (4)"
+Description: "Human-corrected clinical result preserving traceability to the original AI-generated output."
+* status = #final
+* code.text = "Human-corrected early warning risk assessment"
+* subject = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* effectiveDateTime = "2026-03-01T10:20:00Z"
+* derivedFrom[0] = Reference(sc-04-correction-exp-ai-observation-risk-001)
+* valueCodeableConcept.text = "high-risk"
+* note[0].text = "Urgent clinical review recommended"
+* note[1].text = "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
+* note[2].text = "Corrected clinical result created for PoC traceability demonstration."
+* performer = Reference(practitioner-001)
+
+Instance: sc-04-correction-exp-patient-explanation-001
 InstanceOf: EU_AIPatientExplanation
 Usage: #example
-Title: "Communication: Patient-Facing AI Explanation"
-Description: "Synthetic patient-facing explanation about AI-supported processing."
+Title: "Communication: Patient-Facing AI Explanation (4)"
+Description: "Synthetic patient-facing explanation about AI-supported processing and human review."
 * status = #completed
-* extension[explanationRequested].valueBoolean = true
 * subject = Reference(patient-001)
 * sender = Reference(practitionerrole-reviewer-001)
-* about[0] = Reference(sc-02-validation-human-oversight-001)
+* about[0] = Reference(sc-04-correction-exp-human-oversight-001)
 * sent = "2026-03-01T10:30:00Z"
-* payload[0].contentCodeableConcept.text = "The patient received an explanation that AI supported the assessment and that the result was reviewed by a clinician."
+* payload[0].contentCodeableConcept.text = "The patient received an explanation that AI supported the assessment, that the simulated AI result was reviewed by a clinician, and that the final clinical result was corrected by the human reviewer."
+
+// =======================================================
+// Secondary Use Example
+// =======================================================
+
+Instance: example-secondary-use-provenance
+InstanceOf: EU_AIProvenance
+Usage: #example
+Title: "Provenance: Secondary Use Example"
+Description: "Example showing EHDS secondary use purpose and data permit."
+
+* target = Reference(sc-01-ai-only-ai-observation-risk-001)
+* occurredPeriod.start = "2026-03-01T10:15:00Z"
+* occurredPeriod.end = "2026-03-01T10:15:03Z"
+* recorded = "2026-03-01T10:15:04Z"
+* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-e
+* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-j
+* patient = Reference(patient-001)
+* encounter = Reference(encounter-001)
+* activity.text = "secondary-use-ai-validation"
+* agent[0].who = Reference(device-riskassist-ai)
+* entity[0].role = #source
+* entity[0].what = Reference(sc-04-correction-exp-observation-temperature-001)
+* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#secondary-use "Secondary Use"
+* extension[secondaryUsePurpose].valueCodeableConcept = EHDSPurposeCodeSystem#scientific-research "Scientific Research"
+* extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/sid/ehds-data-permit"
+* extension[dataPermit].valueIdentifier.value = "EHDS-PERMIT-2026-0001"
