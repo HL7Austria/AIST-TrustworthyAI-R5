@@ -64,17 +64,22 @@ resources:
 # with supported extensions (e.g., .md/.xml) will be treated as
 # sub-pages.
 #
-# pages:
-#   index.md:
-#     title: Example Home
-#   implementation.xml:
-#   examples.xml:
-#     title: Examples Overview
-#     simpleExamples.xml:
-#     complexExamples.xml:
-#
-#
-# The parameters property represents IG.definition.parameter. Rather
+pages:
+  index.md:
+    title: Home
+  profiles.md:
+    title: Profiles
+  extensions.md:
+    title: Extensions
+  terminology.md:
+    title: Terminology
+  examples.md:
+    title: Examples
+  dependencies.md:
+    title: Dependencies
+  ip-statements.md:
+    title: Intellectual Property
+# Rather
 # than a list of code/value pairs (as in the ImplementationGuide
 # resource), the code is the YAML key. If a parameter allows repeating
 # values, the value in the YAML should be a sequence/array.
@@ -97,7 +102,24 @@ resources:
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
 menu:
   Home: index.html
-  Artifacts: artifacts.html
+
+  Guide:
+    Profiles: profiles.html
+    Extensions: extensions.html
+    Terminology: terminology.html
+    Examples: examples.html
+
+  Artifacts:
+    All Artifacts: artifacts.html
+    Resource Profiles: artifacts.html#structures-resource-profiles
+    Extension Definitions: artifacts.html#structures-extension-definitions
+    Value Sets: artifacts.html#terminology-value-sets
+    Code Systems: artifacts.html#terminology-code-systems
+    Example Instances: artifacts.html#example-example-instances
+
+  Technical:
+    Dependencies: dependencies.html
+    Intellectual Property: ip-statements.html
 
 # ╭───────────────────────────Less Common Implementation Guide Properties──────────────────────────╮
 # │  Uncomment the properties below to configure additional properties on the ImplementationGuide  │
