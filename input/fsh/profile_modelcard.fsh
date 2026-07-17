@@ -11,13 +11,16 @@ Description: "A DocumentReference profile representing technical documentation a
 // SYS-05: Bidirectional link to the specific AI Device
 * subject 1..1 MS
 * subject only Reference(EU_AIDevice)
-* subject ^short = "Reference to the specific AI System Device (Traceability)"
+* subject ^short = "AI system described by this model card"
 
 * status 1..1
-* status ^short = "current | superseded | entered-in-error"
+* status ^short = "Publication status of the model card"
 * type 1..1 MS
 * type = EUAIActCodeSystem#model-card "AI Model Card"
-* type ^short = "AI Model Card"
+* type ^short = "AI Model Card document type"
+
+* date 1..1 MS
+* date ^short = "Date of model card publication"
 
 // =======================================================
 // 2. CORE SUMMARY 
@@ -25,7 +28,8 @@ Description: "A DocumentReference profile representing technical documentation a
 // =======================================================
 // Mandatory high-level summary of key aspects
 * description 1..1 MS
-* description ^short = "Mandatory high-level clinical summary and limitations of the AI model."
+* description ^short = "Summary of the AI model card"
+* description ^definition = "High-level summary of the intended purpose, principal limitations, risks, performance, and operational considerations documented by the model card."
 
 // =======================================================
 // STRUCTURED AI METADATA (QUAL-01, QUAL-02, QUAL-03, QUAL-04, LAW-04, LAW-06)
@@ -38,7 +42,7 @@ Description: "A DocumentReference profile representing technical documentation a
 
 * extension[performance] ^short = "Performance metrics and bias information"
 * extension[training] ^short = "Training data provenance and EHDS metadata"
-* extension[privacy] ^short = "Retention policy"
+* extension[privacy] ^short = "Privacy and retention metadata"
 * extension[clinicalValidationStatus] ^short = "Clinical validation status"
 
 // =======================================================
@@ -48,6 +52,8 @@ Description: "A DocumentReference profile representing technical documentation a
 * content.attachment 1..1 MS
 * content.attachment.title 1..1 MS
 * content.attachment.contentType 1..1 MS
-* content.attachment.url MS
-* content.attachment.data MS
-* content.attachment ^short = "Detailed technical documentation and risk assessments (PDF, HTML, etc.)"
+
+* content.attachment.url 1..1 MS
+* content.attachment.data 0..0
+* content.attachment ^short = "Technical documentation and instructions for use"
+* content.attachment ^definition = "Technical documentation or instructions for use containing intended purpose, limitations, risk information, required maintenance and support measures, maintenance frequency, and required software updates."

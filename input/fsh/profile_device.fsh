@@ -21,38 +21,35 @@ Description: "A Device profile representing an AI system or software component, 
 
 * identifier contains euDatabaseId 1..1 MS
 * identifier[euDatabaseId].type 1..1
-* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
+* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-registration-number "EU AI Registration Number"
 * identifier[euDatabaseId].system 1..1
 * identifier[euDatabaseId].value 1..1
-* identifier[euDatabaseId] ^short = "EU AI database registration identifier"
-* identifier[euDatabaseId] ^definition = "Identifier used to document the AI system's registration entry in the EU AI database or an equivalent AI system registry."
+* identifier[euDatabaseId] ^short = "EU AI database registration number"
 
+* identifier[euDatabaseId] ^definition = "The unique registration number assigned to the high-risk AI system in the official EU AI database."
 
 // =======================================================
 // SYS-02.1 SYS-02.2, SYS-08
 // =======================================================
 * manufacturer 1..1 MS
-* manufacturer ^short = "Name of the AI developer/manufacturer"
+* manufacturer ^short = "Name of the AI manufacturer"
 
 // Only an Organization can be the owner
 * owner only Reference(EU_AIOrganization)
 * owner 1..1 MS
-* owner ^short = "Healthcare provider responsible for the AI system"
-
-* contact 2..* MS
-* contact ^short = "Manufacturer Contact AND DPO Contact Details"
+* owner ^short = "Organization responsible for the AI system"
 
 // =======================================================
-// lifecycle status (SYS-12, SYS-07.2)
+// CONFORMITY, STANDARDS AND CERTIFICATIONS (SYS-12, SYS-07.2)
 // =======================================================
-* conformsTo 1..* MS
-* conformsTo.specification ^short = "QMS Certification"
+* conformsTo 0..* MS
+* conformsTo ^short = "Applicable standards and certifications"
+* conformsTo.specification 1..1 MS
+* conformsTo.specification ^short = "Standard, specification, or certification"
 
-* note 0..* MS
-* note ^short = "Maintenance Requirements"
 
 // =======================================================
-// dynamic features (SYS-03b, SYS-07.1, USE-01)
+// STATIC SYSTEM CHARACTERISTICS (SYS-03b, SYS-07.1, USE-01)
 // =======================================================
 * property ^slicing.discriminator.type = #value
 * property ^slicing.discriminator.path = "type"
@@ -62,7 +59,7 @@ Description: "A Device profile representing an AI system or software component, 
     ceMark 1..1 MS and 
     notifiedBody 0..1 MS and
     expectedLifetime 1..1 MS and
-    medicalPurpose 1..1 MS and
+    intendedPurpose 1..1 MS and
     targetPopulation 1..* MS
 
 * property[ceMark].type = EUAIActCodeSystem#ce-mark
@@ -74,11 +71,17 @@ Description: "A Device profile representing an AI system or software component, 
 * property[expectedLifetime].type = EUAIActCodeSystem#expected-lifetime
 * property[expectedLifetime].value[x] only Quantity
 
-* property[medicalPurpose].type = EUAIActCodeSystem#medical-purpose
-* property[medicalPurpose].value[x] only string
+* property[intendedPurpose].type = EUAIActCodeSystem#intended-purpose
 
 * property[targetPopulation].type = EUAIActCodeSystem#target-population
 * property[targetPopulation].value[x] only CodeableConcept
+
+
+* property[ceMark] ^short = "CE marking status"
+* property[intendedPurpose] ^short = "Intended purpose"
+* property[targetPopulation] ^short = "Target population"
+* property[expectedLifetime] ^short = "Expected system lifetime"
+* property[notifiedBody] ^short = "Notified body identification number"
 
 // =======================================================
 // DATA (LAW-04)
