@@ -22,6 +22,13 @@ Description: "Custom codes used in this IG to represent AI transparency, data-us
 * #ai-generated "AI Generated Result"
 
 // -------------------------------------------------------
+// Core AI system concepts (SYS-01, SYS-05)
+// -------------------------------------------------------
+
+* #dpo "Data Protection Officer" "Contact details of the organization's Data Protection Officer."
+* #ai-incident-reporting "AI Incident Reporting Contact" "Contact point for reporting AI-related incidents or serious incidents."
+
+// -------------------------------------------------------
 // Human oversight (HL-03.1)
 // -------------------------------------------------------
 
@@ -74,9 +81,9 @@ Description: "Custom codes used in this IG to represent AI transparency, data-us
 * #ce-mark "CE Mark" "Indicates whether the device has a CE mark."
 * #notified-body-id "Notified Body ID" "Identifier of the notified body."
 * #expected-lifetime "Expected Lifetime" "The expected lifetime of the AI system."
-* #medical-purpose "Medical Purpose" "The intended medical purpose."
+* #intended-purpose "Intended Purpose" "The intended purpose of the AI system."
 * #target-population "Target Population" "The intended target population."
-* #eu-ai-database-id "EU AI Database Identifier" "Identifier for an AI system registration in the EU AI database or an equivalent AI system registry."
+* #eu-ai-registration-number "EU AI Registration Number" "Unique registration number assigned to the high-risk AI system in the official EU AI database."
 
 // -------------------------------------------------------
 // EHDS usage categories (LAW-03.1)

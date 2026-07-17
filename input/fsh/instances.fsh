@@ -37,15 +37,17 @@ Description: "The fictional healthcare organization operating the AI system."
 * active = true
 * type[0].text = "healthcare-provider"
 * name = "Example Hospital"
-* contact[dpo].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#ADMIN "Administrative"
-* contact[dpo].purpose.text = "Data Protection Officer"
-* contact[dpo].name[0].text = "Data Protection Officer"
+
+* contact[officialContact].telecom[0].system = #email
+* contact[officialContact].telecom[0].value = "contact@examplehospital.example"
+* contact[officialContact].telecom[0].use = #work
+
+* contact[dpo].name.text = "Data Protection Officer"
 * contact[dpo].telecom[0].system = #email
 * contact[dpo].telecom[0].value = "dpo@examplehospital.example"
 * contact[dpo].telecom[0].use = #work
-* contact[incident].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#PATINF "Patient"
-* contact[incident].purpose.text = "AI Incident Reporting Contact"
-* contact[incident].name[0].text = "AI Incident Reporting Contact"
+
+* contact[incident].name.text = "AI Incident Reporting Contact"
 * contact[incident].telecom[0].system = #email
 * contact[incident].telecom[0].value = "incidents@examplehospital.example"
 * contact[incident].telecom[0].use = #work
@@ -58,15 +60,17 @@ Description: "The fictional manufacturer/provider of the RiskAssist AI system."
 * active = true
 * type[0].text = "manufacturer"
 * name = "ExampleMed AI GmbH"
-* contact[dpo].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#ADMIN "Administrative"
-* contact[dpo].purpose.text = "Data Protection Officer"
-* contact[dpo].name[0].text = "Data Protection Officer"
+
+* contact[officialContact].telecom[0].system = #email
+* contact[officialContact].telecom[0].value = "contact@examplemed.example"
+* contact[officialContact].telecom[0].use = #work
+
+* contact[dpo].name.text = "Data Protection Officer"
 * contact[dpo].telecom[0].system = #email
 * contact[dpo].telecom[0].value = "dpo@examplemed.example"
 * contact[dpo].telecom[0].use = #work
-* contact[incident].purpose = http://terminology.hl7.org/CodeSystem/contactentity-type#PATINF "Patient"
-* contact[incident].purpose.text = "AI Incident Reporting Contact"
-* contact[incident].name[0].text = "AI Incident Reporting Contact"
+
+* contact[incident].name.text = "AI Incident Reporting Contact"
 * contact[incident].telecom[0].system = #email
 * contact[incident].telecom[0].value = "incidents@examplemed.example"
 * contact[incident].telecom[0].use = #work
@@ -92,8 +96,6 @@ InstanceOf: EU_AIDevice
 Usage: #example
 Title: "Device: RiskAssist AI"
 Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessment."
-* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-database-id "EU AI Database Identifier"
-* identifier[euDatabaseId].type.text = "EU AI Database Identifier"
 * identifier[euDatabaseId].system = "http://example.org/fhir/sid/eu-ai-database"
 * identifier[euDatabaseId].value = "EU-AI-000123"
 * status = #active
@@ -103,12 +105,7 @@ Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessme
 * version[0].value = "1.0.0"
 * manufacturer = "ExampleMed AI GmbH"
 * owner = Reference(organization-examplehospital)
-* contact[0].system = #email
-* contact[0].value = "contact@examplemed.example"
-* contact[0].use = #work
-* contact[1].system = #email
-* contact[1].value = "dpo@examplemed.example"
-* contact[1].use = #work
+
 * conformsTo[0].category.text = "quality-management-system"
 * conformsTo[0].specification.text = "Synthetic QMS certification reference for PoC purposes."
 * note[0].text = "Synthetic maintenance information for PoC purposes."
@@ -118,7 +115,7 @@ Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessme
 * property[ceMark].valueBoolean = true
 * property[notifiedBody].valueString = "NB-0000"
 * property[expectedLifetime].valueQuantity = 5 'a' "years"
-* property[medicalPurpose].valueString = "Supportive risk stratification in acute care settings"
+* property[intendedPurpose].valueString = "Supportive risk stratification in acute care settings"
 * property[targetPopulation][0].valueCodeableConcept.text = "Adult patients with suspected infection in an acute care setting"
 
 Instance: modelcard-riskassist-ai
@@ -128,6 +125,7 @@ Title: "Model Card: RiskAssist AI v1.0.0"
 Description: "Synthetic model card for the deterministic AI-output simulation component used in the PoC."
 * subject = Reference(device-riskassist-ai)
 * status = #current
+* date = "2026-03-01T10:00:00Z"
 * type = EUAIActCodeSystem#model-card "AI Model Card"
 * type.text = "AI Model Card"
 * description = "Synthetic model card for a deterministic AI-output simulation component used in the PoC."
@@ -155,7 +153,7 @@ Description: "Synthetic practitioner role representing a trained internal medici
 * organization = Reference(organization-examplehospital)
 * code[0].text = "human-overseer"
 * specialty[0].text = "Internal Medicine"
-* extension[trainingFlag].valueBoolean = true
+* extension[trainingStatus].valueBoolean = true
 
 
 // =======================================================
@@ -1058,7 +1056,9 @@ Description: "Synthetic patient-facing explanation about AI-supported processing
 * sender = Reference(practitionerrole-reviewer-001)
 * about[0] = Reference(sc-04-correction-exp-human-oversight-001)
 * sent = "2026-03-01T10:30:00Z"
-* payload[0].contentCodeableConcept.text = "The patient received an explanation that AI supported the assessment, that the simulated AI result was reviewed by a clinician, and that the final clinical result was corrected by the human reviewer."
+* payload[0].contentAttachment.contentType = #text/plain
+* payload[0].contentAttachment.title = "Patient-facing AI explanation"
+* payload[0].contentAttachment.data = "VGhlIEFJLXN1cHBvcnRlZCBhc3Nlc3NtZW50IHdhcyByZXZpZXdlZCBieSBhIHF1YWxpZmllZCBjbGluaWNpYW4uIFRoZSBpbml0aWFsIEFJIHJlY29tbWVuZGF0aW9uIHdhcyBjb3JyZWN0ZWQgYmVmb3JlIHRoZSBmaW5hbCBjbGluaWNhbCBkZWNpc2lvbiB3YXMgbWFkZS4="
 
 // =======================================================
 // Secondary Use Example
