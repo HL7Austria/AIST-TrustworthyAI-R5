@@ -7,8 +7,6 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 // =======================================================
 // 1. WORKFLOW & STATUS
 // =======================================================
-* workflowStatus 1..1 MS
-* workflowStatus ^short = "draft | active | retired | unknown"
 * date 1..1 MS
 * date ^short = "Date and time of human oversight assessment"
 
@@ -31,13 +29,13 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 // =======================================================
 * content.classifier 1..1 MS 
 * content.classifier from EU_AI_Intervention_ValueSet (extensible)
-* content.classifier ^short = "Intervention Action (e.g., Validation, Override)"
+* content.classifier ^short = "Human oversight action"
 
 * content.summary 0..1 MS
-* content.summary ^short = "Medical/Technical rationale for the decision"
+* content.summary ^short = "Clinical or technical rationale for the assessment"
 
 // =======================================================
 // 5. EVIDENCE (HL-05)
 // =======================================================
-* content.relatedArtifact
-* content.relatedArtifact ^short = "Reference to heatmap or explainability tool used"
+* content.relatedArtifact 0..*
+* content.relatedArtifact ^short = "Supporting documentation or explainability evidence"

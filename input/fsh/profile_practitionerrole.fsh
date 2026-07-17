@@ -13,23 +13,23 @@ Description: "A PractitionerRole profile representing the role, qualification co
 
 * organization 1..1 MS
 * organization only Reference(EU_AIOrganization)
-* organization ^short = "Organization responsible for the oversight process"
+* organization ^short = "Organization in which the practitioner performs the oversight role"
 
 // =======================================================
 // 2. CLINICAL SPECIALTY (HL-02.1)
 // =======================================================
 * specialty 1..* MS
-* specialty ^short = "Clinical specialty required for oversight"
+* specialty ^short = "Clinical specialty supporting competence for human oversight"
 
 // =======================================================
 // 3. EXTENSIONS: AI TRAINING STATUS (HL-02.2)
 // =======================================================
-// LAW-07/HL-02.2: Ensuring the human has specific training for the AI tool
-* extension contains AISystemTrainingStatus named trainingFlag 1..1 MS
-* extension[trainingFlag] ^short = "Flag indicating system-specific training completed"
+// LAW-07/HL-02.2:  Documentation of AI-related training relevant to human oversight
+* extension contains AISystemTrainingStatus named trainingStatus 0..1 MS
+* extension[trainingStatus] ^short = "Whether relevant AI training has been documented"
 
 // =======================================================
 // 4. ROLE CODES & ADMINISTRATIVE (Competence Verification)
 // =======================================================
 * code 1..* MS
-* code ^short = "Specific role or seniority (e.g., Senior Physician, Medical Lead)"
+* code ^short = "Professional role relevant to the human oversight activity"

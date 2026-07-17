@@ -5,10 +5,8 @@ Title: "EU AI Patient Explanation Communication"
 Description: "A Communication profile documenting patient-facing information about the AI-supported workflow, including the role of the AI system and the related clinical review where applicable."
 
 // =======================================================
-// 1. BASICS & STATUS
+// 1. BASICS
 // =======================================================
-* status 1..1 MS
-* status ^short = "preparation | in-progress | completed | not-done"
 
 * category = http://terminology.hl7.org/CodeSystem/communication-category#instruction "Instruction"
 
@@ -27,7 +25,7 @@ Description: "A Communication profile documenting patient-facing information abo
 // 3. CONTEXT & DECISION (LAW-07.1)
 // =======================================================
 
-// LAW-07.1 request inforamtion about the specific decision the patient wants to have explained
+// LAW-07.1 request information about the specific decision the patient wants to have explained
 * about 1..* MS
 * about only Reference(EU_AIHumanOversightAssessment)
 * about ^short = "The specific decision the patient wants to have explained"
@@ -35,8 +33,8 @@ Description: "A Communication profile documenting patient-facing information abo
 // 4. PAYLOAD & CONTENT (LAW-07.2)
 // =======================================================
 * payload 1..* MS
-* payload.content[x] only Reference(DocumentReference) or CodeableConcept
-* payload ^short = "The explanation text OR a reference to a formal explanation document"
+* payload.content[x] only Attachment or Reference(DocumentReference)
+* payload ^short = "Patient-facing explanation or reference to an explanation document"
 
 // =======================================================
 // 5. TIMING (LAW-07.3)
