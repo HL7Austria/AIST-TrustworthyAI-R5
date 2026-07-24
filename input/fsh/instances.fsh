@@ -126,8 +126,6 @@ Description: "Synthetic model card for the deterministic AI-output simulation co
 * subject = Reference(device-riskassist-ai)
 * status = #current
 * date = "2026-03-01T10:00:00Z"
-* type = EUAIActCodeSystem#model-card "AI Model Card"
-* type.text = "AI Model Card"
 * description = "Synthetic model card for a deterministic AI-output simulation component used in the PoC."
 * content[0].attachment.contentType = #text/html
 * content[0].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/model-card"
@@ -135,13 +133,13 @@ Description: "Synthetic model card for the deterministic AI-output simulation co
 * content[1].attachment.contentType = #text/html
 * content[1].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation"
 * content[1].attachment.title = "Technical Documentation"
-* extension[clinicalValidationStatus].valueCodeableConcept = EUAIActCodeSystem#not-clinically-validated "Not Clinically Validated"
-* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = EUAIActCodeSystem#accuracy "Accuracy"
+* extension[clinicalValidationStatus].valueCodeableConcept = EUAIClinicalValidationStatusCodeSystem#not-clinically-validated "Not Clinically Validated"
+* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = EUAIPerformanceMetricCodeSystem#accuracy "Accuracy"
 * extension[performance].extension[metric][0].extension[value].valueQuantity = 0.86 '1' "1"
 * extension[performance].extension[biasDisclosure][0].valueString = "No bias evaluation is claimed for this synthetic PoC model."
 * extension[training].extension[provenance].valueString = "No real training data are used. The component is used only to simulate AI-like outputs for the PoC."
-* extension[training].extension[ehdsCategory][0].valueCodeableConcept = EUAIActCodeSystem#ehr "Electronic Health Records (EHRs)"
-* extension[training].extension[dataQuality][0].valueCodeableConcept = EUAIActCodeSystem#complete "Complete"
+* extension[training].extension[ehdsCategory][0].valueCodeableConcept = EHDSDataCategoryCodeSystem#ehr
+* extension[training].extension[dataQuality][0].valueCodeableConcept = EUAIDataQualityCodeSystem#complete "Complete"
 * extension[privacy].extension[retention].valueDuration = 10 'a' "years"
 
 Instance: practitionerrole-reviewer-001
@@ -278,7 +276,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag] = EUAIInvolvementCodeSystem#ai-generated
 * interpretation[aiGeneratedFlag].text = "AI Generated Result"
 * valueCodeableConcept.text = "high-risk"
 * component[0].code.text = "Confidence"
@@ -286,7 +284,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * component[1].code.text = "Simplified score"
 * component[1].valueInteger = 9
 * note[0].text = "Urgent clinical review recommended"
-* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 * performer = Reference(organization-examplehospital)
 
@@ -343,8 +341,12 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* authorization[gdprArt6Basis].concept.coding =
+    GDPRArt6CodeSystem#gdpr-art-6-1-d
+    "Vital Interests (Art. 6(1)(d))"
+* authorization[gdprArt9Condition].concept.coding =
+    GDPRArt9CodeSystem#gdpr-art-9-2-h
+    "Health or Social Care (Art. 9(2)(h))"
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "ai-output-generation"
@@ -361,7 +363,7 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-01-ai-only-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-01-ai-only-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
 
 
 // =======================================================
@@ -486,7 +488,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag] = EUAIInvolvementCodeSystem#ai-generated
 * interpretation[aiGeneratedFlag].text = "AI Generated Result"
 * valueCodeableConcept.text = "high-risk"
 * component[0].code.text = "Confidence"
@@ -494,7 +496,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * component[1].code.text = "Simplified score"
 * component[1].valueInteger = 9
 * note[0].text = "Urgent clinical review recommended"
-* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 * performer = Reference(organization-examplehospital)
 
@@ -551,8 +553,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "ai-output-generation"
@@ -569,7 +571,7 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-02-validation-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-02-validation-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
 
 // Human oversight for sc-02-validation
 
@@ -582,7 +584,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-02-validation-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIActCodeSystem#human-validation "Human Validation"
+* content[0].classifier = EUAIHumanOversightCodeSystem#human-validation "Human Validation"
 * content[0].summary = "The simulated AI output was reviewed and accepted."
 
 
@@ -708,15 +710,14 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
-* interpretation[aiGeneratedFlag].text = "AI Generated Result"
+* interpretation[aiGeneratedFlag] = EUAIInvolvementCodeSystem#ai-generated
 * valueCodeableConcept.text = "low-risk"
 * component[0].code.text = "Confidence"
 * component[0].valueQuantity = 0.68 '1' "1"
 * component[1].code.text = "Simplified score"
 * component[1].valueInteger = 9
 * note[0].text = "No immediate escalation suggested"
-* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 * performer = Reference(organization-examplehospital)
 
@@ -773,8 +774,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "ai-output-generation"
@@ -791,7 +792,7 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-03-override-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-03-override-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
 
 // Human oversight for sc-03-override
 
@@ -804,7 +805,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-03-override-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIActCodeSystem#human-override "Human Override"
+* content[0].classifier = EUAIHumanOversightCodeSystem#human-override "Human Override"
 * content[0].summary = "The clinician overrode the simulated low-risk AI output due to additional synthetic clinical concerns."
 
 
@@ -930,7 +931,7 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* interpretation[aiGeneratedFlag] = EUAIActCodeSystem#ai-generated "AI Generated Result"
+* interpretation[aiGeneratedFlag] = EUAIInvolvementCodeSystem#ai-generated
 * interpretation[aiGeneratedFlag].text = "AI Generated Result"
 * valueCodeableConcept.text = "low-risk"
 * component[0].code.text = "Confidence"
@@ -938,7 +939,7 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * component[1].code.text = "Simplified score"
 * component[1].valueInteger = 9
 * note[0].text = "No immediate escalation suggested"
-* extension[caseIndication].valueCodeableConcept = EUAIActCodeSystem#prognosis "Prognostic Prediction"
+* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 * performer = Reference(organization-examplehospital)
 
@@ -995,8 +996,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d "Vital Interests (Art. 6(1)(d))"
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h "Health or Social Care (Art. 9(2)(h))"
+* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "ai-output-generation"
@@ -1013,7 +1014,7 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-04-correction-exp-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-04-correction-exp-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#primary-use "Primary Use"
+* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
 
 // Human oversight for sc-04-correction-exp
 
@@ -1026,7 +1027,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-04-correction-exp-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIActCodeSystem#human-correction "Human Correction"
+* content[0].classifier = EUAIHumanOversightCodeSystem#human-correction "Human Correction"
 * content[0].summary = "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
 
 Instance: sc-04-correction-exp-corrected-clinical-observation-001
@@ -1074,15 +1075,15 @@ Description: "Example showing EHDS secondary use purpose and data permit."
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprBasis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-e
-* authorization[gdprException].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-j
+* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * patient = Reference(patient-001)
 * encounter = Reference(encounter-001)
 * activity.text = "secondary-use-ai-validation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
 * entity[0].what = Reference(sc-04-correction-exp-observation-temperature-001)
-* extension[usageCategory].valueCodeableConcept = EUAIActCodeSystem#secondary-use "Secondary Use"
-* extension[secondaryUsePurpose].valueCodeableConcept = EHDSPurposeCodeSystem#scientific-research "Scientific Research"
+* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#secondary-use "Secondary Use"
+* extension[secondaryUsePurpose].valueCodeableConcept = EHDSSecondaryUsePurposeCodeSystem#scientific-research "Scientific Research"
 * extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/sid/ehds-data-permit"
 * extension[dataPermit].valueIdentifier.value = "EHDS-PERMIT-2026-0001"

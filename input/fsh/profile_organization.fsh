@@ -31,14 +31,14 @@ Description: "An Organization profile representing an organization involved in m
 
 // SYS-08: Data Protection Officer (DSGVO)
 * contact[dpo].purpose 1..1
-* contact[dpo].purpose = EUAIActCodeSystem#dpo "Data Protection Officer"
+* contact[dpo].purpose = EUAIContactPurposeCodeSystem#dpo "Data Protection Officer"
 * contact[dpo].name 0..1 MS
 * contact[dpo].telecom 1..* MS
 * contact[dpo] ^short = "Data Protection Officer"
 
 // SYS-12: Incident Reporting Contact (EU AI Act)
 * contact[incident].purpose 1..1
-* contact[incident].purpose = EUAIActCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
+* contact[incident].purpose = EUAIContactPurposeCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
 * contact[incident].name 0..1 MS
 * contact[incident].telecom 1..* MS
 * contact[incident] ^short = "AI Incident Reporting Contact"

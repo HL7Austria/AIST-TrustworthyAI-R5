@@ -5,40 +5,42 @@ Title: "EU AI Execution Audit Event"
 Description: "An AuditEvent profile documenting execution-related metadata of an AI-supported processing event to support retrospective reconstruction and auditability."
 
 // =======================================================
-// 1. BASICS & METADATA
+// BASICS
 // =======================================================
-* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
-* action = #C 
+//* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+//* action = #C 
 * recorded 1..1 MS
 
 // =======================================================
-// 2. EXTENSIONS (Legal Requirements)
+// EXTENSIONS (Legal Requirements)
 // =======================================================
 // LAW-08: AI Act Security
-
-* extension contains LogIntegritySignature named logIntegrity 1..1 MS
+* extension contains LogIntegritySignature named logIntegrity 0..1 MS
 * extension[logIntegrity] ^short = "Cryptographic signature of this log entry"
 
 // =======================================================
-// 3. EXECUTION PERIOD (SYS-10.1)
+// EXECUTION PERIOD (SYS-10.1)
 // =======================================================
-* occurredPeriod 1..1 MS
-* occurredPeriod ^short = "Exact execution period (Start/End)"
+* occurred[x] only Period
+
+* occurredPeriod.start 1..1 MS
+* occurredPeriod.end 1..1 MS
 
 // =======================================================
-// 4. SOURCE & AGENT (The Machine)
+// SOURCE & AGENT (The Machine)
 // =======================================================
 * source 1..1 MS
 * source.observer only Reference(EU_AIDevice) 
+* source.observer ^short = "AI system that generated this audit record"
 
 * agent 1..* MS
-* agent.who only Reference(EU_AIDevice)       
-* agent.requestor = false
+* agent.who only Reference(EU_AIDevice)
+* agent.who ^short = "AI system that performed the processing activity"
 
 // =======================================================
-// 5. ENTITIES (The Traceability Chain: Input -> DB -> Output)
+// TRACEABILITY (SYS-10.2 & SYS-10.3)
 // =======================================================
-* entity
+
 * entity ^slicing.discriminator.type = #value
 * entity ^slicing.discriminator.path = "role"
 * entity ^slicing.rules = #open
@@ -47,14 +49,18 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 
 //  (SYS-10.2)
 * entity[inputData].role = http://terminology.hl7.org/CodeSystem/object-role#4
-* entity[inputData] ^short = "Input Data Processed"
+* entity[inputData].what 1..1
+* entity[inputData].what only Reference(Observation or ImagingStudy or DocumentReference)
+* entity[inputData] ^short = "Input data used by the AI system"
 
 // (SYS-10.3)
 * entity[referenceDb].role = http://terminology.hl7.org/CodeSystem/object-role#17
-* entity[referenceDb] ^short = "Identification of specific reference databases or versions (e.g., Clinical Guidelines)"
+* entity[referenceDb].what 1..1
+* entity[referenceDb] ^short = "Reference database or knowledge source used by the AI system"
 
 // (Traceability)
 * entity[outputData].role = http://terminology.hl7.org/CodeSystem/object-role#3
+* entity[outputData].what 1..1
 * entity[outputData].what only Reference(EU_AIObservation)
-* entity[outputData] ^short = "The resulting AI-generated Observation"
+* entity[outputData] ^short = "AI-generated clinical output"
 

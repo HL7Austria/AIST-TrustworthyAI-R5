@@ -16,7 +16,7 @@ Description: "A DocumentReference profile representing technical documentation a
 * status 1..1
 * status ^short = "Publication status of the model card"
 * type 1..1 MS
-* type = EUAIActCodeSystem#model-card "AI Model Card"
+* type = EUAIArtifactTypeCodeSystem#model-card "AI Model Card"
 * type ^short = "AI Model Card document type"
 
 * date 1..1 MS

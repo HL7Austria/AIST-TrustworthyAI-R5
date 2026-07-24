@@ -21,7 +21,7 @@ Description: "A Device profile representing an AI system or software component, 
 
 * identifier contains euDatabaseId 1..1 MS
 * identifier[euDatabaseId].type 1..1
-* identifier[euDatabaseId].type = EUAIActCodeSystem#eu-ai-registration-number "EU AI Registration Number"
+* identifier[euDatabaseId].type = EUAIIdentifierTypeCodeSystem#eu-ai-registration-number
 * identifier[euDatabaseId].system 1..1
 * identifier[euDatabaseId].value 1..1
 * identifier[euDatabaseId] ^short = "EU AI database registration number"
@@ -62,19 +62,20 @@ Description: "A Device profile representing an AI system or software component, 
     intendedPurpose 1..1 MS and
     targetPopulation 1..* MS
 
-* property[ceMark].type = EUAIActCodeSystem#ce-mark
-* property[ceMark].value[x] only boolean
+* property[ceMark].type =
+    EUAISystemPropertyCodeSystem#ce-mark
 
-* property[notifiedBody].type = EUAIActCodeSystem#notified-body-id
-* property[notifiedBody].value[x] only string
+* property[notifiedBody].type =
+    EUAISystemPropertyCodeSystem#notified-body-id
 
-* property[expectedLifetime].type = EUAIActCodeSystem#expected-lifetime
-* property[expectedLifetime].value[x] only Quantity
+* property[expectedLifetime].type =
+    EUAISystemPropertyCodeSystem#expected-lifetime
 
-* property[intendedPurpose].type = EUAIActCodeSystem#intended-purpose
+* property[intendedPurpose].type =
+    EUAISystemPropertyCodeSystem#intended-purpose
 
-* property[targetPopulation].type = EUAIActCodeSystem#target-population
-* property[targetPopulation].value[x] only CodeableConcept
+* property[targetPopulation].type =
+    EUAISystemPropertyCodeSystem#target-population
 
 
 * property[ceMark] ^short = "CE marking status"
