@@ -2,16 +2,10 @@ Profile: EU_AIPatientExplanation
 Parent: Communication
 Id: eu-ai-patient-explanation
 Title: "EU AI Patient Explanation Communication"
-Description: "A Communication profile documenting patient-facing information about the AI-supported workflow, including the role of the AI system and the related clinical review where applicable."
+Description: "A Communication profile documenting that an explanation regarding an AI-supported clinical decision was provided to a patient. The explanation may describe the role of the AI system, the related human oversight, and the key elements of the resulting clinical decision in accordance with Article 86 of the EU AI Act."
 
 // =======================================================
-// 1. BASICS
-// =======================================================
-
-* category = http://terminology.hl7.org/CodeSystem/communication-category#instruction "Instruction"
-
-// =======================================================
-// 2. SUBJECT & SENDER (The Actors)
+// SUBJECT & SENDER (The Actors)
 // =======================================================
 * subject 1..1 MS
 * subject only Reference(Patient)
@@ -22,22 +16,21 @@ Description: "A Communication profile documenting patient-facing information abo
 * sender ^short = "The human-in-the-loop providing the explanation"
 
 // =======================================================
-// 3. CONTEXT & DECISION (LAW-07.1)
+// CONTEXT & DECISION (LAW-07.1)
 // =======================================================
-
 // LAW-07.1 request information about the specific decision the patient wants to have explained
 * about 1..* MS
-* about only Reference(EU_AIHumanOversightAssessment)
+* about ^definition = "References the AI-generated or AI-supported clinical output, related human oversight assessment, provenance record, or other resource representing the decision or workflow addressed by the patient-facing explanation."
 * about ^short = "The specific decision the patient wants to have explained"
 // =======================================================
-// 4. PAYLOAD & CONTENT (LAW-07.2)
+// PAYLOAD & CONTENT (LAW-07.2)
 // =======================================================
 * payload 1..* MS
 * payload.content[x] only Attachment or Reference(DocumentReference)
 * payload ^short = "Patient-facing explanation or reference to an explanation document"
 
 // =======================================================
-// 5. TIMING (LAW-07.3)
+// TIMING (LAW-07.3)
 // =======================================================
 * sent 1..1 MS
 * sent ^short = "Date and time the explanation was provided"

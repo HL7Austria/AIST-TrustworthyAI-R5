@@ -24,6 +24,7 @@ Context: Device
 //
 // Note: The extension records transfer-related metadata. It does not by itself
 // establish whether the transfer is lawful under the GDPR.
+// ISO 3166 Country Codes?
 Extension: ThirdCountryDataTransfer
 Id: third-country-data-transfer
 Title: "Third-Country Data Transfer"
@@ -140,9 +141,9 @@ Context: DocumentReference
 // Note: The applicable object of retention should be made explicit in the
 // surrounding model-card content because a Duration alone does not state what
 // is retained.
-Extension: AIPrivacyMetadata
-Id: ai-privacy-metadata
-Title: "AI Privacy Metadata"
+Extension: AIRetentionInformation
+Id: ai-retention-information
+Title: "AI Retention Information"
 Description: "Documents the stated retention duration for AI-related data, outputs, logs, or documentation."
 Context: DocumentReference
 * value[x] 0..0
@@ -235,23 +236,6 @@ Description: "Indicates whether the documented AI-supported processing resulted 
 Context: Observation
 * value[x] only boolean
 * value[x] 1..1
-
-
-// Used in: EU_AIConsent
-// Resource: Consent
-// Purpose: Records whether provision of information about AI involvement was
-// documented for the patient.
-//
-// Note: This flag records a documentation status. It does not by itself capture
-// the content, timing, comprehensibility, or legal adequacy of the information.
-Extension: PatientAIInfoProvidedFlag
-Id: patient-ai-info-provided
-Title: "Patient AI Information Provided Flag"
-Description: "Records whether provision of information to the patient about the involvement of an AI system has been documented."
-Context: Consent
-* value[x] only boolean
-* value[x] 1..1
-
 
 // =============================================================================
 // 5. HUMAN OVERSIGHT AND TRAINING EXTENSIONS

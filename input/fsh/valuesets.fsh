@@ -55,10 +55,10 @@ Description: "Codes describing actions taken by a human reviewer in response to 
     "A human reviewer assessed the AI output and accepted it without changing its substantive content."
 
 * #human-override "Human Override"
-    "A human reviewer rejected the AI output or recommendation and selected a different clinical decision or action."
+    "A human reviewer rejected the AI output or recommendation."
 
 * #human-correction "Human Correction"
-    "A human reviewer changed erroneous or incomplete AI-generated content while retaining the resource or result as the documented outcome."
+    "A human reviewer corrected erroneous or incomplete AI-generated content while retaining the corrected result as the documented outcome."
 
 ValueSet: EUAIHumanOversightActionVS
 Id: eu-ai-human-oversight-action-vs
@@ -572,3 +572,30 @@ Description: "Codes identifying structured properties used to describe regulator
 
 * #target-population "Target Population"
     "Identifies the population for which the AI system is intended or validated to be used."
+
+// ============================================================================
+// AI AUDIT ENTITY ROLE
+// Used in: EU_AIAuditEvent.entity slices referenceDb and outputData.
+// The codes are fixed on the respective slices and serve as the slicing
+// discriminator for AuditEvent.entity.role.
+// The ValueSet contains all entity roles defined for AI execution audit events.
+// ============================================================================
+CodeSystem: EUAIAuditEntityRoleCodeSystem
+Id: eu-ai-audit-entity-role
+Title: "EU AI Audit Entity Role Code System"
+Description: "Roles used to distinguish entities involved in an AI execution audit event."
+* ^caseSensitive = true
+* ^content = #complete
+
+* #reference-database "Reference Database"
+    "An external database or knowledge source used during AI execution."
+
+* #ai-output "AI Output"
+    "A FHIR resource generated as output of the audited AI execution."
+
+ValueSet: EUAIAuditEntityRoleValueSet
+Id: eu-ai-audit-entity-role-vs
+Title: "EU AI Audit Entity Role Value Set"
+Description: "Roles of entities involved in an AI execution audit event."
+
+* include codes from system EUAIAuditEntityRoleCodeSystem

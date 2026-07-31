@@ -5,7 +5,7 @@ Title: "EU AI Act Model Card"
 Description: "A DocumentReference profile representing technical documentation about an AI system, such as intended use, limitations, risk-related information, performance-related information, and model documentation."
 
 // =============================================================================
-// 1. DOCUMENT METADATA & TRACEABILITY (SYS-05)
+// DOCUMENT METADATA & TRACEABILITY (SYS-05)
 // =============================================================================
 
 // SYS-05: Bidirectional link to the specific AI Device
@@ -23,10 +23,10 @@ Description: "A DocumentReference profile representing technical documentation a
 * date ^short = "Date of model card publication"
 
 // =======================================================
-// 2. CORE SUMMARY 
+// CORE SUMMARY 
 // (USE-01, USE-02, USE-03, RISK-02)
 // =======================================================
-// Mandatory high-level summary of key aspects
+
 * description 1..1 MS
 * description ^short = "Summary of the AI model card"
 * description ^definition = "High-level summary of the intended purpose, principal limitations, risks, performance, and operational considerations documented by the model card."
@@ -37,7 +37,7 @@ Description: "A DocumentReference profile representing technical documentation a
 * extension contains 
     AIPerformanceMetrics named performance 1..1 MS and
     AITrainingData named training 1..1 MS and
-    AIPrivacyMetadata named privacy 1..1 MS and
+    AIRetentionInformation named privacy 1..1 MS and
     AIClinicalValidationStatus named clinicalValidationStatus 1..1 MS
 
 * extension[performance] ^short = "Performance metrics and bias information"
@@ -46,7 +46,7 @@ Description: "A DocumentReference profile representing technical documentation a
 * extension[clinicalValidationStatus] ^short = "Clinical validation status"
 
 // =======================================================
-// 4. TECHNICAL DOCUMENTATION (SYS-04, SYS-06, HL-04)
+// TECHNICAL DOCUMENTATION (SYS-04, SYS-06, HL-04)
 // =======================================================
 * content 1..* MS
 * content.attachment 1..1 MS

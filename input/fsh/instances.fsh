@@ -158,20 +158,6 @@ Description: "Synthetic practitioner role representing a trained internal medici
 // Scenario 1: AI-only execution
 // =======================================================
 
-Instance: sc-01-ai-only-consent-ai-use-001
-InstanceOf: EU_AIConsent
-Usage: #example
-Title: "Consent: AI Use for PoC Scenario sc-01-ai-only"
-Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
-* status = #active
-* decision = #permit
-* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
-* category[0].text = "Notice of Privacy Practices"
-* subject = Reference(patient-001)
-* date = "2026-03-01"
-* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
-* extension[aiInfoProvided].valueBoolean = true
-
 // NEWS2-inspired clinical input data for sc-01-ai-only
 
 Instance: sc-01-ai-only-observation-temperature-001
@@ -310,26 +296,8 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][0].role.text = "Domain Resource"
-* entity[inputData][0].what = Reference(sc-01-ai-only-observation-temperature-001)
-* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][1].role.text = "Domain Resource"
-* entity[inputData][1].what = Reference(sc-01-ai-only-observation-heart-rate-001)
-* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][2].role.text = "Domain Resource"
-* entity[inputData][2].what = Reference(sc-01-ai-only-observation-respiratory-rate-001)
-* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][3].role.text = "Domain Resource"
-* entity[inputData][3].what = Reference(sc-01-ai-only-observation-blood-pressure-001)
-* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][4].role.text = "Domain Resource"
-* entity[inputData][4].what = Reference(sc-01-ai-only-observation-oxygen-saturation-001)
-* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][5].role.text = "Domain Resource"
-* entity[inputData][5].what = Reference(sc-01-ai-only-observation-consciousness-status-001)
-* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
-* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-01-ai-only-ai-observation-risk-001)
 
 Instance: sc-01-ai-only-provenance-ai-output-001
@@ -369,21 +337,6 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 // =======================================================
 // Scenario 2: Validated AI output
 // =======================================================
-
-Instance: sc-02-validation-consent-ai-use-001
-InstanceOf: EU_AIConsent
-Usage: #example
-Title: "Consent: AI Use for PoC Scenario sc-02-validation"
-Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
-* status = #active
-* decision = #permit
-* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
-* category[0].text = "Notice of Privacy Practices"
-* subject = Reference(patient-001)
-* date = "2026-03-01"
-* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
-* extension[aiInfoProvided].valueBoolean = true
-
 // NEWS2-inspired clinical input data for sc-02-validation
 
 Instance: sc-02-validation-observation-temperature-001
@@ -522,26 +475,8 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][0].role.text = "Domain Resource"
-* entity[inputData][0].what = Reference(sc-02-validation-observation-temperature-001)
-* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][1].role.text = "Domain Resource"
-* entity[inputData][1].what = Reference(sc-02-validation-observation-heart-rate-001)
-* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][2].role.text = "Domain Resource"
-* entity[inputData][2].what = Reference(sc-02-validation-observation-respiratory-rate-001)
-* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][3].role.text = "Domain Resource"
-* entity[inputData][3].what = Reference(sc-02-validation-observation-blood-pressure-001)
-* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][4].role.text = "Domain Resource"
-* entity[inputData][4].what = Reference(sc-02-validation-observation-oxygen-saturation-001)
-* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][5].role.text = "Domain Resource"
-* entity[inputData][5].what = Reference(sc-02-validation-observation-consciousness-status-001)
-* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
-* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-02-validation-ai-observation-risk-001)
 
 Instance: sc-02-validation-provenance-ai-output-001
@@ -591,21 +526,6 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 // =======================================================
 // Scenario 3: Human override
 // =======================================================
-
-Instance: sc-03-override-consent-ai-use-001
-InstanceOf: EU_AIConsent
-Usage: #example
-Title: "Consent: AI Use for PoC Scenario sc-03-override"
-Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
-* status = #active
-* decision = #permit
-* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
-* category[0].text = "Notice of Privacy Practices"
-* subject = Reference(patient-001)
-* date = "2026-03-01"
-* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
-* extension[aiInfoProvided].valueBoolean = true
-
 // NEWS2-inspired clinical input data for sc-03-override
 
 Instance: sc-03-override-observation-temperature-001
@@ -743,26 +663,8 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][0].role.text = "Domain Resource"
-* entity[inputData][0].what = Reference(sc-03-override-observation-temperature-001)
-* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][1].role.text = "Domain Resource"
-* entity[inputData][1].what = Reference(sc-03-override-observation-heart-rate-001)
-* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][2].role.text = "Domain Resource"
-* entity[inputData][2].what = Reference(sc-03-override-observation-respiratory-rate-001)
-* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][3].role.text = "Domain Resource"
-* entity[inputData][3].what = Reference(sc-03-override-observation-blood-pressure-001)
-* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][4].role.text = "Domain Resource"
-* entity[inputData][4].what = Reference(sc-03-override-observation-oxygen-saturation-001)
-* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][5].role.text = "Domain Resource"
-* entity[inputData][5].what = Reference(sc-03-override-observation-consciousness-status-001)
-* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
-* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-03-override-ai-observation-risk-001)
 
 Instance: sc-03-override-provenance-ai-output-001
@@ -812,20 +714,6 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 // =======================================================
 // Scenario 4: Human correction with patient-facing explanation
 // =======================================================
-
-Instance: sc-04-correction-exp-consent-ai-use-001
-InstanceOf: EU_AIConsent
-Usage: #example
-Title: "Consent: AI Use for PoC Scenario sc-04-correction-exp"
-Description: "Patient-facing information was provided and AI-related processing is permitted in this synthetic scenario."
-* status = #active
-* decision = #permit
-* category[0] = http://terminology.hl7.org/CodeSystem/consentcategorycodes#npp "Notice of Privacy Practices"
-* category[0].text = "Notice of Privacy Practices"
-* subject = Reference(patient-001)
-* date = "2026-03-01"
-* provision[0].purpose[0] = http://terminology.hl7.org/CodeSystem/v3-ActReason#TREAT "treatment"
-* extension[aiInfoProvided].valueBoolean = true
 
 // NEWS2-inspired clinical input data for sc-04-correction-exp
 
@@ -965,26 +853,8 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[inputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][0].role.text = "Domain Resource"
-* entity[inputData][0].what = Reference(sc-04-correction-exp-observation-temperature-001)
-* entity[inputData][1].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][1].role.text = "Domain Resource"
-* entity[inputData][1].what = Reference(sc-04-correction-exp-observation-heart-rate-001)
-* entity[inputData][2].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][2].role.text = "Domain Resource"
-* entity[inputData][2].what = Reference(sc-04-correction-exp-observation-respiratory-rate-001)
-* entity[inputData][3].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][3].role.text = "Domain Resource"
-* entity[inputData][3].what = Reference(sc-04-correction-exp-observation-blood-pressure-001)
-* entity[inputData][4].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][4].role.text = "Domain Resource"
-* entity[inputData][4].what = Reference(sc-04-correction-exp-observation-oxygen-saturation-001)
-* entity[inputData][5].role = http://terminology.hl7.org/CodeSystem/object-role#4 "Domain Resource"
-* entity[inputData][5].role.text = "Domain Resource"
-* entity[inputData][5].what = Reference(sc-04-correction-exp-observation-consciousness-status-001)
-* entity[outputData][0].role = http://terminology.hl7.org/CodeSystem/object-role#3 "Report"
-* entity[outputData][0].role.text = "Report"
+* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-04-correction-exp-ai-observation-risk-001)
 
 Instance: sc-04-correction-exp-provenance-ai-output-001
