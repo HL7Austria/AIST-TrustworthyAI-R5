@@ -13,7 +13,6 @@
     "gender": "female",
     "birthDate": "1959-04-12"
   },
-
   "encounter": {
     "id": "encounter-001",
     "type": "ambulatory",
@@ -95,8 +94,8 @@
       "value": "alert",
       "code": {
         "system": "http://terminology.hl7.org/CodeSystem/v3-ObservationValue",
-        "code": "A",
-        "display": "Alert"
+        "code": "CRITU",
+        "display": "unable to assess criticality"
       }
     }
   },
@@ -110,13 +109,13 @@
     "active": true
   },
   "operatorOrganization": {
-  "id": "organization-examplehospital",
-  "name": "Example Hospital",
-  "type": "healthcare-provider",
-  "contactEmail": "contact@examplehospital.example",
-  "dpoContactEmail": "dpo@examplehospital.example",
-  "incidentReportingEmail": "incidents@examplehospital.example",
-  "active": true
+    "id": "organization-examplehospital",
+    "name": "Example Hospital",
+    "type": "healthcare-provider",
+    "contactEmail": "contact@examplehospital.example",
+    "dpoContactEmail": "dpo@examplehospital.example",
+    "incidentReportingEmail": "incidents@examplehospital.example",
+    "active": true
   },
   "aiSystem": {
     "id": "device-riskassist-ai",
@@ -147,23 +146,31 @@
   "modelCard": {
     "id": "modelcard-riskassist-ai",
     "title": "RiskAssist AI Model Card",
+    "publicationDate": "2026-01-15T00:00:00Z",
     "description": "Synthetic model card for a deterministic AI-output simulation component used in the PoC.",
     "url": "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/model-card",
     "contentType": "text/html",
+    "technicalDocumentationContentType": "text/html",
     "technicalDocumentationUrl": "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation",
     "modelType": "deterministic simulation component",
     "trainingDataDescription": "No real training data are used. The component is used only to simulate AI-like outputs for the PoC.",
-    "dataQualityCode": "complete",
-    "dataQualityDisplay": "Complete",
-    "dataQualityDescription": "The simulated component does not use real data and is designed to produce deterministic outputs based on the defined input parameters.",
-    "performanceDescription": "No clinically validated performance metrics are claimed.",
+    "performanceDescription": "The documented accuracy value is a synthetic PoC metric. It does not represent clinically validated or real-world performance.",
     "clinicalValidationStatus": {
-    "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
-    "code": "not-clinically-validated",
-    "display": "Not Clinically Validated"
+      "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-clinical-validation-status-cs",
+      "code": "not-clinically-validated",
+      "display": "Not Clinically Validated"
     },
-"performanceMetrics": [],
-    "biasDisclosure": "No bias evaluation is claimed for this synthetic PoC model.",
+    "performanceMetrics": [
+      {
+        "typeCode": "accuracy",
+        "typeDisplay": "Accuracy",
+        "value": 0.86,
+        "unit": "1",
+        "unitCode": "1",
+        "evaluationScope": "Synthetic PoC metric only; not a clinically validated performance claim."
+      }
+    ],
+    "biasDisclosure": "No clinical, subgroup, or real-world bias evaluation is claimed for this synthetic PoC model.",
     "privacyDescription": "No real patient data are processed. The scenario uses synthetic data only.",
     "retention": {
       "value": 10,
@@ -173,35 +180,20 @@
     "limitations": "The simulated output is not intended for clinical use and does not represent a validated AI model.",
     "trainingData": {
       "ehdsCategory": {
-        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/ehds-data-category-cs",
         "code": "ehr",
-        "display": "Electronic Health Records (EHRs)"
+        "display": "Electronic Health Records"
       }
-    }
+    },
+    "dataQualityCode": "complete",
+    "dataQualityDisplay": "Complete",
+    "dataQualityDescription": "The synthetic PoC input data are complete for the configured deterministic test scenario."
   },
   "legalContext": {
     "usageCategory": "primary-use",
     "gdprArt6": "gdpr-art-6-1-d",
     "gdprArt9": "gdpr-art-9-2-h",
-    "patientInfoProvided": true,
-    "patientOptOut": false,
-    "automatedDecision": false,
-    "consent": {
-      "status": "active",
-      "decisionIfPatientOptOut": "deny",
-      "decisionIfNoPatientOptOut": "permit",
-      "date": "2026-03-01",
-      "category": {
-        "system": "http://terminology.hl7.org/CodeSystem/consentcategorycodes",
-        "code": "npp",
-        "display": "Notice of Privacy Practices"
-      },
-      "provisionPurpose": {
-        "system": "http://terminology.hl7.org/CodeSystem/v3-ActReason",
-        "code": "RESCH",
-        "display": "research"
-      }
-    }
+    "automatedDecision": false
   },
   "humanReviewer": {
     "practitioner": {
@@ -249,8 +241,7 @@
     "provenance": "provenance-ai-output-001",
     "humanOversight": "human-oversight-001",
     "correctedClinicalObservation": "observation-corrected-risk-001",
-    "patientExplanation": "patient-explanation-001",
-    "consent": "consent-ai-use-001"
+    "patientExplanation": "patient-explanation-001"
   },
   "fhirMapping": {
     "encounter": {
@@ -263,15 +254,15 @@
     },
     "organization": {
       "dpoContactPurpose": {
-        "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
-        "code": "ADMIN",
-        "display": "Administrative",
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-contact-purpose-cs",
+        "code": "dpo",
+        "display": "Data Protection Officer",
         "text": "Data Protection Officer"
       },
       "incidentContactPurpose": {
-        "system": "http://terminology.hl7.org/CodeSystem/contactentity-type",
-        "code": "PATINF",
-        "display": "Patient",
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-contact-purpose-cs",
+        "code": "ai-incident-reporting",
+        "display": "AI Incident Reporting Contact",
         "text": "AI Incident Reporting Contact"
       }
     },
@@ -280,34 +271,34 @@
       "nameDisplay": true,
       "identifierSystem": "https://fh-ooe.at/fhir/eu-ai-transparency/eu-ai-database",
       "identifierType": {
-        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
-        "code": "eu-ai-database-id",
-        "display": "EU AI Database Identifier"
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-identifier-type-cs",
+        "code": "eu-ai-registration-number",
+        "display": "EU AI Registration Number"
       },
       "qmsCategoryText": "quality-management-system",
       "properties": {
         "ceMark": {
-          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-system-property-cs",
           "code": "ce-mark",
-          "display": "CE Mark"
+          "display": "CE Marking Status"
         },
         "notifiedBodyId": {
-          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-system-property-cs",
           "code": "notified-body-id",
-          "display": "Notified Body ID"
+          "display": "Notified Body Identifier"
         },
         "expectedLifetime": {
-          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-system-property-cs",
           "code": "expected-lifetime",
           "display": "Expected Lifetime"
         },
-        "medicalPurpose": {
-          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
-          "code": "medical-purpose",
-          "display": "Medical Purpose"
+        "intendedPurpose": {
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-system-property-cs",
+          "code": "intended-purpose",
+          "display": "Intended Purpose"
         },
         "targetPopulation": {
-          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+          "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-system-property-cs",
           "code": "target-population",
           "display": "Target Population"
         }
@@ -316,7 +307,7 @@
     "modelCard": {
       "status": "current",
       "type": {
-        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-artifact-type-cs",
         "code": "model-card",
         "display": "AI Model Card"
       },
@@ -338,9 +329,9 @@
       "status": "final",
       "codeText": "AI-assisted early warning risk assessment",
       "interpretation": {
-        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/EUAIActCodeSystem",
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-involvement-cs",
         "code": "ai-generated",
-        "display": "AI Generated Result"
+        "display": "AI Generated"
       },
       "confidenceComponentText": "Confidence",
       "simplifiedScoreComponentText": "Simplified score"
@@ -357,24 +348,16 @@
         "code": "rest",
         "display": "RESTful Operation"
       },
-      "inputEntityRole": {
-        "system": "http://terminology.hl7.org/CodeSystem/object-role",
-        "code": "4",
-        "display": "Domain Resource"
-      },
       "outputEntityRole": {
-        "system": "http://terminology.hl7.org/CodeSystem/object-role",
-        "code": "3",
-        "display": "Report"
+        "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-audit-entity-role",
+        "code": "ai-output",
+        "display": "AI Output"
       },
       "agentRequestor": false
     },
     "provenance": {
       "activityText": "ai-output-generation",
       "entityRole": "source"
-    },
-    "humanOversight": {
-      "workflowStatus": "published"
     },
     "patientExplanation": {
       "status": "completed",

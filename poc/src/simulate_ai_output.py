@@ -130,33 +130,6 @@ def create_execution_metadata(
     }
 
 
-def create_consent_metadata(
-    scenario_id: str,
-    base_case: dict[str, Any],
-) -> dict[str, Any]:
-    legal = base_case["legalContext"]
-    consent = legal["consent"]
-    decision = (
-        consent["decisionIfPatientOptOut"]
-        if legal["patientOptOut"]
-        else consent["decisionIfNoPatientOptOut"]
-    )
-
-    return {
-        "id": make_scenario_resource_id(
-            scenario_id,
-            base_case["resourceIdTemplates"]["consent"],
-        ),
-        "status": consent["status"],
-        "decision": decision,
-        "date": consent["date"],
-        "category": consent["category"],
-        "provisionPurpose": consent["provisionPurpose"],
-        "patientInfoProvided": legal["patientInfoProvided"],
-        "patientOptOut": legal["patientOptOut"],
-    }
-
-
 def create_audit_event_metadata(
     scenario_id: str,
     base_case: dict[str, Any],
@@ -237,7 +210,6 @@ def create_human_oversight_metadata(
             base_case["resourceIdTemplates"]["humanOversight"],
         ),
         "profileTarget": "EU_AIHumanOversightAssessment",
-        "workflowStatus": base_case["fhirMapping"]["humanOversight"]["workflowStatus"],
         "assessedAiOutputId": ai_output["id"],
         "reviewedAt": oversight_config["reviewedAt"],
         "reviewerId": oversight_config["reviewerId"],
@@ -379,7 +351,6 @@ def generate_scenario_metadata(
         simulated_ai_output,
         input_observation_ids,
     )
-    consent = create_consent_metadata(scenario_id, base_case)
     audit_event = create_audit_event_metadata(
         scenario_id,
         base_case,
@@ -424,7 +395,6 @@ def generate_scenario_metadata(
         "expectedScoreBasedAiOutput": expected_ai_output,
         "simulatedAiOutput": simulated_ai_output,
         "execution": execution,
-        "consent": consent,
         "auditEvent": audit_event,
         "provenance": provenance,
     }

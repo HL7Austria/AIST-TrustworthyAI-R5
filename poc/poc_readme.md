@@ -212,7 +212,7 @@ This is the default workflow for changes to the Python pipeline, scenario metada
 Use this command after changes to the FSH files, profiles, extensions, CodeSystems, ValueSets, example instances, or `sushi-config.yaml`:
 
 ```powershell
-.\run-pipeline.ps1 -BuildIG
+.\run-pipeline-poc.ps1 -BuildIG
 ```
 
 This executes the full pipeline:
@@ -242,13 +242,13 @@ output/package.tgz
 If PowerShell blocks script execution, the pipeline can be started for a single execution using:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\run-pipeline.ps1
+powershell -ExecutionPolicy Bypass -File .\run-pipeline-poc.ps1
 ```
 
 To build the IG as part of the same execution:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\run-pipeline.ps1 -BuildIG
+powershell -ExecutionPolicy Bypass -File .\run-pipeline-poc.ps1 -BuildIG
 ```
 
 This bypass applies only to the current command and does not permanently change the system configuration.
@@ -259,37 +259,37 @@ This bypass applies only to the current command and does not permanently change 
 Clean previously generated PoC outputs:
 
 ```powershell
-.\run-pipeline.ps1 -Clean
+.\run-pipeline-poc.ps1 -Clean
 ```
 
 Run the pipeline without validation:
 
 ```powershell
-.\run-pipeline.ps1 -SkipValidation
+.\run-pipeline-poc.ps1 -SkipValidation
 ```
 
 Validate only a specific generated scenario:
 
 ```powershell
-.\run-pipeline.ps1 -ScenarioName sc-02-validation
+.\run-pipeline-poc.ps1 -ScenarioName sc-02-validation
 ```
 
 Build the IG and clean previous PoC outputs before running:
 
 ```powershell
-.\run-pipeline.ps1 -BuildIG -Clean
+.\run-pipeline-poc.ps1 -BuildIG -Clean
 ```
 
 If local PowerShell script execution is blocked, the pipeline can be started with:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\run-pipeline.ps1
+powershell -ExecutionPolicy Bypass -File .\run-pipeline-poc.ps1
 ```
 
 or, including the IG build:
 
 ```powershell
-powershell -ExecutionPolicy Bypass -File .\run-pipeline.ps1 -BuildIG
+powershell -ExecutionPolicy Bypass -File .\run-pipeline-poc.ps1 -BuildIG
 ```
 
 ---
@@ -370,7 +370,7 @@ poc/output/fhir/
 Run from the `poc/validation` folder:
 
 ```powershell
-.\validate-scenario.ps1
+powershell -ExecutionPolicy Bypass -File .\validate-scenario.ps1
 ```
 
 ---
@@ -386,7 +386,7 @@ The script uses the official HL7 FHIR Validator CLI and validates generated scen
 Example:
 
 ```powershell
-.\validate-scenario.ps1 -ScenarioName sc-02-validation
+powershell -ExecutionPolicy Bypass -File .\validate-scenario.ps1 -ScenarioName sc-02-validation
 ```
 
 ---

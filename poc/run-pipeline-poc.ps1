@@ -199,19 +199,53 @@ try {
         $ValidatorScriptDir = Split-Path -Parent $ValidatorScriptPath
         $ValidatorScriptFile = Split-Path -Leaf $ValidatorScriptPath
 
+        $FailedScenarios = @()
+
         foreach ($ScenarioDir in $ScenarioDirs) {
             Write-Host ""
             Write-Host "Validating scenario: $($ScenarioDir.Name)" -ForegroundColor Yellow
 
+            $ScenarioExitCode = 0
+
             Push-Location $ValidatorScriptDir
             try {
-                Invoke-CheckedCommand "validate-scenario.ps1 $($ScenarioDir.Name)" {
-                    & ".\$ValidatorScriptFile" -ScenarioName $ScenarioDir.Name
-                }
+                & ".\$ValidatorScriptFile" -ScenarioName $ScenarioDir.Name
+                $ScenarioExitCode = $LASTEXITCODE
+            }
+            catch {
+                $ScenarioExitCode = 1
+
+                Write-Host `
+                    "Validation script failed for $($ScenarioDir.Name): $($_.Exception.Message)" `
+                    -ForegroundColor Red
             }
             finally {
                 Pop-Location
             }
+
+            if ($ScenarioExitCode -ne 0) {
+                $FailedScenarios += $ScenarioDir.Name
+
+                Write-Host `
+                    "Scenario $($ScenarioDir.Name) contains validation failures. Continuing with the next scenario." `
+                    -ForegroundColor Red
+            }
+            else {
+                Write-Host `
+                    "Scenario $($ScenarioDir.Name) passed validation." `
+                    -ForegroundColor Green
+            }
+        }
+
+        if ($FailedScenarios.Count -gt 0) {
+            Write-Host ""
+            Write-Host "Scenarios with validation failures:" -ForegroundColor Red
+
+            foreach ($FailedScenario in $FailedScenarios) {
+                Write-Host " - $FailedScenario" -ForegroundColor Red
+            }
+
+            throw "$($FailedScenarios.Count) scenario(s) contain validation failures."
         }
     }
 
