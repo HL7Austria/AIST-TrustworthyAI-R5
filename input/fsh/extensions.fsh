@@ -100,7 +100,7 @@ Context: DocumentReference
 // - provenance: narrative description of data origin or provenance
 // - ehdsCategory: EHDS-related category of the source data
 // - ehdsSecondaryUsePurpose: documented secondary-use purpose
-// - ehdsPermit: identifier of a relevant permit, where applicable
+// - ehdsPermit: identifier of a relevant permit, where applicable (QUAL-02b)
 // - dataQuality: documented quality characteristic or assessment
 Extension: AITrainingData
 Id: ai-training-data

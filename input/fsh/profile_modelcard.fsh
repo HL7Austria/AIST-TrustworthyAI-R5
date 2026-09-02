@@ -19,12 +19,13 @@ Description: "A DocumentReference profile representing technical documentation a
 * type = EUAIArtifactTypeCodeSystem#model-card "AI Model Card"
 * type ^short = "AI Model Card document type"
 
+// SYS-10.1: TODO Add Description
 * date 1..1 MS
 * date ^short = "Date of model card publication"
 
 // =======================================================
 // CORE SUMMARY 
-// (USE-01, USE-02, USE-03, RISK-02)
+// (USE-02, USE-03, RISK-01)
 // =======================================================
 
 * description 1..1 MS
@@ -32,7 +33,7 @@ Description: "A DocumentReference profile representing technical documentation a
 * description ^definition = "High-level summary of the intended purpose, principal limitations, risks, performance, and operational considerations documented by the model card."
 
 // =======================================================
-// STRUCTURED AI METADATA (QUAL-01, QUAL-02, QUAL-03, QUAL-04, LAW-04, LAW-06)
+// STRUCTURED AI METADATA (QUAL-01, QUAL-02a, QUAL-02b, QUAL-03, QUAL-04, LAW-06)
 // =======================================================
 * extension contains 
     AIPerformanceMetrics named performance 1..1 MS and

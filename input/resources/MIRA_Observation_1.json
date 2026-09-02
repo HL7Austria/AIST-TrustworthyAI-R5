@@ -1,0 +1,28 @@
+{
+    "resourceType": "Observation",
+    "id": "c8832b3e-4437-436b-8ed4-8a2e22ce9d2a",
+    "status": "preliminary",
+    "code": {
+        "coding": [
+            {
+                "system": "http://snomed.info/sct",
+                "code": "52448006",
+                "display": "dementia"
+            }
+        ]
+    },
+    "derivedFrom": [
+        {
+            "reference": "DocumentReference/42fa4d86-32b8-4452-abc9-b0ad93cab5fc"
+        }
+    ],
+    "meta": {
+        "security": [
+            {
+                "code": "ai-generated",
+                "system": "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-involvement-cs",
+                "display": "AI Generated"
+            }
+        ]
+    }
+}

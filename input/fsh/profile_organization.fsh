@@ -36,7 +36,7 @@ Description: "An Organization profile representing an organization involved in m
 * contact[dpo].telecom 1..* MS
 * contact[dpo] ^short = "Data Protection Officer"
 
-// SYS-12: Incident Reporting Contact (EU AI Act)
+// SYS-12: Additional operational governance: AI Incident Reporting Contact
 * contact[incident].purpose 1..1
 * contact[incident].purpose = EUAIContactPurposeCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
 * contact[incident].name 0..1 MS

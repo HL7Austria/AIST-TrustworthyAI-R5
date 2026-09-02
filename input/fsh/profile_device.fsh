@@ -29,7 +29,7 @@ Description: "A Device profile representing an AI system or software component, 
 * identifier[euDatabaseId] ^definition = "The unique registration number assigned to the high-risk AI system in the official EU AI database."
 
 // =======================================================
-// SYS-02.1 SYS-02.2, SYS-08
+// SYS-02.1 SYS-02.2
 // =======================================================
 * manufacturer 1..1 MS
 * manufacturer ^short = "Name of the AI manufacturer"
@@ -49,7 +49,7 @@ Description: "A Device profile representing an AI system or software component, 
 
 
 // =======================================================
-// STATIC SYSTEM CHARACTERISTICS (SYS-03b, SYS-07.1, USE-01)
+// STATIC SYSTEM CHARACTERISTICS (SYS-03b, SYS-07.1)
 // =======================================================
 * property ^slicing.discriminator.type = #value
 * property ^slicing.discriminator.path = "type"

@@ -24,7 +24,7 @@ Description: "A PractitionerRole profile representing the role, qualification co
 // =======================================================
 // 3. EXTENSIONS: AI TRAINING STATUS (HL-02.2)
 // =======================================================
-// LAW-07/HL-02.2:  Documentation of AI-related training relevant to human oversight
+// HL-02.2:  Documentation of AI-related training relevant to human oversight
 * extension contains AISystemTrainingStatus named trainingStatus 0..1 MS
 * extension[trainingStatus] ^short = "Whether relevant AI training has been documented"
 
