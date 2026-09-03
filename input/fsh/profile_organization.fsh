@@ -12,7 +12,7 @@ Description: "An Organization profile representing an organization involved in m
 * name ^short = "Name of the legal entity"
 
 // =======================================================
-// SLICING FÜR KONTAKTPERSONEN (SYS-08, SYS-12)
+// SLICING FÜR KONTAKTPERSONEN (SYS-08 (GDPR Art. 13 | DPO Contact Details), SYS-12 (AI Act Art. 17 | QMS Certification))
 // =======================================================
 
 * contact ^slicing.discriminator.type = #value  
@@ -29,16 +29,20 @@ Description: "An Organization profile representing an organization involved in m
 * contact[officialContact].telecom 1..* MS
 * contact[officialContact] ^short = "Official contact details of the legal entity"
 
-// SYS-08: Data Protection Officer (DSGVO)
+// SYS-08 (GDPR Art. 13 | DPO Contact Details): Data Protection Officer (DSGVO)
 * contact[dpo].purpose 1..1
 * contact[dpo].purpose = EUAIContactPurposeCodeSystem#dpo "Data Protection Officer"
 * contact[dpo].name 0..1 MS
 * contact[dpo].telecom 1..* MS
 * contact[dpo] ^short = "Data Protection Officer"
 
-// SYS-12: Additional operational governance: AI Incident Reporting Contact
+// SYS-12 (AI Act Art. 17 | QMS Certification): Additional operational governance: AI Incident Reporting Contact
 * contact[incident].purpose 1..1
 * contact[incident].purpose = EUAIContactPurposeCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
 * contact[incident].name 0..1 MS
 * contact[incident].telecom 1..* MS
 * contact[incident] ^short = "AI Incident Reporting Contact"
+
+// SYS-09 (GDPR Art. 35 | DPIA Reference): Reference on the DPIA Document: Privacy risk management, GDPR accountability.
+* extension contains DPIAReference named DPIAReference 0..1 MS
+* extension[DPIAReference] ^short = "Reference to the DPIA Document"

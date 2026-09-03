@@ -281,3 +281,33 @@ Context: AuditEvent
 * valueSignature.sigFormat 1..1
 * valueSignature.who only Reference(Device)
 * valueSignature.data 1..1
+
+
+// SYS-09 (GDPR Art. 35): Reference on the DPIA Document: Privacy risk management, GDPR accountability.
+Extension: DPIAReference
+Id: eu-ai-dpia-reference
+Title: "EU AI DPIA Reference"
+Description: "Privacy risk management, GDPR accountability"
+Context: Organization
+* value[x] only Reference(DocumentReference)
+* value[x] 1..1
+
+
+// SYS-03a (AI Act Art. 47): Reference on the EU Conformity Declaration: The EU declaration of conformity shall identify the high-risk AI system for which it has been drawn up
+Extension: EUConformityDeclarationReference
+Id: eu-ai-conformity-reference
+Title: "EU Conformity Declaration Reference"
+Description: "The EU declaration of conformity shall identify the high-risk AI system."
+Context: Device
+* value[x] only Reference(DocumentReference)
+* value[x] 1..1
+
+
+// LAW-01c (GDPR Art. 13): Documentation of whether patientfacing transparency information was provided.
+Extension: PatientAIInfoProvidedFlag
+Id: patient-ai-info-provided-flag
+Title: "Patient AI Info Provided Flag"
+Description: "This flag represents whether the patient has been informed about the AI-related processing activity"
+Context: Communication
+* value[x] only boolean
+* value[x] 1..1

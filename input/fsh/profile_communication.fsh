@@ -16,22 +16,25 @@ Description: "A Communication profile documenting that an explanation regarding 
 * sender ^short = "The human-in-the-loop providing the explanation"
 
 // =======================================================
-// CONTEXT & DECISION (LAW-07.1)
+// CONTEXT & DECISION (LAW-07.1 (AI Act Art. 86 | Patient-Facing Transparency Information))
 // =======================================================
 // LAW-07.1 request information about the specific decision the patient wants to have explained
 * about 1..* MS
 * about ^definition = "References the AI-generated or AI-supported clinical output, related human oversight assessment, provenance record, or other resource representing the decision or workflow addressed by the patient-facing explanation."
 * about ^short = "The specific decision the patient wants to have explained"
 // =======================================================
-// PAYLOAD & CONTENT (LAW-07.2)
+// PAYLOAD & CONTENT (LAW-07.2 AI Act Art. 86 | Patient-Facing Transparency Information))
 // =======================================================
 * payload 1..* MS
 * payload.content[x] only Attachment or Reference(DocumentReference)
 * payload ^short = "Patient-facing explanation or reference to an explanation document"
 
 // =======================================================
-// TIMING (LAW-07.3)
+// TIMING (LAW-07.3 AI Act Art. 86 | Patient-Facing Transparency Information))
 // =======================================================
 * sent 1..1 MS
 * sent ^short = "Date and time the explanation was provided"
 
+// LAW-01c (GDPR Art. 13): Patient Info Provided Flag 
+* extension contains PatientAIInfoProvidedFlag named aifInfoProvided 1..1 MS
+* extension[aifInfoProvided] ^short = "Flag if the patient was informed about the use of AI."
