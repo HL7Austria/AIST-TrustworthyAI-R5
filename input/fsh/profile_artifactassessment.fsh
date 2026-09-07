@@ -17,14 +17,14 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * artifact[x] ^short = "Reference to the AI-generated"
 
 // =======================================================
-// HUMAN ACTOR & COMPETENCE (HL-01, HL-02)
+// HUMAN ACTOR & COMPETENCE (HL-01 (AI Act Art. 14 | Responsible Actor), HL-02(AI Act Art. 14 | Qualification of Actor))
 // =======================================================
 * content.author 1..1 MS
 * content.author only Reference(EU_AIPractitionerRole)
 * content.author ^short = "Reference to the qualified human overseer"
 
 // =======================================================
-// INTERVENTION (HL-03)
+// INTERVENTION (HL-03 (AI Act Art. 14 | Type of Intervention))
 // =======================================================
 * content.classifier 1..1 MS 
 * content.classifier from EUAIHumanOversightActionVS (extensible)
@@ -34,7 +34,7 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * content.summary ^short = "Clinical or technical rationale for the assessment"
 
 // =======================================================
-// EVIDENCE (HL-05)
+// EVIDENCE (HL-05 (AI Act Art. 14 | Case-Specific Interpretability Information))
 // =======================================================
 * content.relatedArtifact 0..*
 * content.relatedArtifact ^short = "Supporting documentation or explainability evidence"

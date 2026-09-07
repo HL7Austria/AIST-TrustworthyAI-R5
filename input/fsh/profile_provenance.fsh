@@ -4,7 +4,7 @@ Id: eu-ai-provenance
 Title: "EU AI Provenance"
 Description: "A Provenance profile linking an AI-generated output to the contributing AI system, source data, and relevant processing or governance context."
 // =======================================================
-// 1. ZIEL & ZEIT (SYS-10.1)
+// TARGET and TIME (SYS-10.1 (AI Act Art. 12 | Audit Trail))
 // =======================================================
 * target 1..* MS
 * target ^short = "Link to the generated AI clinical result"
@@ -21,7 +21,7 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 * occurredPeriod.end ^short = "End of the AI processing activity"
 
 // =======================================================
-// 2. GDPR (LAW-01a & LAW-01b)
+// GDPR (LAW-01a (GDPR Art. 6 | Legal Basis (General)) & LAW-01b (GDPR Art. 9 | Health Data Exception))
 // =======================================================
 * authorization 1..* MS
 * authorization ^slicing.discriminator.type = #value
@@ -32,7 +32,18 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
     gdprArt6Basis  1..1 MS and 
     gdprArt9Condition  1..1 MS
 
+// LAW-01a (Article 6 | Legal Basis (General))
+* authorization[gdprArt6Basis].reference 0..0
+* authorization[gdprArt6Basis].concept 1..1
+* authorization[gdprArt6Basis].concept.coding 1..*
 * authorization[gdprArt6Basis].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art6-codesystem"
+* authorization[gdprArt6Basis] from GDPRArt6LegalBasisVS (required)
+* authorization[gdprArt6Basis] ^short = "Legal basis under GDPR Article 6"
+
+// LAW-01b (GDPR Art. 9 | Health Data Exception)
+* authorization[gdprArt9Condition].reference 0..0
+* authorization[gdprArt9Condition].concept 1..1
+* authorization[gdprArt9Condition].concept.coding 1..*
 * authorization[gdprArt9Condition].concept.coding.system = "http://example.org/fhir/eu-ai-transparency/CodeSystem/gdpr-art9-codesystem"
 
 * authorization[gdprArt6Basis] from GDPRArt6LegalBasisVS (required)
@@ -55,7 +66,7 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 * agent.who ^short = "AI system that performed the processing activity"
 
 // =======================================================
-// 4. INPUT DATEN TRACEABILITY (SYS-10.2)
+// INPUT DATEN TRACEABILITY (SYS-10.2 (AI Act Art. 12 | Audit Trail))
 // =======================================================
 * entity 1..* MS
 * entity.role = #source 
@@ -65,7 +76,7 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 * entity.what ^short = "Source data processed by the AI system"
 
 // =======================================================
-// 5. EHDS EXTENSIONS (LAW-03.1 & LAW-03.2)
+// EHDS EXTENSIONS (LAW-03.1 (EHDS Art. 51 | Data Provenance) & LAW-03.2 (EHDS Art. 51 | Data Provenance))
 // =======================================================
 * extension contains
     EHDSUsageCategory named usageCategory 1..1 MS and

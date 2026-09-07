@@ -19,7 +19,7 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 * extension[logIntegrity] ^short = "Cryptographic signature of this log entry"
 
 // =======================================================
-// EXECUTION PERIOD (SYS-10.1)
+// EXECUTION PERIOD (SYS-10.1 (AI Act Art. 12 | Audit Trail))
 // =======================================================
 * occurred[x] only Period
 
@@ -38,7 +38,7 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 * agent.who ^short = "AI system that performed the processing activity"
 
 // =======================================================
-// TRACEABILITY (SYS-10.2 & SYS-10.3)
+// TRACEABILITY (SYS-10.2 & SYS-10.3 (AI Act Art. 12 | Audit Trail))
 // =======================================================
 
 * entity ^slicing.discriminator.type = #value
@@ -47,7 +47,7 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 
 * entity contains  referenceDb 0..* MS and outputData 1..* MS
 
-// (SYS-10.3)
+// (SYS-10.3 (AI Act Art. 12 | Audit Trail))
 //* entity[referenceDb].role = http://terminology.hl7.org/CodeSystem/object-role#17
 * entity[referenceDb].role 1..1
 * entity[referenceDb].role = EUAIAuditEntityRoleCodeSystem#reference-database

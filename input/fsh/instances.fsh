@@ -112,11 +112,26 @@ Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessme
 * note[1].text = "AI-assisted early warning risk assessment based on synthetic NEWS2-inspired vital parameters."
 * extension[dataTransfer].extension[transferFlag].valueBoolean = false
 * extension[modelCard].valueReference = Reference(modelcard-riskassist-ai)
+* extension[conformityDeclaration].valueReference = Reference(eu-conformity-declaration)
 * property[ceMark].valueBoolean = true
 * property[notifiedBody].valueString = "NB-0000"
 * property[expectedLifetime].valueQuantity = 5 'a' "years"
 * property[intendedPurpose].valueString = "Supportive risk stratification in acute care settings"
 * property[targetPopulation][0].valueCodeableConcept.text = "Adult patients with suspected infection in an acute care setting"
+
+Instance: eu-conformity-declaration
+InstanceOf: DocumentReference
+Usage: #example
+Title: "EU Conformity Declaration"
+* status = #current
+* content.attachment = conformity-declaration-attachment
+
+Instance: conformity-declaration-attachment
+InstanceOf: Attachment
+Usage: #inline
+Title: "Conformity Declaration Attachment"
+Description: "The document attachment for the conformity declaration."
+* title = "Conformity Declaration Attachment"
 
 Instance: modelcard-riskassist-ai
 InstanceOf: EU_AIModelCard
@@ -928,6 +943,7 @@ Description: "Synthetic patient-facing explanation about AI-supported processing
 * payload[0].contentAttachment.contentType = #text/plain
 * payload[0].contentAttachment.title = "Patient-facing AI explanation"
 * payload[0].contentAttachment.data = "VGhlIEFJLXN1cHBvcnRlZCBhc3Nlc3NtZW50IHdhcyByZXZpZXdlZCBieSBhIHF1YWxpZmllZCBjbGluaWNpYW4uIFRoZSBpbml0aWFsIEFJIHJlY29tbWVuZGF0aW9uIHdhcyBjb3JyZWN0ZWQgYmVmb3JlIHRoZSBmaW5hbCBjbGluaWNhbCBkZWNpc2lvbiB3YXMgbWFkZS4="
+* extension[aifInfoProvided].valueBoolean = true
 
 // =======================================================
 // Secondary Use Example

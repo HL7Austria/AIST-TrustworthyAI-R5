@@ -24,7 +24,7 @@ Description: "A DocumentReference profile representing technical documentation a
 
 // =======================================================
 // CORE SUMMARY 
-// (USE-01, USE-02, USE-03, RISK-02)
+// (USE-02 (AI Act Art. 13 | Limitations & Contraindications), USE-03 (GDPR Art. 13 | Clinical Consequences), RISK-01 (AI Act Art. 9| Health & Rights Risks))
 // =======================================================
 
 * description 1..1 MS
@@ -32,7 +32,13 @@ Description: "A DocumentReference profile representing technical documentation a
 * description ^definition = "High-level summary of the intended purpose, principal limitations, risks, performance, and operational considerations documented by the model card."
 
 // =======================================================
-// STRUCTURED AI METADATA (QUAL-01, QUAL-02, QUAL-03, QUAL-04, LAW-04, LAW-06)
+// STRUCTURED AI METADATA 
+// QUAL-01 (AI Act Art. 13 | Performance Metrics)
+// QUAL-02a (AI Act Art. 10 | Training Data Info)
+// QUAL-02b (EHDS Art. 51 | Secondary Use Permit)
+// QUAL-03 (EHDS Art. 78 | Data Quality Label)
+// QUAL-04 (AI Act Art. 13 | Target Group Performance)
+// LAW-06 (GDPR Art. 13 | Data Retention Period)
 // =======================================================
 * extension contains 
     AIPerformanceMetrics named performance 1..1 MS and
@@ -46,7 +52,10 @@ Description: "A DocumentReference profile representing technical documentation a
 * extension[clinicalValidationStatus] ^short = "Clinical validation status"
 
 // =======================================================
-// TECHNICAL DOCUMENTATION (SYS-04, SYS-06, HL-04)
+// TECHNICAL DOCUMENTATION 
+// SYS-04 (AI Act Annex IV | Hardware/Software Interfaces)
+// SYS-06 (AI Act Art. 13 | Explainability Aids)
+// HL-04 (AI Act Art. 14 | Oversight Instructions)
 // =======================================================
 * content 1..* MS
 * content.attachment 1..1 MS
