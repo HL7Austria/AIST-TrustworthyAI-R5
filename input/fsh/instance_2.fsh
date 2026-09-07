@@ -65,6 +65,22 @@ Title: "Device: DiagnosticAssist AI"
 * property[targetPopulation][0].valueCodeableConcept.text = "Adult patients"
 * extension[dataTransfer].extension[transferFlag].valueBoolean = false
 * extension[modelCard].valueReference = Reference(dr-model-card)
+* extension[conformityDeclaration].valueReference = Reference(eu-conformity-declaration-2)
+
+Instance: eu-conformity-declaration-2
+InstanceOf: DocumentReference
+Usage: #example
+Title: "EU Conformity Declaration"
+* status = #current
+* content.attachment = conformity-declaration-attachment
+
+Instance: conformity-declaration-attachment-2
+InstanceOf: Attachment
+Usage: #inline
+Title: "Conformity Declaration Attachment"
+Description: "The document attachment for the conformity declaration."
+* title = "Conformity Declaration Attachment"
+
 
 Instance: dr-model-card
 InstanceOf: EU_AIModelCard
@@ -179,3 +195,4 @@ Title: "Communication: Patient Explanation"
 * payload[0].contentAttachment.contentType = #text/plain
 * payload[0].contentAttachment.title = "Patient-facing AI explanation"
 * payload[0].contentAttachment.data = "VGhlIGRpYWdub3N0aWMgcmVwb3J0IHdhcyBnZW5lcmF0ZWQgd2l0aCBBSSBzdXBwb3J0IGFuZCBzdWJzZXF1ZW50bHkgcmV2aWV3ZWQgYnkgYSBxdWFsaWZpZWQgY2xpbmljaWFuLg=="
+* extension[aifInfoProvided].valueBoolean = true
