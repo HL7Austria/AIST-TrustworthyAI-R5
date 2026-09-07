@@ -200,12 +200,8 @@ Context: Provenance
 * valueCodeableConcept from EHDSSecondaryUsePurposeVS (required)
 
 
-// =============================================================================
-// 4. OBSERVATION EXTENSIONS
-// =============================================================================
-
-// Used in: EU_AIObservation
-// Resource: Observation
+// Used in: EU_AIProvenance
+// Resource: Provenance
 // Purpose: Records the patient- and encounter-specific clinical reason for
 // applying the AI system.
 //
@@ -215,14 +211,14 @@ Extension: CaseSpecificIndication
 Id: case-specific-indication
 Title: "Case-Specific Indication"
 Description: "Records the clinical indication or case-specific reason for applying the AI system in the documented patient context."
-Context: Observation
+Context: Provenance
 * value[x] only CodeableConcept
 * value[x] 1..1
 * valueCodeableConcept from EUAICaseSpecificIndicationVS (extensible)
 
 
-// Used in: EU_AIObservation
-// Resource: Observation
+// Used in: EU_AIProvenance
+// Resource: Provenance
 // Purpose: Indicates whether the documented result was used in a solely
 // automated decision-making process.
 //
@@ -233,7 +229,7 @@ Extension: AutomatedDecisionFlag
 Id: automated-decision-flag
 Title: "Automated Decision-Making Flag"
 Description: "Indicates whether the documented AI-supported processing resulted in a decision made solely by automated means."
-Context: Observation
+Context: Provenance
 * value[x] only boolean
 * value[x] 1..1
 

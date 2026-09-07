@@ -11,11 +11,10 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * date ^short = "Date and time of human oversight assessment"
 
 // =======================================================
-// TARGET ARTIFACT (The AI Output: Observation)
+// TARGET ARTIFACT
 // =======================================================
 * artifactReference 1..1 MS
-* artifactReference only Reference(EU_AIObservation)
-* artifact[x] ^short = "Reference to the AI-generated Observation"
+* artifact[x] ^short = "Reference to the AI-generated"
 
 // =======================================================
 // HUMAN ACTOR & COMPETENCE (HL-01 (AI Act Art. 14 | Responsible Actor), HL-02(AI Act Art. 14 | Qualification of Actor))

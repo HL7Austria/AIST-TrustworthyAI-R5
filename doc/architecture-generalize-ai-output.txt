@@ -1,0 +1,39 @@
+---
+config:
+  layout: fixed
+---
+flowchart LR
+    Role("EU_AIPractitionerRole") -- organization --> Org["EU_AIOrganization"]
+    Device("EU_AIDevice") -- owner --> Org
+    Device -- ext[modelCard] --> ModelCard("EU_AIModelCard")
+    ModelCard -- subject --> Device
+    AIOutput("AI-generated / AI-influenced<br>FHIR Resource<br>e.g. Observation, DiagnosticReport") -. conforms to .-> EUAIData("EUAIData<br>meta.security[aiInvolvement]")
+    AuditEvent("EU_AIAuditEvent") -- "source.observer<br>agent.who" --> Device
+    AuditEvent -- "entity[outputData].what" --> AIOutput
+    Provenance("EU_AIProvenance") -- target --> AIOutput
+    Provenance -- "agent.who" --> Device
+    Oversight("EU_AIHumanOversightAssessment") -- artifactReference --> AIOutput
+    Oversight -- "content.author" --> Role
+    Comm("EU_AIPatientExplanation") -- sender --> Role
+    Comm -- about --> AIOutput
+    Comm -- subject --> Patient["Patient"]
+    AIOutput -. subject<br>(if applicable) .-> Patient
+
+    Org@{ shape: rounded}
+    Patient@{ shape: rounded}
+     Role:::actor
+     Org:::device
+     Device:::device
+     ModelCard:::device
+     AuditEvent:::event
+     Provenance:::event
+     Oversight:::actor
+     Comm:::actor
+     Patient:::data
+    classDef actor fill:#e1f5fe,stroke:#0288d1,stroke-width:2px,color:#000
+    classDef device fill:#e8f5e9,stroke:#388e3c,stroke-width:2px,color:#000
+    classDef data fill:#fff9c4,stroke:#fbc02d,stroke-width:2px,color:#000
+    classDef event fill:#f3e5f5,stroke:#7b1fa2,stroke-width:2px,color:#000
+    style Oversight stroke:#0288d1,stroke-width:2px,stroke-dasharray: 0
+    linkStyle 2 stroke:#000000,fill:none
+    linkStyle 12 stroke:#000000,fill:none
