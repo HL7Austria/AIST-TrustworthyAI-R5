@@ -1,10 +1,22 @@
 // =======================================================
 // Standalone scenario: AI-generated DiagnosticReport
+//
+// Use Case: DiagnosticAssist AI analyzes a patient's lab
+// result (C-reactive protein) and generates a draft
+// diagnostic report. A human reviewer (practitioner/
+// practitioner role) validates the AI output before it is
+// shared with the patient. The chain of resources below
+// links patient -> input observation -> AI device/model
+// card -> AI-generated DiagnosticReport -> provenance and
+// audit trail -> human oversight assessment -> patient
+// explanation communication, all tied to the organization
+// responsible for the AI system.
 // =======================================================
 Instance: dr-patient
 InstanceOf: Patient
 Usage: #example
 Title: "Patient: Diagnostic Report Scenario"
+Description: "The patient who is the subject of the AI-generated diagnostic report."
 * gender = #female
 * birthDate = "1965-06-15"
 
@@ -12,14 +24,16 @@ Instance: dr-practitioner
 InstanceOf: Practitioner
 Usage: #example
 Title: "Practitioner: Diagnostic Reviewer"
+Description: "The clinician who performs human oversight and validates the AI-generated diagnostic report."
 * name[0].family = "Reviewer"
 * name[0].given[0] = "Dana"
 * name[0].prefix[0] = "Dr."
 
 Instance: dr-organization
-InstanceOf: EU_AIOrganization
+InstanceOf: Trust_AIOrganization
 Usage: #example
 Title: "Organization: Example Diagnostic Center"
+Description: "The diagnostic center that owns and operates the AI system used to generate the diagnostic report."
 * active = true
 * name = "Example Diagnostic Center"
 * contact[officialContact].telecom[0].system = #email
@@ -32,9 +46,10 @@ Title: "Organization: Example Diagnostic Center"
 * contact[incident].telecom[0].value = "ai-incidents@diagnostic-center.example"
 
 Instance: dr-practitioner-role
-InstanceOf: EU_AIPractitionerRole
+InstanceOf: Trust_AIPractitionerRole
 Usage: #example
 Title: "PractitionerRole: Diagnostic Reviewer"
+Description: "The role held by the practitioner when reviewing AI-generated diagnostic reports at the organization."
 * practitioner = Reference(dr-practitioner)
 * organization = Reference(dr-organization)
 * code[0].text = "Human AI reviewer"
@@ -42,11 +57,12 @@ Title: "PractitionerRole: Diagnostic Reviewer"
 * extension[trainingStatus].valueBoolean = true
 
 Instance: dr-ai-device
-InstanceOf: EU_AIDevice
+InstanceOf: Trust_AIDevice
 Usage: #example
 Title: "Device: DiagnosticAssist AI"
-* identifier[euDatabaseId].system = "http://example.org/fhir/sid/eu-ai-database"
-* identifier[euDatabaseId].value = "EU-AI-DIAG-001"
+Description: "The AI system that generates the diagnostic report from the patient's clinical findings."
+* identifier[euDatabaseId].system = "http://example.org/fhir/sid/trust-ai-database"
+* identifier[euDatabaseId].value = "trust-ai-DIAG-001"
 * status = #active
 * name[0].value = "DiagnosticAssist AI"
 * name[0].type = #registered-name
@@ -71,6 +87,7 @@ Instance: eu-conformity-declaration-2
 InstanceOf: DocumentReference
 Usage: #example
 Title: "EU Conformity Declaration"
+Description: "The conformity declaration document for the AI device used in this diagnostic report scenario."
 * status = #current
 * content.attachment = conformity-declaration-attachment
 
@@ -83,10 +100,10 @@ Description: "The document attachment for the conformity declaration."
 
 
 Instance: dr-model-card
-InstanceOf: EU_AIModelCard
+InstanceOf: Trust_AIModelCard
 Usage: #example
 Title: "Model Card: DiagnosticAssist AI"
-* subject = Reference(dr-ai-device)
+Description: "The model card describing the AI system's performance, training data, and privacy characteristics."
 * status = #current
 * date = "2026-03-01T10:00:00Z"
 * description = "Synthetic model card for an AI system generating diagnostic reports from structured clinical input."
@@ -94,25 +111,25 @@ Title: "Model Card: DiagnosticAssist AI"
 * content[0].attachment.url = "https://example.org/model-card/diagnostic-assist"
 * content[0].attachment.title = "DiagnosticAssist AI Model Card"
 * extension[clinicalValidationStatus].valueCodeableConcept =
-    EUAIClinicalValidationStatusCodeSystem#not-clinically-validated "Not Clinically Validated"
+    TrustAIClinicalValidationStatusCodeSystem#not-clinically-validated "Not Clinically Validated"
 * extension[performance].extension[metric][0].extension[type].valueCodeableConcept =
-    EUAIPerformanceMetricCodeSystem#accuracy "Accuracy"
+    TrustAIPerformanceMetricCodeSystem#accuracy "Accuracy"
 * extension[performance].extension[metric][0].extension[value].valueQuantity = 0.86 '1' "1"
 * extension[performance].extension[biasDisclosure][0].valueString =
     "No subgroup performance claim is made for this synthetic example."
 * extension[training].extension[provenance].valueString =
     "Synthetic training-data description for demonstration purposes."
-* extension[training].extension[ehdsCategory][0].valueCodeableConcept =
-    EHDSDataCategoryCodeSystem#ehr
+* extension[training].extension[Category][0].valueCodeableConcept =
+    DataCategoryCodeSystem#ehr
 * extension[training].extension[dataQuality][0].valueCodeableConcept =
-    EUAIDataQualityCodeSystem#complete "Complete"
+    TrustAIDataQualityCodeSystem#complete "Complete"
 * extension[privacy].extension[retention].valueDuration = 10 'a' "years"
 
 Instance: dr-input-observation
 InstanceOf: Observation
 Usage: #example
 Title: "Input Observation: C-Reactive Protein"
-
+Description: "The clinical finding used as input to the AI system when generating the diagnostic report."
 * status = #final
 * code.text = "C-reactive protein concentration"
 * subject = Reference(dr-patient)
@@ -125,7 +142,8 @@ Instance: dr-ai-diagnostic-report
 InstanceOf: DiagnosticReport
 Usage: #example
 Title: "AI Output: Diagnostic Report"
-* meta.security = EUAIInvolvementCodeSystem#ai-generated "AI Generated"
+Description: "The diagnostic report generated by the AI system from the patient's input observation."
+* meta.security = TrustAIInvolvementCodeSystem#ai-generated "AI Generated"
 * status = #final
 * code.text = "AI-generated diagnostic assessment"
 * subject = Reference(dr-patient)
@@ -135,9 +153,10 @@ Title: "AI Output: Diagnostic Report"
 * conclusion = "The findings indicate an increased probability of an acute infectious process."
 
 Instance: dr-ai-provenance
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: AI Diagnostic Report"
+Description: "The provenance record describing how and under what legal basis the AI-generated diagnostic report was produced."
 * target = Reference(dr-ai-diagnostic-report)
 * occurredPeriod.start = "2026-03-10T09:05:00Z"
 * occurredPeriod.end = "2026-03-10T09:05:03Z"
@@ -150,15 +169,16 @@ Title: "Provenance: AI Diagnostic Report"
 * entity[0].role = #source
 * entity[0].what = Reference(dr-input-observation)
 * extension[usageCategory].valueCodeableConcept =
-    EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
+    UsageCategoryCodeSystem#primary-use "Primary Use"
 * extension[caseIndication].valueCodeableConcept =
-    EUAICaseSpecificIndicationCodeSystem#diagnostic-support "Diagnostic Support"
+    TrustAICaseSpecificIndicationCodeSystem#diagnostic-support "Diagnostic Support"
 * extension[automatedDecision].valueBoolean = false
 
 Instance: dr-ai-audit-event
-InstanceOf: EU_AIAuditEvent
+InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "AuditEvent: AI Diagnostic Report Generation"
+Description: "The audit trail entry recording the AI system's generation of the diagnostic report."
 * code.text = "AI diagnostic report generation"
 * action = #C
 * recorded = "2026-03-10T09:05:04Z"
@@ -167,26 +187,28 @@ Title: "AuditEvent: AI Diagnostic Report Generation"
 * agent[0].who = Reference(dr-ai-device)
 * agent[0].requestor = false
 * source.observer = Reference(dr-ai-device)
-* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role = TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].what = Reference(dr-ai-diagnostic-report)
 
 Instance: dr-human-assessment
-InstanceOf: EU_AIHumanOversightAssessment
+InstanceOf: Trust_AIHumanOversightAssessment
 Usage: #example
 Title: "ArtifactAssessment: Human Validation"
+Description: "The human oversight assessment recording the clinician's review and validation of the AI-generated diagnostic report."
 * workflowStatus = #published
 * artifactReference = Reference(dr-ai-diagnostic-report)
 * date = "2026-03-10T09:10:00Z"
 * content[0].author = Reference(dr-practitioner-role)
 * content[0].classifier =
-    EUAIHumanOversightCodeSystem#human-validation "Human Validation"
+    TrustAIHumanOversightCodeSystem#human-validation "Human Validation"
 * content[0].summary =
     "The clinician reviewed the AI-generated diagnostic report and accepted its conclusion."
 
 Instance: dr-patient-communication
-InstanceOf: EU_AIPatientExplanation
+InstanceOf: Trust_AIPatientExplanation
 Usage: #example
 Title: "Communication: Patient Explanation"
+Description: "The communication informing the patient about the AI's involvement in generating the diagnostic report and its subsequent human review."
 * status = #completed
 * subject = Reference(dr-patient)
 * sender = Reference(dr-practitioner-role)

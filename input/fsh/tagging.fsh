@@ -1,7 +1,7 @@
-Profile: EUAIData
+Profile: TrustAIData
 Parent: Resource
-Id: eu-ai-data
-Title: "EU AI Data"
+Id: trust-ai-data
+Title: "Trust AI Data"
 Description: """
 A resource-independent profile indicating that an AI system was
 involved in generating, reporting, assisting with, or asserting
@@ -21,9 +21,10 @@ pattern across different FHIR resource types.
     aiInvolvement 1..* MS
 
 * meta.security[aiInvolvement].system =
-    "http://example.org/fhir/eu-ai-transparency/CodeSystem/eu-ai-involvement-cs"
+    "http://example.org/fhir/trust-ai-transparency/CodeSystem/trust-ai-involvement-cs"
 
-* meta.security[aiInvolvement] from EUAIInvolvementVS (required)
+* meta.security[aiInvolvement] from TrustAIInvolvementVS (required)
 
 * meta.security[aiInvolvement] ^short =
     "Indicates how an AI system was involved in the resource content"
+// TODO: find the law for the nessesary mark

@@ -4,9 +4,9 @@
 // ValueSet use: binding for profiles that allow one or more AI-involvement labels.
 // ============================================================================
 
-CodeSystem: EUAIInvolvementCodeSystem
-Id: eu-ai-involvement-cs
-Title: "EU AI Involvement Code System"
+CodeSystem: TrustAIInvolvementCodeSystem
+Id: trust-ai-involvement-cs
+Title: "Trust AI Involvement Code System"
 Description: "Codes indicating the manner in which an AI system contributed to the content represented by a FHIR resource."
 
 * ^status = #active
@@ -25,26 +25,26 @@ Description: "Codes indicating the manner in which an AI system contributed to t
 * #ai-asserted "AI Asserted"
     "An AI system asserted clinical or factual content as an output of its processing."
 
-ValueSet: EUAIInvolvementVS
-Id: eu-ai-involvement-vs
-Title: "EU AI Involvement Value Set"
+ValueSet: TrustAIInvolvementVS
+Id: trust-ai-involvement-vs
+Title: "Trust AI Involvement Value Set"
 Description: "Codes used to classify how an AI system contributed to the content of a FHIR resource."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAIInvolvementCodeSystem
+* include codes from system TrustAIInvolvementCodeSystem
 
 
 // ============================================================================
 // HUMAN OVERSIGHT
-// Used in: EU_AIHumanOversightAssessment (ArtifactAssessment), typically in
+// Used in: Trust_AIHumanOversightAssessment (ArtifactAssessment), typically in
 // ArtifactAssessment.content.classifier or another coded oversight-action field.
 // ValueSet use: required binding where the reviewer selects an oversight action.
 // ============================================================================
 
-CodeSystem: EUAIHumanOversightCodeSystem
-Id: eu-ai-human-oversight-cs
-Title: "EU AI Human Oversight Code System"
+CodeSystem: TrustAIHumanOversightCodeSystem
+Id: trust-ai-human-oversight-cs
+Title: "Trust AI Human Oversight Code System"
 Description: "Codes describing actions taken by a human reviewer in response to an AI-generated output or recommendation."
 
 * ^status = #active
@@ -60,26 +60,26 @@ Description: "Codes describing actions taken by a human reviewer in response to 
 * #human-correction "Human Correction"
     "A human reviewer corrected erroneous or incomplete AI-generated content while retaining the corrected result as the documented outcome."
 
-ValueSet: EUAIHumanOversightActionVS
-Id: eu-ai-human-oversight-action-vs
-Title: "EU AI Human Oversight Action Value Set"
+ValueSet: TrustAIHumanOversightActionVS
+Id: trust-ai-human-oversight-action-vs
+Title: "Trust AI Human Oversight Action Value Set"
 Description: "Human oversight actions that may be documented in relation to an AI-generated output or recommendation."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAIHumanOversightCodeSystem
+* include codes from system TrustAIHumanOversightCodeSystem
 
 
 // ============================================================================
 // AI PERFORMANCE METRICS
-// Used in: AIPerformanceMetrics extension within EU_AIModelCard.
+// Used in: AIPerformanceMetrics extension within Trust_AIModelCard.
 // ValueSet use: binding for the coded metric type; the metric value is recorded
 // separately, for example as Quantity, decimal, or another suitable datatype.
 // ============================================================================
 
-CodeSystem: EUAIPerformanceMetricCodeSystem
-Id: eu-ai-performance-metric-cs
-Title: "EU AI Performance Metric Code System"
+CodeSystem: TrustAIPerformanceMetricCodeSystem
+Id: trust-ai-performance-metric-cs
+Title: "Trust AI Performance Metric Code System"
 Description: "Codes identifying performance characteristics used to document the evaluation of an AI system."
 
 * ^status = #active
@@ -98,25 +98,25 @@ Description: "Codes identifying performance characteristics used to document the
 * #robustness "Robustness"
     "The ability of the AI system to maintain appropriate performance under variations, disturbances, or reasonably foreseeable conditions of use."
 
-ValueSet: EUAIPerformanceMetricVS
-Id: eu-ai-performance-metric-vs
-Title: "EU AI Performance Metric Value Set"
+ValueSet: TrustAIPerformanceMetricVS
+Id: trust-ai-performance-metric-vs
+Title: "Trust AI Performance Metric Value Set"
 Description: "Performance characteristics that may be documented for an AI system."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAIPerformanceMetricCodeSystem
+* include codes from system TrustAIPerformanceMetricCodeSystem
 
 
 // ============================================================================
 // CLINICAL VALIDATION STATUS
-// Used in: AIClinicalValidationStatus extension within EU_AIModelCard.
+// Used in: AIClinicalValidationStatus extension within Trust_AIModelCard.
 // ValueSet use: required binding for the documented validation status.
 // ============================================================================
 
-CodeSystem: EUAIClinicalValidationStatusCodeSystem
-Id: eu-ai-clinical-validation-status-cs
-Title: "EU AI Clinical Validation Status Code System"
+CodeSystem: TrustAIClinicalValidationStatusCodeSystem
+Id: trust-ai-clinical-validation-status-cs
+Title: "Trust AI Clinical Validation Status Code System"
 Description: "Codes indicating the documented clinical validation status of an AI system for its intended clinical use."
 
 * ^status = #active
@@ -135,26 +135,26 @@ Description: "Codes indicating the documented clinical validation status of an A
 * #technical-validation-only "Technical Validation Only"
     "Technical verification or validation has been performed, but clinical validation for the intended use has not been completed."
 
-ValueSet: EUAIClinicalValidationStatusVS
-Id: eu-ai-clinical-validation-status-vs
-Title: "EU AI Clinical Validation Status Value Set"
+ValueSet: TrustAIClinicalValidationStatusVS
+Id: trust-ai-clinical-validation-status-vs
+Title: "Trust AI Clinical Validation Status Value Set"
 Description: "Clinical validation statuses applicable to an AI system and its documented intended use."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAIClinicalValidationStatusCodeSystem
+* include codes from system TrustAIClinicalValidationStatusCodeSystem
 
 
 // ============================================================================
 // CASE-SPECIFIC INDICATION
-// Used in: CaseSpecificIndication extension on EU_AIObservation.
+// Used in: CaseSpecificIndication extension on Trust_AIObservation.
 // ValueSet use: binding for the clinical reason why the AI system was applied
 // in the individual care context.
 // ============================================================================
 
-CodeSystem: EUAICaseSpecificIndicationCodeSystem
-Id: eu-ai-case-specific-indication-cs
-Title: "EU AI Case-Specific Indication Code System"
+CodeSystem: TrustAICaseSpecificIndicationCodeSystem
+Id: trust-ai-case-specific-indication-cs
+Title: "Trust AI Case-Specific Indication Code System"
 Description: "Codes describing the clinical purpose for which an AI system was applied in an individual case."
 
 * ^status = #active
@@ -179,27 +179,27 @@ Description: "Codes describing the clinical purpose for which an AI system was a
 * #prognosis "Prognostic Prediction"
     "Use of the AI system to estimate a future clinical outcome, risk, or disease course."
 
-ValueSet: EUAICaseSpecificIndicationVS
-Id: eu-ai-case-specific-indication-vs
-Title: "EU AI Case-Specific Indication Value Set"
+ValueSet: TrustAICaseSpecificIndicationVS
+Id: trust-ai-case-specific-indication-vs
+Title: "Trust AI Case-Specific Indication Value Set"
 Description: "Clinical purposes for applying an AI system in an individual care context."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAICaseSpecificIndicationCodeSystem
+* include codes from system TrustAICaseSpecificIndicationCodeSystem
 
 
 // ============================================================================
 // DATA QUALITY CHARACTERISTICS
-// Used in: AITrainingData extension within EU_AIModelCard.
+// Used in: AITrainingData extension within Trust_AIModelCard.
 // ValueSet use: binding for documented quality characteristics of training,
 // validation, or test data. These codes express an assessment, not an absolute
 // guarantee that the data are entirely error-free or complete.
 // ============================================================================
 
-CodeSystem: EUAIDataQualityCodeSystem
-Id: eu-ai-data-quality-cs
-Title: "EU AI Data Quality Code System"
+CodeSystem: TrustAIDataQualityCodeSystem
+Id: trust-ai-data-quality-cs
+Title: "Trust AI Data Quality Code System"
 Description: "Codes describing assessed data-quality characteristics relevant to the development, validation, testing, or evaluation of an AI system."
 
 * ^status = #active
@@ -218,25 +218,25 @@ Description: "Codes describing assessed data-quality characteristics relevant to
 * #relevant "Relevant"
     "The data are assessed as relevant to the documented purpose and intended use."
 
-ValueSet: EUAIDataQualityVS
-Id: eu-ai-data-quality-vs
-Title: "EU AI Data Quality Value Set"
+ValueSet: TrustAIDataQualityVS
+Id: trust-ai-data-quality-vs
+Title: "Trust AI Data Quality Value Set"
 Description: "Assessed data-quality characteristics relevant to AI-system development, validation, testing, or evaluation."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EUAIDataQualityCodeSystem
+* include codes from system TrustAIDataQualityCodeSystem
 
 
 // ============================================================================
 // ORGANIZATIONAL CONTACT PURPOSE
-// Used in: EU_AIOrganization.contact slices, for example dpo and incident.
+// Used in: Trust_AIOrganization.contact slices, for example dpo and incident.
 // No ValueSet is currently required because each contact slice fixes one code.
 // ============================================================================
 
-CodeSystem: EUAIContactPurposeCodeSystem
-Id: eu-ai-contact-purpose-cs
-Title: "EU AI Contact Purpose Code System"
+CodeSystem: TrustAIContactPurposeCodeSystem
+Id: trust-ai-contact-purpose-cs
+Title: "Trust AI Contact Purpose Code System"
 Description: "Codes identifying organizational contact responsibilities relevant to data protection and AI-system governance."
 
 * ^status = #active
@@ -252,13 +252,13 @@ Description: "Codes identifying organizational contact responsibilities relevant
 
 // ============================================================================
 // EHDS USAGE CATEGORY
-// Used in: EHDSUsageCategory extension on EU_AIProvenance.
+// Used in: EHDSUsageCategory extension on Trust_AIProvenance.
 // ValueSet use: required binding distinguishing primary from secondary use.
 // ============================================================================
 
-CodeSystem: EHDSUsageCategoryCodeSystem
-Id: ehds-usage-category-cs
-Title: "EHDS Usage Category Code System"
+CodeSystem: UsageCategoryCodeSystem
+Id: usage-category-cs
+Title: "Usage Category Code System"
 Description: "Codes distinguishing primary use from secondary use of electronic health data in the context of the European Health Data Space."
 
 * ^status = #active
@@ -271,28 +271,28 @@ Description: "Codes distinguishing primary use from secondary use of electronic 
 * #secondary-use "Secondary Use"
     "Use of electronic health data for a permitted purpose other than the direct provision of healthcare to the individual concerned."
 
-ValueSet: EHDSUsageCategoryVS
-Id: ehds-usage-category-vs
-Title: "EHDS Usage Category Value Set"
+ValueSet: UsageCategoryVS
+Id: usage-category-vs
+Title: "Usage Category Value Set"
 Description: "Categories distinguishing primary and secondary use of electronic health data in the EHDS context."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EHDSUsageCategoryCodeSystem
+* include codes from system UsageCategoryCodeSystem
 
 
 // ============================================================================
 // EHDS DATA CATEGORIES
-// Used in: AITrainingData extension within EU_AIModelCard to describe categories
+// Used in: AITrainingData extension within Trust_AIModelCard to describe categories
 // of electronic health data used for training, validation, testing, or evaluation.
 // ValueSet use: binding for one or more documented EHDS data categories.
 // Note: These are implementation-guide codes aligned with Article 51 concepts;
 // they are not intended as a verbatim reproduction of the Regulation.
 // ============================================================================
 
-CodeSystem: EHDSDataCategoryCodeSystem
-Id: ehds-data-category-cs
-Title: "EHDS Data Category Code System"
+CodeSystem: DataCategoryCodeSystem
+Id: data-category-cs
+Title: "Data Category Code System"
 Description: "Codes representing categories of electronic health data that may be made available for secondary use under the EHDS."
 
 * ^status = #active
@@ -350,28 +350,28 @@ Description: "Codes representing categories of electronic health data that may b
 * #biobank "Biobank Data"
     "Electronic health data from biobanks and associated databases."
 
-ValueSet: EHDSDataCategoryVS
-Id: ehds-data-category-vs
-Title: "EHDS Data Category Value Set"
+ValueSet: DataCategoryVS
+Id: data-category-vs
+Title: "Data Category Value Set"
 Description: "Categories of electronic health data that may be documented for secondary-use and AI-development contexts."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EHDSDataCategoryCodeSystem
+* include codes from system DataCategoryCodeSystem
 
 
 // ============================================================================
 // EHDS SECONDARY-USE PURPOSE
-// Used in: EHDSSecondaryUsePurpose extension on EU_AIProvenance and, where
-// applicable, in AITrainingData within EU_AIModelCard.
+// Used in: SecondaryUsePurpose extension on Trust_AIProvenance and, where
+// applicable, in AITrainingData within Trust_AIModelCard.
 // ValueSet use: binding for the permitted secondary-use purpose.
 // Note: The codes summarize EHDS purpose categories for implementation use and
 // do not replace the full legal conditions governing access and processing.
 // ============================================================================
 
-CodeSystem: EHDSSecondaryUsePurposeCodeSystem
-Id: ehds-secondary-use-purpose-cs
-Title: "EHDS Secondary-Use Purpose Code System"
+CodeSystem: SecondaryUsePurposeCodeSystem
+Id: secondary-use-purpose-cs
+Title: "Secondary-Use Purpose Code System"
 Description: "Codes representing permitted categories of purpose for the secondary use of electronic health data under the EHDS."
 
 * ^status = #active
@@ -402,19 +402,19 @@ Description: "Codes representing permitted categories of purpose for the seconda
 * #care-improvement "Improvement of Care Delivery"
     "Activities aimed at improving healthcare delivery, treatment, or the management of health systems."
 
-ValueSet: EHDSSecondaryUsePurposeVS
-Id: ehds-secondary-use-purpose-vs
-Title: "EHDS Secondary-Use Purpose Value Set"
+ValueSet: SecondaryUsePurposeVS
+Id: secondary-use-purpose-vs
+Title: "Secondary-Use Purpose Value Set"
 Description: "Purpose categories used to document the secondary use of electronic health data under the EHDS."
 
 * ^status = #active
 * ^experimental = false
-* include codes from system EHDSSecondaryUsePurposeCodeSystem
+* include codes from system SecondaryUsePurposeCodeSystem
 
 
 // ============================================================================
 // GDPR ARTICLE 6 LEGAL BASIS
-// Used in: EU_AIProvenance.authorization[gdprArt6Basis].concept.
+// Used in: Trust_AIProvenance.authorization[gdprArt6Basis].concept.
 // ValueSet use: required binding for the documented Article 6 legal basis.
 // This terminology records the asserted legal basis; it does not determine
 // whether that basis is legally applicable in a specific processing context.
@@ -459,7 +459,7 @@ Description: "Legal bases listed in Article 6(1) GDPR for documenting the assert
 
 // ============================================================================
 // GDPR ARTICLE 9 CONDITION
-// Used in: EU_AIProvenance.authorization[gdprArt9Condition].concept.
+// Used in: Trust_AIProvenance.authorization[gdprArt9Condition].concept.
 // ValueSet use: required binding for the documented Article 9(2) condition when
 // special categories of personal data, such as health data, are processed.
 // This IG includes the conditions most relevant to its healthcare use cases,
@@ -505,13 +505,13 @@ Description: "Selected Article 9(2) GDPR conditions relevant to processing healt
 
 // ============================================================================
 // AI DOCUMENTATION ARTIFACT TYPE
-// Used in: EU_AIModelCard.type (DocumentReference.type).
+// Used in: Trust_AIModelCard.type (DocumentReference.type).
 // No ValueSet is currently required because the profile fixes type to #model-card.
 // ============================================================================
 
-CodeSystem: EUAIArtifactTypeCodeSystem
-Id: eu-ai-artifact-type-cs
-Title: "EU AI Artifact Type Code System"
+CodeSystem: TrustAIArtifactTypeCodeSystem
+Id: trust-ai-artifact-type-cs
+Title: "Trust AI Artifact Type Code System"
 Description: "Codes identifying AI-related documentation artifacts represented by this implementation guide."
 
 * ^status = #active
@@ -524,34 +524,34 @@ Description: "Codes identifying AI-related documentation artifacts represented b
 
 // ============================================================================
 // AI IDENTIFIER TYPE
-// Used in: EU_AIDevice.identifier[euDatabaseId].type.
+// Used in: Trust_AIDevice.identifier[euDatabaseId].type.
 // No ValueSet is currently required because the identifier slice fixes the code.
 // ============================================================================
 
-CodeSystem: EUAIIdentifierTypeCodeSystem
-Id: eu-ai-identifier-type-cs
-Title: "EU AI Identifier Type Code System"
+CodeSystem: TrustAIIdentifierTypeCodeSystem
+Id: trust-ai-identifier-type-cs
+Title: "Trust AI Identifier Type Code System"
 Description: "Codes identifying regulatory identifier types associated with an AI system."
 
 * ^status = #active
 * ^experimental = false
 * ^caseSensitive = true
 
-* #eu-ai-registration-number "EU AI Registration Number"
-    "Registration number assigned to an AI system in the EU database established under the EU AI Act, where such registration is applicable."
+* #trust-ai-registration-number "Trust AI Registration Number"
+    "Registration number assigned to an AI system in the EU database established under the Trust AI Act, where such registration is applicable."
 
 
 // ============================================================================
 // AI SYSTEM PROPERTY TYPE
-// Used in: EU_AIDevice.property slices ceMark, notifiedBody,
+// Used in: Trust_AIDevice.property slices ceMark, notifiedBody,
 // expectedLifetime, intendedPurpose, and targetPopulation.
 // No ValueSet is currently required because each property slice fixes one code.
 // These codes identify the meaning of Device.property; they are not identifiers.
 // ============================================================================
 
-CodeSystem: EUAISystemPropertyCodeSystem
-Id: eu-ai-system-property-cs
-Title: "EU AI System Property Code System"
+CodeSystem: TrustAISystemPropertyCodeSystem
+Id: trust-ai-system-property-cs
+Title: "Trust AI System Property Code System"
 Description: "Codes identifying structured properties used to describe regulatory and operational characteristics of an AI system in Device.property."
 
 * ^status = #active
@@ -575,14 +575,14 @@ Description: "Codes identifying structured properties used to describe regulator
 
 // ============================================================================
 // AI AUDIT ENTITY ROLE
-// Used in: EU_AIAuditEvent.entity slices referenceDb and outputData.
+// Used in: Trust_AIAuditEvent.entity slices referenceDb and outputData.
 // The codes are fixed on the respective slices and serve as the slicing
 // discriminator for AuditEvent.entity.role.
 // The ValueSet contains all entity roles defined for AI execution audit events.
 // ============================================================================
-CodeSystem: EUAIAuditEntityRoleCodeSystem
-Id: eu-ai-audit-entity-role
-Title: "EU AI Audit Entity Role Code System"
+CodeSystem: TrustAIAuditEntityRoleCodeSystem
+Id: trust-ai-audit-entity-role
+Title: "Trust AI Audit Entity Role Code System"
 Description: "Roles used to distinguish entities involved in an AI execution audit event."
 * ^caseSensitive = true
 * ^content = #complete
@@ -593,9 +593,9 @@ Description: "Roles used to distinguish entities involved in an AI execution aud
 * #ai-output "AI Output"
     "A FHIR resource generated as output of the audited AI execution."
 
-ValueSet: EUAIAuditEntityRoleValueSet
-Id: eu-ai-audit-entity-role-vs
-Title: "EU AI Audit Entity Role Value Set"
+ValueSet: TrustAIAuditEntityRoleValueSet
+Id: trust-ai-audit-entity-role-vs
+Title: "Trust AI Audit Entity Role Value Set"
 Description: "Roles of entities involved in an AI execution audit event."
 
-* include codes from system EUAIAuditEntityRoleCodeSystem
+* include codes from system TrustAIAuditEntityRoleCodeSystem

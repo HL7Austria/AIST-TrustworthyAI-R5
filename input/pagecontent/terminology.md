@@ -6,7 +6,7 @@ The Implementation Guide defines custom terminology where existing FHIR terminol
 
 The IG defines custom CodeSystems for:
 
-- EU AI transparency concepts
+- Trust AI transparency concepts
 - Human oversight actions
 - GDPR legal bases
 - GDPR Article 9 exceptions

@@ -1,7 +1,7 @@
-Profile: EU_AIHumanOversightAssessment
+Profile: Trust_AIHumanOversightAssessment
 Parent: ArtifactAssessment
-Id: eu-ai-human-oversight
-Title: "EU AI Human Oversight Assessment"
+Id: trust-ai-human-oversight
+Title: "Trust AI Human Oversight Assessment"
 Description: "An ArtifactAssessment profile documenting professional review of an AI-generated output, including whether the result was accepted, corrected, modified, or overridden."
 
 // =======================================================
@@ -20,15 +20,17 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 // HUMAN ACTOR & COMPETENCE (HL-01 (AI Act Art. 14 | Responsible Actor), HL-02(AI Act Art. 14 | Qualification of Actor))
 // =======================================================
 * content.author 1..1 MS
-* content.author only Reference(EU_AIPractitionerRole)
+* content.author only Reference(Trust_AIPractitionerRole)
 * content.author ^short = "Reference to the qualified human overseer"
+* content.author ^requirements = "AI Act Art. 14 | Qualification of Actor"
 
 // =======================================================
 // INTERVENTION (HL-03 (AI Act Art. 14 | Type of Intervention))
 // =======================================================
 * content.classifier 1..1 MS 
-* content.classifier from EUAIHumanOversightActionVS (extensible)
+* content.classifier from TrustAIHumanOversightActionVS (extensible)
 * content.classifier ^short = "Human oversight action"
+* content.classifier ^requirements = "AI Act Art. 14 | Type of Intervention"
 
 * content.summary 0..1 MS
 * content.summary ^short = "Clinical or technical rationale for the assessment"
@@ -38,3 +40,4 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 // =======================================================
 * content.relatedArtifact 0..*
 * content.relatedArtifact ^short = "Supporting documentation or explainability evidence"
+* content.relatedArtifact ^requirements = "AI Act Art. 14 | Case-Specific Interpretability Information"

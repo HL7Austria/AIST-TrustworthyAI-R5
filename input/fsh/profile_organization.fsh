@@ -1,7 +1,7 @@
-Profile: EU_AIOrganization
+Profile: Trust_AIOrganization
 Parent: Organization
-Id: eu-ai-organization
-Title: "EU AI Responsible Organization"
+Id: trust-ai-organization
+Title: "Trust AI Responsible Organization"
 Description: "An Organization profile representing an organization involved in manufacturing, providing, deploying, or operating an AI system, including relevant accountability and contact information."
 
 // =======================================================
@@ -12,7 +12,7 @@ Description: "An Organization profile representing an organization involved in m
 * name ^short = "Name of the legal entity"
 
 // =======================================================
-// SLICING FÜR KONTAKTPERSONEN (SYS-08 (GDPR Art. 13 | DPO Contact Details), SYS-12 (AI Act Art. 17 | QMS Certification))
+// SLICING FÜR KONTAKTPERSONEN
 // =======================================================
 
 * contact ^slicing.discriminator.type = #value  
@@ -31,18 +31,21 @@ Description: "An Organization profile representing an organization involved in m
 
 // SYS-08 (GDPR Art. 13 | DPO Contact Details): Data Protection Officer (DSGVO)
 * contact[dpo].purpose 1..1
-* contact[dpo].purpose = EUAIContactPurposeCodeSystem#dpo "Data Protection Officer"
+* contact[dpo].purpose = TrustAIContactPurposeCodeSystem#dpo "Data Protection Officer"
 * contact[dpo].name 0..1 MS
 * contact[dpo].telecom 1..* MS
 * contact[dpo] ^short = "Data Protection Officer"
+* contact[dpo] ^requirements = "GDPR Art. 13 | DPO Contact Details"
 
 // SYS-12 (AI Act Art. 17 | QMS Certification): Additional operational governance: AI Incident Reporting Contact
 * contact[incident].purpose 1..1
-* contact[incident].purpose = EUAIContactPurposeCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
+* contact[incident].purpose = TrustAIContactPurposeCodeSystem#ai-incident-reporting "AI Incident Reporting Contact"
 * contact[incident].name 0..1 MS
 * contact[incident].telecom 1..* MS
 * contact[incident] ^short = "AI Incident Reporting Contact"
+* contact[incident] ^requirements = "AI Act Art. 17 | QMS Certification"
 
 // SYS-09 (GDPR Art. 35 | DPIA Reference): Reference on the DPIA Document: Privacy risk management, GDPR accountability.
 * extension contains DPIAReference named DPIAReference 0..1 MS
 * extension[DPIAReference] ^short = "Reference to the DPIA Document"
+* extension[DPIAReference] ^requirements = "GDPR Art. 35 | DPIA Reference"

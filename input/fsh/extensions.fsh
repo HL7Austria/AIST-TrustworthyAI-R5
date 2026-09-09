@@ -1,22 +1,22 @@
 // =============================================================================
 // 1. DEVICE EXTENSIONS
-// Resource: EU_AIDevice
+// Resource: Trust_AIDevice
 // =============================================================================
 
-// Used in: EU_AIDevice
-// Target resource: EU_AIModelCard (DocumentReference)
+// Used in: Trust_AIDevice
+// Target resource: Trust_AIModelCard (DocumentReference)
 // Purpose: Links the registered AI system to its associated model card or
 // technical documentation.
-Extension: EU_AIModelCardLink
+Extension: Trust_AIModelCardLink
 Id: ext-model-card
 Title: "Model Card Reference"
 Description: "References the model card that documents the AI system's intended purpose, limitations, performance, risks, and other relevant technical information."
 Context: Device
-* value[x] only Reference(EU_AIModelCard)
+* value[x] only Reference(Trust_AIModelCard)
 * value[x] 1..1
 
 
-// Used in: EU_AIDevice
+// Used in: Trust_AIDevice
 // Target resource: Device
 // Purpose: Documents whether use of the AI system involves a transfer of
 // personal data to a third country or an international organisation and,
@@ -40,14 +40,14 @@ Context: Device
 
 * extension[destinationCountry].value[x] only code
 * extension[destinationCountry].value[x] 1..1
-
+* extension[destinationCountry].valueCode from http://hl7.org/fhir/ValueSet/iso3166-1-2 (required)
 
 // =============================================================================
 // 2. MODEL CARD EXTENSIONS
-// Resource: EU_AIModelCard (DocumentReference)
+// Resource: Trust_AIModelCard (DocumentReference)
 // =============================================================================
 
-// Used in: EU_AIModelCard.extension[performance]
+// Used in: Trust_AIModelCard.extension[performance]
 // Purpose: Represents one or more quantitative performance measures and
 // optional free-text disclosures concerning bias, subgroup performance, or
 // known evaluation limitations.
@@ -68,7 +68,7 @@ Context: DocumentReference
 
 * extension[metric].extension[type].value[x] only CodeableConcept
 * extension[metric].extension[type].value[x] 1..1
-* extension[metric].extension[type].valueCodeableConcept from EUAIPerformanceMetricVS (extensible)
+* extension[metric].extension[type].valueCodeableConcept from TrustAIPerformanceMetricVS (extensible)
 
 * extension[metric].extension[value].value[x] only Quantity
 * extension[metric].extension[value].value[x] 1..1
@@ -77,7 +77,7 @@ Context: DocumentReference
 * extension[biasDisclosure].value[x] 1..1
 
 
-// Used in: EU_AIModelCard.extension[clinicalValidationStatus]
+// Used in: Trust_AIModelCard.extension[clinicalValidationStatus]
 // Purpose: States the documented validation stage of the AI system.
 //
 // Note: This extension records the declared status. It does not independently
@@ -89,18 +89,18 @@ Description: "Records the documented validation status of the AI system, such as
 Context: DocumentReference
 * value[x] only CodeableConcept
 * value[x] 1..1
-* valueCodeableConcept from EUAIClinicalValidationStatusVS (required)
+* valueCodeableConcept from TrustAIClinicalValidationStatusVS (required)
 
 
-// Used in: EU_AIModelCard.extension[training]
+// Used in: Trust_AIModelCard.extension[training]
 // Purpose: Describes the origin and relevant governance characteristics of the
 // data used to train or develop the AI system.
 //
 // Nested elements:
 // - provenance: narrative description of data origin or provenance
-// - ehdsCategory: EHDS-related category of the source data
-// - ehdsSecondaryUsePurpose: documented secondary-use purpose
-// - ehdsPermit: identifier of a relevant permit, where applicable (QUAL-02b)
+// - Category: EHDS-related category of the source data
+// - SecondaryUsePurpose: documented secondary-use purpose
+// - Permit: identifier of a relevant permit, where applicable (QUAL-02b)
 // - dataQuality: documented quality characteristic or assessment
 Extension: AITrainingData
 Id: ai-training-data
@@ -110,31 +110,31 @@ Context: DocumentReference
 * value[x] 0..0
 * extension contains
     provenance 1..1 MS and
-    ehdsCategory 0..* MS and
-    ehdsSecondaryUsePurpose 0..* MS and
-    ehdsPermit 0..* MS and
+    Category 0..* MS and
+    SecondaryUsePurpose 0..* MS and
+    Permit 0..* MS and
     dataQuality 0..* MS
 
 * extension[provenance].value[x] only string
 * extension[provenance].value[x] 1..1
 
-* extension[ehdsPermit].value[x] only Identifier
-* extension[ehdsPermit].value[x] 1..1
+* extension[Permit].value[x] only Identifier
+* extension[Permit].value[x] 1..1
 
-* extension[ehdsCategory].value[x] only CodeableConcept
-* extension[ehdsCategory].value[x] 1..1
-* extension[ehdsCategory].valueCodeableConcept from EHDSDataCategoryVS (extensible)
+* extension[Category].value[x] only CodeableConcept
+* extension[Category].value[x] 1..1
+* extension[Category].valueCodeableConcept from DataCategoryVS (extensible)
 
 * extension[dataQuality].value[x] only CodeableConcept
 * extension[dataQuality].value[x] 1..1
-* extension[dataQuality].valueCodeableConcept from EUAIDataQualityVS (extensible)
+* extension[dataQuality].valueCodeableConcept from TrustAIDataQualityVS (extensible)
 
-* extension[ehdsSecondaryUsePurpose].value[x] only CodeableConcept
-* extension[ehdsSecondaryUsePurpose].value[x] 1..1
-* extension[ehdsSecondaryUsePurpose].valueCodeableConcept from EHDSSecondaryUsePurposeVS (extensible)
+* extension[SecondaryUsePurpose].value[x] only CodeableConcept
+* extension[SecondaryUsePurpose].value[x] 1..1
+* extension[SecondaryUsePurpose].valueCodeableConcept from SecondaryUsePurposeVS (extensible)
 
 
-// Used in: EU_AIModelCard.extension[privacy]
+// Used in: Trust_AIModelCard.extension[privacy]
 // Purpose: Records the documented retention duration relevant to AI-related
 // data, outputs, logs, or technical documentation.
 //
@@ -156,52 +156,52 @@ Context: DocumentReference
 
 // =============================================================================
 // 3. EHDS AND PROVENANCE EXTENSIONS
-// Resource: EU_AIProvenance
+// Resource: Trust_AIProvenance
 // =============================================================================
 
-// Used in: EU_AIProvenance.extension[usageCategory]
+// Used in: Trust_AIProvenance.extension[usageCategory]
 // Purpose: Distinguishes primary use from secondary use of electronic health
 // data in the documented processing context.
-Extension: EHDSUsageCategory
-Id: ehds-usage-category
-Title: "EHDS Usage Category"
+Extension: UsageCategory
+Id: usage-category
+Title: "Usage Category"
 Description: "Classifies the documented use of electronic health data as primary use or secondary use in the EHDS context."
 Context: Provenance
 * value[x] only CodeableConcept
 * value[x] 1..1
-* valueCodeableConcept from EHDSUsageCategoryVS (required)
+* valueCodeableConcept from UsageCategoryVS (required)
 
 
-// Used in: EU_AIProvenance.extension[dataPermit]
+// Used in: Trust_AIProvenance.extension[dataPermit]
 // Purpose: Records the identifier of a data permit associated with secondary
 // use, where such a permit is applicable.
 //
 // Note: The extension stores a permit identifier; it does not contain the full
 // permit or prove that all permit conditions were satisfied.
-Extension: EHDSDataPermit
-Id: ehds-data-permit
-Title: "EHDS Data Permit"
+Extension: DataPermit
+Id: data-permit
+Title: "Data Permit"
 Description: "Records the identifier of an EHDS data permit associated with the documented secondary use, where applicable."
 Context: Provenance
 * value[x] only Identifier
 * value[x] 1..1
 
 
-// Used in: EU_AIProvenance.extension[secondaryUsePurpose]
+// Used in: Trust_AIProvenance.extension[secondaryUsePurpose]
 // Purpose: Records one or more documented purposes for secondary use of
 // electronic health data.
-Extension: EHDSSecondaryUsePurpose
-Id: ehds-secondary-use-purpose
-Title: "EHDS Secondary Use Purpose"
+Extension: SecondaryUsePurpose
+Id: secondary-use-purpose
+Title: "Secondary Use Purpose"
 Description: "Records the documented purpose for secondary use of electronic health data in the EHDS context."
 Context: Provenance
 * value[x] only CodeableConcept
 * value[x] 1..1
-* valueCodeableConcept from EHDSSecondaryUsePurposeVS (required)
+* valueCodeableConcept from SecondaryUsePurposeVS (required)
 
 
-// Used in: EU_AIProvenance
-// Resource: Provenance
+// Used in: Trust_AIProvenance
+// Resource: Provenance (for generlized Data) and Observation (for specialized Data)
 // Purpose: Records the patient- and encounter-specific clinical reason for
 // applying the AI system.
 //
@@ -214,11 +214,11 @@ Description: "Records the clinical indication or case-specific reason for applyi
 Context: Provenance
 * value[x] only CodeableConcept
 * value[x] 1..1
-* valueCodeableConcept from EUAICaseSpecificIndicationVS (extensible)
+* valueCodeableConcept from TrustAICaseSpecificIndicationVS (extensible)
 
 
-// Used in: EU_AIProvenance
-// Resource: Provenance
+// Used in: Trust_AIProvenance
+// Resource: Provenance (for generlized Data) and Observation (for specialized Data)
 // Purpose: Indicates whether the documented result was used in a solely
 // automated decision-making process.
 //
@@ -237,7 +237,7 @@ Context: Provenance
 // 5. HUMAN OVERSIGHT AND TRAINING EXTENSIONS
 // =============================================================================
 
-// Used in: EU_AIPractitionerRole or a referenced PractitionerRole
+// Used in: Trust_AIPractitionerRole or a referenced PractitionerRole
 // Resource: PractitionerRole
 // Purpose: Records whether the person acting in a defined professional role
 // has documented system-specific training for the relevant AI system.
@@ -257,7 +257,7 @@ Context: PractitionerRole
 // 6. AUDIT EVENT EXTENSIONS
 // =============================================================================
 
-// Used in: EU_AIAuditEvent.extension[logIntegrity]
+// Used in: Trust_AIAuditEvent.extension[logIntegrity]
 // Resource: AuditEvent
 // Purpose: Stores a digital signature that can support verification of the
 // integrity and origin of the audit-event content.
@@ -266,8 +266,8 @@ Context: PractitionerRole
 // not be described merely as a hash unless the implementation actually uses an
 // appropriate signature format and verification process.
 Extension: LogIntegritySignature
-Id: eu-ai-log-integrity
-Title: "EU AI Log Integrity Signature"
+Id: trust-ai-log-integrity
+Title: "Trust AI Log Integrity Signature"
 Description: "Provides a digital signature and associated metadata to support verification of the integrity and origin of the AI execution audit record."
 Context: AuditEvent
 * value[x] only Signature
@@ -281,8 +281,8 @@ Context: AuditEvent
 
 // SYS-09 (GDPR Art. 35): Reference on the DPIA Document: Privacy risk management, GDPR accountability.
 Extension: DPIAReference
-Id: eu-ai-dpia-reference
-Title: "EU AI DPIA Reference"
+Id: trust-ai-dpia-reference
+Title: "Trust AI DPIA Reference"
 Description: "Privacy risk management, GDPR accountability"
 Context: Organization
 * value[x] only Reference(DocumentReference)
@@ -291,7 +291,7 @@ Context: Organization
 
 // SYS-03a (AI Act Art. 47): Reference on the EU Conformity Declaration: The EU declaration of conformity shall identify the high-risk AI system for which it has been drawn up
 Extension: EUConformityDeclarationReference
-Id: eu-ai-conformity-reference
+Id: trust-ai-conformity-reference
 Title: "EU Conformity Declaration Reference"
 Description: "The EU declaration of conformity shall identify the high-risk AI system."
 Context: Device

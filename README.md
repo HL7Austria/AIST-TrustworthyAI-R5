@@ -12,7 +12,7 @@ The integration of Artificial Intelligence (AI) in healthcare requires strict ad
 
 The architecture is divided into three interconnected traceability layers:
 1. **Static System Context:** Profiles for the AI model's metadata, regulatory clearance (CE marking), and Model Cards (`Device`, `Organization`, `DocumentReference`).
-2. **AI Output Context:** Profiles for the dynamic execution of the AI, including automated decision flags and data provenance (`Observation`, `Consent`, `Provenance`, `AuditEvent`).
+2. **AI Output Context:** Profiles for the dynamic execution of the AI, including automated decision flags and data provenance (`Observation`, `Provenance`, `AuditEvent`).
 3. **Clinical Decision Context:** Profiles representing the "Human-in-the-Loop", tracking clinician oversight and patient communication (`ArtifactAssessment`, `PractitionerRole`, `Communication`).
 
 ## Repository Structure

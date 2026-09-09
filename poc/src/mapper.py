@@ -1,6 +1,6 @@
 """Map generated PoC metadata to FHIR R5 JSON resources.
 
-This mapper is aligned with the revised EU AI IG profiles and terminology files
+This mapper is aligned with the revised Trust AI IG profiles and terminology files
 shared in the conversation. It intentionally does not emit the optional
 LogIntegritySignature extension from the current hash-only metadata, because a
 hash string is not a FHIR Signature.
@@ -36,30 +36,30 @@ FHIR_OUTPUT_DIR = Path("poc/output/fhir")
 # Canonical URLs
 # -----------------------------------------------------------------------------
 
-CANONICAL = "http://example.org/fhir/eu-ai-transparency"
+CANONICAL = "http://example.org/fhir/trust-ai-transparency"
 
 PROFILE_EU_AI_ORGANIZATION = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-organization"
+    f"{CANONICAL}/StructureDefinition/trust-ai-organization"
 )
-PROFILE_EU_AI_DEVICE = f"{CANONICAL}/StructureDefinition/eu-ai-device"
-PROFILE_EU_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/eu-ai-model-card"
+PROFILE_EU_AI_DEVICE = f"{CANONICAL}/StructureDefinition/trust-ai-device"
+PROFILE_EU_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/trust-ai-model-card"
 PROFILE_EU_AI_PRACTITIONER_ROLE = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-practitionerrole"
+    f"{CANONICAL}/StructureDefinition/trust-ai-practitionerrole"
 )
 PROFILE_EU_AI_OBSERVATION = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-observation"
+    f"{CANONICAL}/StructureDefinition/trust-ai-observation"
 )
 PROFILE_EU_AI_AUDIT_EVENT = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-machine-execution-audit-event"
+    f"{CANONICAL}/StructureDefinition/trust-ai-machine-execution-audit-event"
 )
 PROFILE_EU_AI_PROVENANCE = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-provenance"
+    f"{CANONICAL}/StructureDefinition/trust-ai-provenance"
 )
 PROFILE_EU_AI_HUMAN_OVERSIGHT = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-human-oversight"
+    f"{CANONICAL}/StructureDefinition/trust-ai-human-oversight"
 )
 PROFILE_EU_AI_PATIENT_EXPLANATION = (
-    f"{CANONICAL}/StructureDefinition/eu-ai-patient-explanation"
+    f"{CANONICAL}/StructureDefinition/trust-ai-patient-explanation"
 )
 
 EXT_MODEL_CARD = f"{CANONICAL}/StructureDefinition/ext-model-card"
@@ -86,7 +86,7 @@ EXT_CASE_SPECIFIC_INDICATION = (
 EXT_AI_TRAINING_STATUS = (
     f"{CANONICAL}/StructureDefinition/ai-system-training-status"
 )
-EXT_LOG_INTEGRITY = f"{CANONICAL}/StructureDefinition/eu-ai-log-integrity"
+EXT_LOG_INTEGRITY = f"{CANONICAL}/StructureDefinition/trust-ai-log-integrity"
 EXT_AI_CLINICAL_VALIDATION_STATUS = (
     f"{CANONICAL}/StructureDefinition/ai-clinical-validation-status"
 )
@@ -94,19 +94,19 @@ EXT_AUTOMATED_DECISION = (
     f"{CANONICAL}/StructureDefinition/automated-decision-flag"
 )
 
-CS_AI_INVOLVEMENT = f"{CANONICAL}/CodeSystem/eu-ai-involvement-cs"
+CS_AI_INVOLVEMENT = f"{CANONICAL}/CodeSystem/trust-ai-involvement-cs"
 CS_CASE_SPECIFIC_INDICATION = (
-    f"{CANONICAL}/CodeSystem/eu-ai-case-specific-indication-cs"
+    f"{CANONICAL}/CodeSystem/trust-ai-case-specific-indication-cs"
 )
 CS_AI_PERFORMANCE_METRIC = (
-    f"{CANONICAL}/CodeSystem/eu-ai-performance-metric-cs"
+    f"{CANONICAL}/CodeSystem/trust-ai-performance-metric-cs"
 )
 CS_AI_CLINICAL_VALIDATION_STATUS = (
-    f"{CANONICAL}/CodeSystem/eu-ai-clinical-validation-status-cs"
+    f"{CANONICAL}/CodeSystem/trust-ai-clinical-validation-status-cs"
 )
-CS_AI_DATA_QUALITY = f"{CANONICAL}/CodeSystem/eu-ai-data-quality-cs"
-CS_HUMAN_OVERSIGHT = f"{CANONICAL}/CodeSystem/eu-ai-human-oversight-cs"
-CS_AI_CONTACT_PURPOSE = f"{CANONICAL}/CodeSystem/eu-ai-contact-purpose-cs"
+CS_AI_DATA_QUALITY = f"{CANONICAL}/CodeSystem/trust-ai-data-quality-cs"
+CS_HUMAN_OVERSIGHT = f"{CANONICAL}/CodeSystem/trust-ai-human-oversight-cs"
+CS_AI_CONTACT_PURPOSE = f"{CANONICAL}/CodeSystem/trust-ai-contact-purpose-cs"
 CS_EHDS_USAGE_CATEGORY = f"{CANONICAL}/CodeSystem/ehds-usage-category-cs"
 CS_EHDS_DATA_CATEGORY = f"{CANONICAL}/CodeSystem/ehds-data-category-cs"
 CS_EHDS_SECONDARY_USE_PURPOSE = (
@@ -114,10 +114,10 @@ CS_EHDS_SECONDARY_USE_PURPOSE = (
 )
 CS_GDPR_ART6 = f"{CANONICAL}/CodeSystem/gdpr-art6-codesystem"
 CS_GDPR_ART9 = f"{CANONICAL}/CodeSystem/gdpr-art9-codesystem"
-CS_AI_ARTIFACT_TYPE = f"{CANONICAL}/CodeSystem/eu-ai-artifact-type-cs"
-CS_AI_IDENTIFIER_TYPE = f"{CANONICAL}/CodeSystem/eu-ai-identifier-type-cs"
-CS_AI_SYSTEM_PROPERTY = f"{CANONICAL}/CodeSystem/eu-ai-system-property-cs"
-CS_AUDIT_ENTITY_ROLE = f"{CANONICAL}/CodeSystem/eu-ai-audit-entity-role"
+CS_AI_ARTIFACT_TYPE = f"{CANONICAL}/CodeSystem/trust-ai-artifact-type-cs"
+CS_AI_IDENTIFIER_TYPE = f"{CANONICAL}/CodeSystem/trust-ai-identifier-type-cs"
+CS_AI_SYSTEM_PROPERTY = f"{CANONICAL}/CodeSystem/trust-ai-system-property-cs"
+CS_AUDIT_ENTITY_ROLE = f"{CANONICAL}/CodeSystem/trust-ai-audit-entity-role"
 
 CS_CONTACT_ENTITY_TYPE = (
     "http://terminology.hl7.org/CodeSystem/contactentity-type"
@@ -455,8 +455,8 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
             {
                 "type": codeable_concept(
                     CS_AI_IDENTIFIER_TYPE,
-                    "eu-ai-registration-number",
-                    "EU AI Registration Number",
+                    "trust-ai-registration-number",
+                    "Trust AI Registration Number",
                 ),
                 "system": fhir["identifierSystem"],
                 "value": ai_system["euDatabaseId"],

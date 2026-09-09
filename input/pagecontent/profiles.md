@@ -19,7 +19,7 @@ It includes metadata such as:
 - intended purpose
 - target population
 - expected lifetime
-- EU AI database identifier
+- Trust AI database identifier
 
 ### EU_AIOrganization (Organization)
 

@@ -16,9 +16,9 @@ The IG defines custom extensions where the FHIR core specification does not suff
 
 ## Provenance Extensions
 
-- EHDS Usage Category
-- EHDS Data Permit
-- EHDS Secondary Use Purpose
+- Usage Category
+- Data Permit
+- Secondary Use Purpose
 
 ## Observation Extensions
 

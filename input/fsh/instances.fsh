@@ -30,7 +30,7 @@ Description: "The fictional clinician responsible for reviewing the AI-generated
 * name[0].prefix[0] = "Dr."
 
 Instance: organization-examplehospital
-InstanceOf: EU_AIOrganization
+InstanceOf: Trust_AIOrganization
 Usage: #example
 Title: "Operator Organization: Example Hospital"
 Description: "The fictional healthcare organization operating the AI system."
@@ -53,7 +53,7 @@ Description: "The fictional healthcare organization operating the AI system."
 * contact[incident].telecom[0].use = #work
 
 Instance: organization-examplemed
-InstanceOf: EU_AIOrganization
+InstanceOf: Trust_AIOrganization
 Usage: #example
 Title: "Manufacturer Organization: ExampleMed AI GmbH"
 Description: "The fictional manufacturer/provider of the RiskAssist AI system."
@@ -92,12 +92,12 @@ Description: "Synthetic encounter for suspected infection and early-warning risk
 // =======================================================
 
 Instance: device-riskassist-ai
-InstanceOf: EU_AIDevice
+InstanceOf: Trust_AIDevice
 Usage: #example
 Title: "Device: RiskAssist AI"
 Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessment."
-* identifier[euDatabaseId].system = "http://example.org/fhir/sid/eu-ai-database"
-* identifier[euDatabaseId].value = "EU-AI-000123"
+* identifier[euDatabaseId].system = "http://example.org/fhir/sid/trust-ai-database"
+* identifier[euDatabaseId].value = "trust-ai-000123"
 * status = #active
 * name[0].value = "RiskAssist AI"
 * name[0].type = #registered-name
@@ -134,7 +134,7 @@ Description: "The document attachment for the conformity declaration."
 * title = "Conformity Declaration Attachment"
 
 Instance: modelcard-riskassist-ai
-InstanceOf: EU_AIModelCard
+InstanceOf: Trust_AIModelCard
 Usage: #example
 Title: "Model Card: RiskAssist AI v1.0.0"
 Description: "Synthetic model card for the deterministic AI-output simulation component used in the PoC."
@@ -143,22 +143,22 @@ Description: "Synthetic model card for the deterministic AI-output simulation co
 * date = "2026-03-01T10:00:00Z"
 * description = "Synthetic model card for a deterministic AI-output simulation component used in the PoC."
 * content[0].attachment.contentType = #text/html
-* content[0].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/model-card"
+* content[0].attachment.url = "https://fh-ooe.at/fhir/trust-ai-transparency/riskassist/model-card"
 * content[0].attachment.title = "RiskAssist AI Model Card"
 * content[1].attachment.contentType = #text/html
-* content[1].attachment.url = "https://fh-ooe.at/fhir/eu-ai-transparency/riskassist/technical-documentation"
+* content[1].attachment.url = "https://fh-ooe.at/fhir/trust-ai-transparency/riskassist/technical-documentation"
 * content[1].attachment.title = "Technical Documentation"
-* extension[clinicalValidationStatus].valueCodeableConcept = EUAIClinicalValidationStatusCodeSystem#not-clinically-validated "Not Clinically Validated"
-* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = EUAIPerformanceMetricCodeSystem#accuracy "Accuracy"
+* extension[clinicalValidationStatus].valueCodeableConcept = TrustAIClinicalValidationStatusCodeSystem#not-clinically-validated "Not Clinically Validated"
+* extension[performance].extension[metric][0].extension[type].valueCodeableConcept = TrustAIPerformanceMetricCodeSystem#accuracy "Accuracy"
 * extension[performance].extension[metric][0].extension[value].valueQuantity = 0.86 '1' "1"
 * extension[performance].extension[biasDisclosure][0].valueString = "No bias evaluation is claimed for this synthetic PoC model."
 * extension[training].extension[provenance].valueString = "No real training data are used. The component is used only to simulate AI-like outputs for the PoC."
-* extension[training].extension[ehdsCategory][0].valueCodeableConcept = EHDSDataCategoryCodeSystem#ehr
-* extension[training].extension[dataQuality][0].valueCodeableConcept = EUAIDataQualityCodeSystem#complete "Complete"
+* extension[training].extension[Category][0].valueCodeableConcept = DataCategoryCodeSystem#ehr
+* extension[training].extension[dataQuality][0].valueCodeableConcept = TrustAIDataQualityCodeSystem#complete "Complete"
 * extension[privacy].extension[retention].valueDuration = 10 'a' "years"
 
 Instance: practitionerrole-reviewer-001
-InstanceOf: EU_AIPractitionerRole
+InstanceOf: Trust_AIPractitionerRole
 Usage: #example
 Title: "PractitionerRole: Human Reviewer"
 Description: "Synthetic practitioner role representing a trained internal medicine reviewer."
@@ -267,7 +267,7 @@ Description: "Synthetic NEWS2-inspired input parameter."
 // AI output and traceability for sc-01-ai-only
 
 Instance: sc-01-ai-only-ai-observation-risk-001
-InstanceOf: Observation
+InstanceOf: Trust_AIObservation
 Usage: #example
 Title: "AI Output: Early Warning Risk Assessment (1)"
 Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspired input parameters."
@@ -277,7 +277,6 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* meta.security = EUAIInvolvementCodeSystem#ai-generated "AI Generated"
 * valueCodeableConcept.text = "high-risk"
 * component[0].code.text = "Confidence"
 * component[0].valueQuantity = 0.86 '1' "1"
@@ -287,7 +286,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * performer = Reference(organization-examplehospital)
 
 Instance: sc-01-ai-only-audit-event-ai-execution-001
-InstanceOf: EU_AIAuditEvent
+InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "Audit Log: AI Execution Trace (1)"
 Description: "Synthetic audit event documenting the AI execution for PoC traceability."
@@ -308,12 +307,12 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[outputData][0].role = EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role = TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-01-ai-only-ai-observation-risk-001)
 
 Instance: sc-01-ai-only-provenance-ai-output-001
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: AI Output Generation (1)"
 Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
@@ -343,8 +342,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-01-ai-only-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-01-ai-only-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
-* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
+* extension[usageCategory].valueCodeableConcept = UsageCategoryCodeSystem#primary-use "Primary Use"
+* extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
 
@@ -446,7 +445,7 @@ Description: "Synthetic NEWS2-inspired input parameter."
 // AI output and traceability for sc-02-validation
 
 Instance: sc-02-validation-ai-observation-risk-001
-InstanceOf: Observation
+InstanceOf: Trust_AIObservation
 Usage: #example
 Title: "AI Output: Early Warning Risk Assessment (2)"
 Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspired input parameters."
@@ -456,7 +455,6 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* meta.security = EUAIInvolvementCodeSystem#ai-generated "AI Generated"
 * valueCodeableConcept.text = "high-risk"
 * component[0].code.text = "Confidence"
 * component[0].valueQuantity = 0.86 '1' "1"
@@ -466,7 +464,7 @@ Description: "Synthetic AI-generated high-risk output derived from NEWS2-inspire
 * performer = Reference(organization-examplehospital)
 
 Instance: sc-02-validation-audit-event-ai-execution-001
-InstanceOf: EU_AIAuditEvent
+InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "Audit Log: AI Execution Trace (2)"
 Description: "Synthetic audit event documenting the AI execution for PoC traceability."
@@ -487,12 +485,12 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[outputData][0].role =  EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role =  TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-02-validation-ai-observation-risk-001)
 
 Instance: sc-02-validation-provenance-ai-output-001
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: AI Output Generation (2)"
 Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
@@ -518,14 +516,14 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-02-validation-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-02-validation-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
-* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
+* extension[usageCategory].valueCodeableConcept = UsageCategoryCodeSystem#primary-use "Primary Use"
+* extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
 // Human oversight for sc-02-validation
 
 Instance: sc-02-validation-human-oversight-001
-InstanceOf: EU_AIHumanOversightAssessment
+InstanceOf: Trust_AIHumanOversightAssessment
 Usage: #example
 Title: "Assessment: Human Validation of AI Output (2)"
 Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
@@ -533,7 +531,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-02-validation-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIHumanOversightCodeSystem#human-validation "Human Validation"
+* content[0].classifier = TrustAIHumanOversightCodeSystem#human-validation "Human Validation"
 * content[0].summary = "The simulated AI output was reviewed and accepted."
 
 
@@ -635,7 +633,7 @@ Description: "Synthetic NEWS2-inspired input parameter."
 // AI output and traceability for sc-03-override
 
 Instance: sc-03-override-ai-observation-risk-001
-InstanceOf: Observation
+InstanceOf: Trust_AIObservation
 Usage: #example
 Title: "AI Output: Early Warning Risk Assessment (3)"
 Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired input parameters."
@@ -645,7 +643,6 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* meta.security = EUAIInvolvementCodeSystem#ai-generated "AI Generated"
 * valueCodeableConcept.text = "low-risk"
 * component[0].code.text = "Confidence"
 * component[0].valueQuantity = 0.68 '1' "1"
@@ -655,7 +652,7 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * performer = Reference(organization-examplehospital)
 
 Instance: sc-03-override-audit-event-ai-execution-001
-InstanceOf: EU_AIAuditEvent
+InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "Audit Log: AI Execution Trace (3)"
 Description: "Synthetic audit event documenting the AI execution for PoC traceability."
@@ -676,12 +673,12 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[outputData][0].role =  EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role =  TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-03-override-ai-observation-risk-001)
 
 Instance: sc-03-override-provenance-ai-output-001
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: AI Output Generation (3)"
 Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
@@ -707,14 +704,14 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-03-override-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-03-override-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
-* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
+* extension[usageCategory].valueCodeableConcept = UsageCategoryCodeSystem#primary-use "Primary Use"
+* extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
 // Human oversight for sc-03-override
 
 Instance: sc-03-override-human-oversight-001
-InstanceOf: EU_AIHumanOversightAssessment
+InstanceOf: Trust_AIHumanOversightAssessment
 Usage: #example
 Title: "Assessment: Human Override of AI Output (3)"
 Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
@@ -722,7 +719,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-03-override-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIHumanOversightCodeSystem#human-override "Human Override"
+* content[0].classifier = TrustAIHumanOversightCodeSystem#human-override "Human Override"
 * content[0].summary = "The clinician overrode the simulated low-risk AI output due to additional synthetic clinical concerns."
 
 
@@ -823,7 +820,7 @@ Description: "Synthetic NEWS2-inspired input parameter."
 // AI output and traceability for sc-04-correction-exp
 
 Instance: sc-04-correction-exp-ai-observation-risk-001
-InstanceOf: Observation
+InstanceOf: Trust_AIObservation
 Usage: #example
 Title: "AI Output: Early Warning Risk Assessment (4)"
 Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired input parameters."
@@ -833,7 +830,6 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * encounter = Reference(encounter-001)
 * effectiveDateTime = "2026-03-01T10:15:03Z"
 * device = Reference(device-riskassist-ai)
-* meta.security = EUAIInvolvementCodeSystem#ai-generated "AI Generated"
 * valueCodeableConcept.text = "low-risk"
 * component[0].code.text = "Confidence"
 * component[0].valueQuantity = 0.68 '1' "1"
@@ -843,7 +839,7 @@ Description: "Synthetic AI-generated low-risk output derived from NEWS2-inspired
 * performer = Reference(organization-examplehospital)
 
 Instance: sc-04-correction-exp-audit-event-ai-execution-001
-InstanceOf: EU_AIAuditEvent
+InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "Audit Log: AI Execution Trace (4)"
 Description: "Synthetic audit event documenting the AI execution for PoC traceability."
@@ -864,12 +860,12 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
-* entity[outputData][0].role =   EUAIAuditEntityRoleCodeSystem#ai-output
+* entity[outputData][0].role =   TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-04-correction-exp-ai-observation-risk-001)
 
 Instance: sc-04-correction-exp-provenance-ai-output-001
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: AI Output Generation (4)"
 Description: "Synthetic provenance resource linking the AI output to the AI system, input data, and legal processing context."
@@ -895,14 +891,14 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * entity[4].what = Reference(sc-04-correction-exp-observation-oxygen-saturation-001)
 * entity[5].role = #source
 * entity[5].what = Reference(sc-04-correction-exp-observation-consciousness-status-001)
-* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#primary-use "Primary Use"
-* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
+* extension[usageCategory].valueCodeableConcept = UsageCategoryCodeSystem#primary-use "Primary Use"
+* extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
 // Human oversight for sc-04-correction-exp
 
 Instance: sc-04-correction-exp-human-oversight-001
-InstanceOf: EU_AIHumanOversightAssessment
+InstanceOf: Trust_AIHumanOversightAssessment
 Usage: #example
 Title: "Assessment: Human Correction of AI Output (4)"
 Description: "Synthetic human oversight assessment documenting the clinician's review of the AI output."
@@ -910,7 +906,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * artifactReference = Reference(sc-04-correction-exp-ai-observation-risk-001)
 * date = "2026-03-01T10:20:00Z"
 * content[0].author = Reference(practitionerrole-reviewer-001)
-* content[0].classifier = EUAIHumanOversightCodeSystem#human-correction "Human Correction"
+* content[0].classifier = TrustAIHumanOversightCodeSystem#human-correction "Human Correction"
 * content[0].summary = "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
 
 Instance: sc-04-correction-exp-corrected-clinical-observation-001
@@ -931,7 +927,7 @@ Description: "Human-corrected clinical result preserving traceability to the ori
 * performer = Reference(practitioner-001)
 
 Instance: sc-04-correction-exp-patient-explanation-001
-InstanceOf: EU_AIPatientExplanation
+InstanceOf: Trust_AIPatientExplanation
 Usage: #example
 Title: "Communication: Patient-Facing AI Explanation (4)"
 Description: "Synthetic patient-facing explanation about AI-supported processing and human review."
@@ -950,7 +946,7 @@ Description: "Synthetic patient-facing explanation about AI-supported processing
 // =======================================================
 
 Instance: example-secondary-use-provenance
-InstanceOf: EU_AIProvenance
+InstanceOf: Trust_AIProvenance
 Usage: #example
 Title: "Provenance: Secondary Use Example"
 Description: "Example showing EHDS secondary use purpose and data permit."
@@ -967,9 +963,9 @@ Description: "Example showing EHDS secondary use purpose and data permit."
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
 * entity[0].what = Reference(sc-04-correction-exp-observation-temperature-001)
-* extension[usageCategory].valueCodeableConcept = EHDSUsageCategoryCodeSystem#secondary-use "Secondary Use"
-* extension[caseIndication].valueCodeableConcept = EUAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
+* extension[usageCategory].valueCodeableConcept = UsageCategoryCodeSystem#secondary-use "Secondary Use"
+* extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
-* extension[secondaryUsePurpose].valueCodeableConcept = EHDSSecondaryUsePurposeCodeSystem#scientific-research "Scientific Research"
-* extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/sid/ehds-data-permit"
+* extension[secondaryUsePurpose].valueCodeableConcept = SecondaryUsePurposeCodeSystem#scientific-research "Scientific Research"
+* extension[dataPermit].valueIdentifier.system = "http://example.org/fhir/sid/data-permit"
 * extension[dataPermit].valueIdentifier.value = "EHDS-PERMIT-2026-0001"

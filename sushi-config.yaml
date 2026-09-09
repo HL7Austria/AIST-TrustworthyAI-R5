@@ -3,9 +3,9 @@
 # │  used properties are included. For a list of all supported properties and their functions,     │
 # │  see: https://fshschool.org/docs/sushi/configuration/.                                         │
 # ╰────────────────────────────────────────────────────────────────────────────────────────────────╯
-id: fhir.ig.eu.aitransparency
-canonical: http://example.org/fhir/eu-ai-transparency
-name: EUAITransparencyIG
+id: fhir.ig.trust.aitransparency
+canonical: http://example.org/fhir/trust-ai-transparency
+name: TrustAITransparencyIG
 # title: Example Title
 # description: Example Implementation Guide for getting started with SUSHI
 status: draft # draft | active | retired | unknown
@@ -94,7 +94,8 @@ menu:
     Extension Definitions: artifacts.html#structures-extension-definitions
     Value Sets: artifacts.html#terminology-value-sets
     Code Systems: artifacts.html#terminology-code-systems
-    Example Instances: artifacts.html#example-example-instances
+    Example Generalized Scenario: artifacts.html#generalized-ai-output-scenario
+    Example Specialized Scenario: artifacts.html#spezialied-ai-output-scenario
 
   Technical:
     Dependencies: dependencies.html
@@ -167,19 +168,80 @@ menu:
 # is specified by id or name, SUSHI will replace it with the correct
 # URL when generating the IG JSON.
 #
-# groups:
-#   GroupA:
-#     name: Group A
-#     description: The Alpha Group
-#     resources:
-#     - StructureDefinition/animal-patient
-#     - StructureDefinition/arm-procedure
-#   GroupB:
-#     name: Group B
-#     description: The Beta Group
-#     resources:
-#     - StructureDefinition/bark-control
-#     - StructureDefinition/bee-sting
+groups:
+  generalized:
+    name: Generalized AI Output Scenario
+    description: Example how the IG can be used only using the generalized Output for elements without specified Resources.
+    resources:
+      - Patient/dr-patient
+      - Practitioner/dr-practitioner
+      - Organization/dr-organization
+      - PractitionerRole/dr-practitioner-role
+      - Device/dr-ai-device
+      - DocumentReference/eu-conformity-declaration-2
+      - DocumentReference/dr-model-card
+      - Observation/dr-input-observation
+      - DiagnosticReport/dr-ai-diagnostic-report
+      - Provenance/dr-ai-provenance
+      - AuditEvent/dr-ai-audit-event
+      - ArtifactAssessment/dr-human-assessment
+      - Communication/dr-patient-communication
+  spezialized:
+    name: Spezialied AI Output Scenario
+    description: Example how the spezialized AI Output such as AI Observation can be used.
+    resources:
+      - Patient/patient-001
+      - Practitioner/practitioner-001
+      - Organization/organization-examplehospital
+      - Organization/organization-examplemed
+      - Encounter/encounter-001
+      - Device/device-riskassist-ai
+      - DocumentReference/eu-conformity-declaration
+      - DocumentReference/modelcard-riskassist-ai
+      - PractitionerRole/practitionerrole-reviewer-001
+      - Observation/sc-01-ai-only-observation-temperature-001
+      - Observation/sc-01-ai-only-observation-heart-rate-001
+      - Observation/sc-01-ai-only-observation-respiratory-rate-001
+      - Observation/sc-01-ai-only-observation-blood-pressure-001
+      - Observation/sc-01-ai-only-observation-oxygen-saturation-001
+      - Observation/sc-01-ai-only-observation-consciousness-status-001
+      - Observation/sc-01-ai-only-ai-observation-risk-001
+      - AuditEvent/sc-01-ai-only-audit-event-ai-execution-001
+      - Provenance/sc-01-ai-only-provenance-ai-output-001
+      - Observation/sc-02-validation-observation-temperature-001
+      - Observation/sc-02-validation-observation-heart-rate-001
+      - Observation/sc-02-validation-observation-respiratory-rate-001
+      - Observation/sc-02-validation-observation-blood-pressure-001
+      - Observation/sc-02-validation-observation-oxygen-saturation-001
+      - Observation/sc-02-validation-observation-consciousness-status-001
+      - Observation/sc-02-validation-ai-observation-risk-001
+      - AuditEvent/sc-02-validation-audit-event-ai-execution-001
+      - Provenance/sc-02-validation-provenance-ai-output-001
+      - ArtifactAssessment/sc-02-validation-human-oversight-001
+      - Observation/sc-03-override-observation-temperature-001
+      - Observation/sc-03-override-observation-heart-rate-001
+      - Observation/sc-03-override-observation-respiratory-rate-001
+      - Observation/sc-03-override-observation-blood-pressure-001
+      - Observation/sc-03-override-observation-oxygen-saturation-001
+      - Observation/sc-03-override-observation-consciousness-status-001
+      - Observation/sc-03-override-ai-observation-risk-001
+      - AuditEvent/sc-03-override-audit-event-ai-execution-001
+      - Provenance/sc-03-override-provenance-ai-output-001
+      - ArtifactAssessment/sc-03-override-human-oversight-001
+      - Observation/sc-04-correction-exp-observation-temperature-001
+      - Observation/sc-04-correction-exp-observation-heart-rate-001
+      - Observation/sc-04-correction-exp-observation-respiratory-rate-001
+      - Observation/sc-04-correction-exp-observation-blood-pressure-001
+      - Observation/sc-04-correction-exp-observation-oxygen-saturation-001
+      - Observation/sc-04-correction-exp-observation-consciousness-status-001
+      - Observation/sc-04-correction-exp-ai-observation-risk-001
+      - AuditEvent/sc-04-correction-exp-audit-event-ai-execution-001
+      - Provenance/sc-04-correction-exp-provenance-ai-output-001
+      - ArtifactAssessment/sc-04-correction-exp-human-oversight-001
+      - Observation/sc-04-correction-exp-corrected-clinical-observation-001
+      - Communication/sc-04-correction-exp-patient-explanation-001
+      - Provenance/example-secondary-use-provenance
+
 #
 #
 # The ImplementationGuide resource defines several other properties
