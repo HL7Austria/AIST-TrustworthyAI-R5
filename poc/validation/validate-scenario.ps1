@@ -7,7 +7,7 @@ Set-StrictMode -Version Latest
 
 $Validator = (Resolve-Path ".\validator_cli.jar").Path
 $IgPackage = (Resolve-Path "..\..\output\package.tgz").Path
-$FhirVersion = "5.0.0"
+$FhirVersion = "4.0.1"
 
 $ScenarioDir = (Resolve-Path "..\output\fhir\$ScenarioName").Path
 $ResultDir = Join-Path $PSScriptRoot "results\$ScenarioName"

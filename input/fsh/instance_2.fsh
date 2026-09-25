@@ -64,8 +64,8 @@ Description: "The AI system that generates the diagnostic report from the patien
 * identifier[euDatabaseId].system = "http://example.org/fhir/sid/trust-ai-database"
 * identifier[euDatabaseId].value = "trust-ai-DIAG-001"
 * status = #active
-* name[0].value = "DiagnosticAssist AI"
-* name[0].type = #registered-name
+* deviceName[0].name = "DiagnosticAssist AI"
+* deviceName[0].type = #manufacturer-name
 * version[0].value = "1.0.0"
 * manufacturer = "Example AI Medical GmbH"
 * owner = Reference(dr-organization)
@@ -73,12 +73,12 @@ Description: "The AI system that generates the diagnostic report from the patien
 * contact[0].value = "manufacturer@example-ai-medical.example"
 * contact[1].system = #email
 * contact[1].value = "dpo@example-ai-medical.example"
-* conformsTo[0].specification.text = "Synthetic quality management certification"
+* extension[conformsTo].extension[specification].valueCodeableConcept.text = "Synthetic quality management certification"
 * note[0].text = "Annual maintenance and validation required."
-* property[ceMark].valueBoolean = true
+* property[ceMark].valueCode = http://snomed.info/sct#373066001 "Yes"
 * property[expectedLifetime].valueQuantity = 5 'a' "years"
-* property[intendedPurpose].valueString = "Support diagnostic assessment from clinical findings"
-* property[targetPopulation][0].valueCodeableConcept.text = "Adult patients"
+* property[intendedPurpose].valueCode.text = "Support diagnostic assessment from clinical findings"
+* property[targetPopulation][0].valueCode.text = "Adult patients"
 * extension[dataTransfer].extension[transferFlag].valueBoolean = false
 * extension[modelCard].valueReference = Reference(dr-model-card)
 * extension[conformityDeclaration].valueReference = Reference(eu-conformity-declaration-2)
@@ -161,10 +161,8 @@ Description: "The provenance record describing how and under what legal basis th
 * occurredPeriod.start = "2026-03-10T09:05:00Z"
 * occurredPeriod.end = "2026-03-10T09:05:03Z"
 * recorded = "2026-03-10T09:05:04Z"
-* authorization[gdprArt6Basis].concept.coding =
-    GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprArt9Condition].concept.coding =
-    GDPRArt9CodeSystem#gdpr-art-9-2-h
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * agent[0].who = Reference(dr-ai-device)
 * entity[0].role = #source
 * entity[0].what = Reference(dr-input-observation)
@@ -179,17 +177,19 @@ InstanceOf: Trust_AIAuditEvent
 Usage: #example
 Title: "AuditEvent: AI Diagnostic Report Generation"
 Description: "The audit trail entry recording the AI system's generation of the diagnostic report."
-* code.text = "AI diagnostic report generation"
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 * action = #C
 * recorded = "2026-03-10T09:05:04Z"
-* occurredPeriod.start = "2026-03-10T09:05:00Z"
-* occurredPeriod.end = "2026-03-10T09:05:03Z"
+* period.start = "2026-03-10T09:05:00Z"
+* period.end = "2026-03-10T09:05:03Z"
 * agent[0].who = Reference(dr-ai-device)
 * agent[0].requestor = false
 * source.observer = Reference(dr-ai-device)
 * entity[outputData][0].role = TrustAIAuditEntityRoleCodeSystem#ai-output
 * entity[outputData][0].what = Reference(dr-ai-diagnostic-report)
 
+/* TODO R4 mapping: ArtifactAssessment and this human oversight example are
+    R5-only. Map this workflow to an R4-compatible resource before enabling it.
 Instance: dr-human-assessment
 InstanceOf: Trust_AIHumanOversightAssessment
 Usage: #example
@@ -204,6 +204,7 @@ Description: "The human oversight assessment recording the clinician's review an
 * content[0].summary =
     "The clinician reviewed the AI-generated diagnostic report and accepted its conclusion."
 
+*/
 Instance: dr-patient-communication
 InstanceOf: Trust_AIPatientExplanation
 Usage: #example
@@ -212,7 +213,8 @@ Description: "The communication informing the patient about the AI's involvement
 * status = #completed
 * subject = Reference(dr-patient)
 * sender = Reference(dr-practitioner-role)
-* about[0] = Reference(dr-human-assessment)
+// R4 mapping: about references the diagnostic report instead of the removed ArtifactAssessment example.
+* about[0] = Reference(dr-ai-diagnostic-report)
 * sent = "2026-03-10T09:15:00Z"
 * payload[0].contentAttachment.contentType = #text/plain
 * payload[0].contentAttachment.title = "Patient-facing AI explanation"

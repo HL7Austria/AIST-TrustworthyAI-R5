@@ -1,14 +1,14 @@
 
-# AIST-TrustworthyAI-R5: FHIR Implementation Guide for AI Transparency
+# AIST-TrustworthyAI-R5: FHIR R4 Implementation Guide for AI Transparency
 
-![FHIR Version](https://img.shields.io/badge/FHIR-R5-firebrick.svg)
+![FHIR Version](https://img.shields.io/badge/FHIR-R4-firebrick.svg)
 ![FSH](https://img.shields.io/badge/FSH-supported-blue.svg)
 
-This repository contains the HL7 FHIR Implementation Guide (IG) developed as part of a Master's thesis. It provides a standardized, interoperable data model to fulfill the transparency, accountability, and traceability requirements of the **EU AI Act**, the **GDPR**, and the **European Health Data Space (EHDS)** in clinical settings.
+This repository contains the HL7 FHIR R4 Implementation Guide (IG) developed as part of a Master's thesis. It provides a standardized, interoperable data model to fulfill the transparency, accountability, and traceability requirements of the **EU AI Act**, the **GDPR**, and the **European Health Data Space (EHDS)** in clinical settings.
 
 ## Overview
 
-The integration of Artificial Intelligence (AI) in healthcare requires strict adherence to legal transparency mandates. This IG bridges the gap between legal texts and technical interoperability by profiling FHIR R5 resources. 
+The integration of Artificial Intelligence (AI) in healthcare requires strict adherence to legal transparency mandates. This IG bridges the gap between legal texts and technical interoperability by profiling FHIR R4 resources.
 
 The architecture is divided into three interconnected traceability layers:
 1. **Static System Context:** Profiles for the AI model's metadata, regulatory clearance (CE marking), and Model Cards (`Device`, `Organization`, `DocumentReference`).

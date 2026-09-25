@@ -7,7 +7,8 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 // =======================================================
 // BASICS
 // =======================================================
-//* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
+* type 1..1 MS
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 //* action = #C 
 * recorded 1..1 MS
 
@@ -22,11 +23,11 @@ Description: "An AuditEvent profile documenting execution-related metadata of an
 // =======================================================
 // EXECUTION PERIOD (SYS-10.1 (AI Act Art. 12 | Audit Trail))
 // =======================================================
-* occurred[x] only Period
+* period 1..1 MS
 
-* occurredPeriod.start 1..1 MS
-* occurredPeriod.end 1..1 MS
-* occurredPeriod ^requirements = "AI Act Art. 12 | Audit Trail"
+* period.start 1..1 MS
+* period.end 1..1 MS
+* period ^requirements = "AI Act Art. 12 | Audit Trail"
 
 // =======================================================
 // SOURCE & AGENT (The Machine)

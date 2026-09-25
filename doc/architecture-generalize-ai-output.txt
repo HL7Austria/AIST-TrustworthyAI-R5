@@ -7,7 +7,7 @@ flowchart LR
     Device("EU_AIDevice") -- owner --> Org
     Device -- ext[modelCard] --> ModelCard("EU_AIModelCard")
     ModelCard -- subject --> Device
-    AIOutput("AI-generated / AI-influenced<br>FHIR Resource<br>e.g. Observation, DiagnosticReport") -. conforms to .-> EUAIData("EUAIData<br>meta.security[aiInvolvement]")
+    AIOutput("AI-generated / AI-influenced<br>FHIR Resource<br>e.g. Observation, DiagnosticReport") -. conforms to .-> TrustAIData("TrustAIData<br>meta.security[aiInvolvement]")
     AuditEvent("EU_AIAuditEvent") -- "source.observer<br>agent.who" --> Device
     AuditEvent -- "entity[outputData].what" --> AIOutput
     Provenance("EU_AIProvenance") -- target --> AIOutput

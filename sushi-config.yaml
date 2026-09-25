@@ -10,7 +10,7 @@ name: TrustAITransparencyIG
 # description: Example Implementation Guide for getting started with SUSHI
 status: draft # draft | active | retired | unknown
 version: 0.1.0
-fhirVersion: 5.0.0 # https://www.hl7.org/fhir/valueset-FHIR-version.html
+fhirVersion: 4.0.1 # https://www.hl7.org/fhir/valueset-FHIR-version.html
 copyrightYear: 2026+
 releaseLabel: ci-build
 language: en
@@ -184,7 +184,7 @@ groups:
       - DiagnosticReport/dr-ai-diagnostic-report
       - Provenance/dr-ai-provenance
       - AuditEvent/dr-ai-audit-event
-      - ArtifactAssessment/dr-human-assessment
+      # TODO R4 mapping: ArtifactAssessment is R5-only.
       - Communication/dr-patient-communication
   spezialized:
     name: Spezialied AI Output Scenario
@@ -217,7 +217,7 @@ groups:
       - Observation/sc-02-validation-ai-observation-risk-001
       - AuditEvent/sc-02-validation-audit-event-ai-execution-001
       - Provenance/sc-02-validation-provenance-ai-output-001
-      - ArtifactAssessment/sc-02-validation-human-oversight-001
+      # TODO R4 mapping: ArtifactAssessment is R5-only.
       - Observation/sc-03-override-observation-temperature-001
       - Observation/sc-03-override-observation-heart-rate-001
       - Observation/sc-03-override-observation-respiratory-rate-001
@@ -227,7 +227,7 @@ groups:
       - Observation/sc-03-override-ai-observation-risk-001
       - AuditEvent/sc-03-override-audit-event-ai-execution-001
       - Provenance/sc-03-override-provenance-ai-output-001
-      - ArtifactAssessment/sc-03-override-human-oversight-001
+      # TODO R4 mapping: ArtifactAssessment is R5-only.
       - Observation/sc-04-correction-exp-observation-temperature-001
       - Observation/sc-04-correction-exp-observation-heart-rate-001
       - Observation/sc-04-correction-exp-observation-respiratory-rate-001
@@ -237,7 +237,7 @@ groups:
       - Observation/sc-04-correction-exp-ai-observation-risk-001
       - AuditEvent/sc-04-correction-exp-audit-event-ai-execution-001
       - Provenance/sc-04-correction-exp-provenance-ai-output-001
-      - ArtifactAssessment/sc-04-correction-exp-human-oversight-001
+      # TODO R4 mapping: ArtifactAssessment is R5-only.
       - Observation/sc-04-correction-exp-corrected-clinical-observation-001
       - Communication/sc-04-correction-exp-patient-explanation-001
       - Provenance/example-secondary-use-provenance

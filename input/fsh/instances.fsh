@@ -80,12 +80,12 @@ InstanceOf: Encounter
 Usage: #example
 Title: "Encounter: Acute Care Assessment"
 Description: "Synthetic encounter for suspected infection and early-warning risk assessment."
-* status = #completed
+* status = #finished
 * class[0] = http://terminology.hl7.org/CodeSystem/v3-ActCode#AMB "ambulatory"
 * subject = Reference(patient-001)
-* actualPeriod.start = "2026-03-01T10:00:00Z"
-* actualPeriod.end = "2026-03-01T10:30:00Z"
-* reason[0].value[0].concept.text = "suspected-infection-early-warning-risk-assessment"
+* period.start = "2026-03-01T10:00:00Z"
+* period.end = "2026-03-01T10:30:00Z"
+* reasonCode[0].text = "suspected-infection-early-warning-risk-assessment"
 
 // =======================================================
 // 2. SHARED AI SYSTEM AND MODEL CARD
@@ -99,25 +99,25 @@ Description: "Synthetic AI system for NEWS2-inspired early-warning risk assessme
 * identifier[euDatabaseId].system = "http://example.org/fhir/sid/trust-ai-database"
 * identifier[euDatabaseId].value = "trust-ai-000123"
 * status = #active
-* name[0].value = "RiskAssist AI"
-* name[0].type = #registered-name
-* name[0].display = true
+* deviceName[0].name = "RiskAssist AI"
+* deviceName[0].type = #manufacturer-name
 * version[0].value = "1.0.0"
 * manufacturer = "ExampleMed AI GmbH"
 * owner = Reference(organization-examplehospital)
 
-* conformsTo[0].category.text = "quality-management-system"
-* conformsTo[0].specification.text = "Synthetic QMS certification reference for PoC purposes."
+* extension[conformsTo].extension[category].valueCodeableConcept.text = "quality-management-system"
+* extension[conformsTo].extension[specification].valueCodeableConcept.text = "Synthetic QMS certification reference for PoC purposes."
 * note[0].text = "Synthetic maintenance information for PoC purposes."
 * note[1].text = "AI-assisted early warning risk assessment based on synthetic NEWS2-inspired vital parameters."
 * extension[dataTransfer].extension[transferFlag].valueBoolean = false
 * extension[modelCard].valueReference = Reference(modelcard-riskassist-ai)
 * extension[conformityDeclaration].valueReference = Reference(eu-conformity-declaration)
-* property[ceMark].valueBoolean = true
-* property[notifiedBody].valueString = "NB-0000"
+* property[ceMark].valueCode = http://snomed.info/sct#373066001 "Yes"
+* property[notifiedBody].valueCode.text = "NB-0000"
 * property[expectedLifetime].valueQuantity = 5 'a' "years"
-* property[intendedPurpose].valueString = "Supportive risk stratification in acute care settings"
-* property[targetPopulation][0].valueCodeableConcept.text = "Adult patients with suspected infection in an acute care setting"
+* property[intendedPurpose].valueCode.text = "Supportive risk stratification in acute care settings"
+* property[targetPopulation][0].valueCode.text = "Adult patients with suspected infection in an acute care setting"
+
 
 Instance: eu-conformity-declaration
 InstanceOf: DocumentReference
@@ -295,20 +295,15 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
 * extension[logIntegrity].valueSignature.sigFormat = #text/plain
 * extension[logIntegrity].valueSignature.data = "c2hhMjU2LTFmNzg5N2U0ZWVmNDNlM2ZiYmY1M2U3MDgxYzEwYTA1ZTEyZjhhNDEzZGI5NDQxMzI0NDYzZGRhZDAzNDdlMjk="
-* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
-* code.text = "RESTful Operation"
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 * action = #C
 * recorded = "2026-03-01T10:15:04Z"
-* occurredPeriod.start = "2026-03-01T10:15:00Z"
-* occurredPeriod.end = "2026-03-01T10:15:03Z"
-* authorization[0].text = "Document simulated AI execution for PoC traceability."
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* period.start = "2026-03-01T10:15:00Z"
+* period.end = "2026-03-01T10:15:03Z"
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
 * entity[outputData][0].role = TrustAIAuditEntityRoleCodeSystem#ai-output
-* entity[outputData][0].role.text = "AI Output"
 * entity[outputData][0].what = Reference(sc-01-ai-only-ai-observation-risk-001)
 
 Instance: sc-01-ai-only-provenance-ai-output-001
@@ -320,14 +315,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprArt6Basis].concept.coding =
-    GDPRArt6CodeSystem#gdpr-art-6-1-d
-    "Vital Interests (Art. 6(1)(d))"
-* authorization[gdprArt9Condition].concept.coding =
-    GDPRArt9CodeSystem#gdpr-art-9-2-h
-    "Health or Social Care (Art. 9(2)(h))"
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * activity.text = "ai-output-generation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
@@ -473,20 +462,15 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
 * extension[logIntegrity].valueSignature.sigFormat = #text/plain
 * extension[logIntegrity].valueSignature.data = "c2hhMjU2LTIzNGY0MmQxMzQyN2YyMzRiOWU3YTg5NTJjMGU1ZjA1MmRkZDNiNTBkMWMxMGZjY2Q0OWNjN2EwMWM5OWQ0NjA="
-* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
-* code.text = "RESTful Operation"
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 * action = #C
 * recorded = "2026-03-01T10:15:04Z"
-* occurredPeriod.start = "2026-03-01T10:15:00Z"
-* occurredPeriod.end = "2026-03-01T10:15:03Z"
-* authorization[0].text = "Document simulated AI execution for PoC traceability."
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* period.start = "2026-03-01T10:15:00Z"
+* period.end = "2026-03-01T10:15:03Z"
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
 * entity[outputData][0].role =  TrustAIAuditEntityRoleCodeSystem#ai-output
-* entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-02-validation-ai-observation-risk-001)
 
 Instance: sc-02-validation-provenance-ai-output-001
@@ -498,10 +482,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * activity.text = "ai-output-generation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
@@ -520,7 +502,9 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
-// Human oversight for sc-02-validation
+// TODO R4 mapping: ArtifactAssessment is R5-only; preserve this oversight
+// example until it is mapped to an R4-compatible resource.
+/* Human oversight for sc-02-validation
 
 Instance: sc-02-validation-human-oversight-001
 InstanceOf: Trust_AIHumanOversightAssessment
@@ -535,6 +519,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * content[0].summary = "The simulated AI output was reviewed and accepted."
 
 
+*/
 // =======================================================
 // Scenario 3: Human override
 // =======================================================
@@ -661,20 +646,15 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
 * extension[logIntegrity].valueSignature.sigFormat = #text/plain
 * extension[logIntegrity].valueSignature.data = "c2hhMjU2LWJiMDBlZjdhYzRjZjZiNGQxNjY2MjNkZTE5ZTgyOGVjNzJkOTIzZjRjYzg5MWI1MDEzODg4NzgwNjFmNmViYzQ="
-* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
-* code.text = "RESTful Operation"
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 * action = #C
 * recorded = "2026-03-01T10:15:04Z"
-* occurredPeriod.start = "2026-03-01T10:15:00Z"
-* occurredPeriod.end = "2026-03-01T10:15:03Z"
-* authorization[0].text = "Document simulated AI execution for PoC traceability."
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* period.start = "2026-03-01T10:15:00Z"
+* period.end = "2026-03-01T10:15:03Z"
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
 * entity[outputData][0].role =  TrustAIAuditEntityRoleCodeSystem#ai-output
-* entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-03-override-ai-observation-risk-001)
 
 Instance: sc-03-override-provenance-ai-output-001
@@ -686,10 +666,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * activity.text = "ai-output-generation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
@@ -708,7 +686,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
-// Human oversight for sc-03-override
+// TODO R4 mapping: ArtifactAssessment is R5-only.
+/* Human oversight for sc-03-override
 
 Instance: sc-03-override-human-oversight-001
 InstanceOf: Trust_AIHumanOversightAssessment
@@ -721,6 +700,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * content[0].author = Reference(practitionerrole-reviewer-001)
 * content[0].classifier = TrustAIHumanOversightCodeSystem#human-override "Human Override"
 * content[0].summary = "The clinician overrode the simulated low-risk AI output due to additional synthetic clinical concerns."
+*/
 
 
 // =======================================================
@@ -848,20 +828,15 @@ Description: "Synthetic audit event documenting the AI execution for PoC traceab
 * extension[logIntegrity].valueSignature.who = Reference(device-riskassist-ai)
 * extension[logIntegrity].valueSignature.sigFormat = #text/plain
 * extension[logIntegrity].valueSignature.data = "c2hhMjU2LWUwNTFjNDEzNmNhZWEwMmIyOTA5OWEyOWZhNzQ4Yzc3ZDgyNDNmNmEyYTRkMzllOTg3ODQ4ZDhlYzg3NGQ1MTA="
-* code = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
-* code.text = "RESTful Operation"
+* type = http://terminology.hl7.org/CodeSystem/audit-event-type#rest "RESTful Operation"
 * action = #C
 * recorded = "2026-03-01T10:15:04Z"
-* occurredPeriod.start = "2026-03-01T10:15:00Z"
-* occurredPeriod.end = "2026-03-01T10:15:03Z"
-* authorization[0].text = "Document simulated AI execution for PoC traceability."
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* period.start = "2026-03-01T10:15:00Z"
+* period.end = "2026-03-01T10:15:03Z"
 * agent[0].who = Reference(device-riskassist-ai)
 * agent[0].requestor = false
 * source.observer = Reference(device-riskassist-ai)
 * entity[outputData][0].role =   TrustAIAuditEntityRoleCodeSystem#ai-output
-* entity[outputData][0].role.text = "Report"
 * entity[outputData][0].what = Reference(sc-04-correction-exp-ai-observation-risk-001)
 
 Instance: sc-04-correction-exp-provenance-ai-output-001
@@ -873,10 +848,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * activity.text = "ai-output-generation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source
@@ -895,7 +868,8 @@ Description: "Synthetic provenance resource linking the AI output to the AI syst
 * extension[caseIndication].valueCodeableConcept = TrustAICaseSpecificIndicationCodeSystem#prognosis "Prognostic Prediction"
 * extension[automatedDecision].valueBoolean = false
 
-// Human oversight for sc-04-correction-exp
+// TODO R4 mapping: ArtifactAssessment is R5-only.
+/* Human oversight for sc-04-correction-exp
 
 Instance: sc-04-correction-exp-human-oversight-001
 InstanceOf: Trust_AIHumanOversightAssessment
@@ -908,6 +882,7 @@ Description: "Synthetic human oversight assessment documenting the clinician's r
 * content[0].author = Reference(practitionerrole-reviewer-001)
 * content[0].classifier = TrustAIHumanOversightCodeSystem#human-correction "Human Correction"
 * content[0].summary = "The simulated AI output was intentionally configured as inconsistent and corrected by the human reviewer."
+*/
 
 Instance: sc-04-correction-exp-corrected-clinical-observation-001
 InstanceOf: Observation
@@ -934,7 +909,8 @@ Description: "Synthetic patient-facing explanation about AI-supported processing
 * status = #completed
 * subject = Reference(patient-001)
 * sender = Reference(practitionerrole-reviewer-001)
-* about[0] = Reference(sc-04-correction-exp-human-oversight-001)
+// R4 mapping: about references the corrected observation instead of the removed ArtifactAssessment example.
+* about[0] = Reference(sc-04-correction-exp-corrected-clinical-observation-001)
 * sent = "2026-03-01T10:30:00Z"
 * payload[0].contentAttachment.contentType = #text/plain
 * payload[0].contentAttachment.title = "Patient-facing AI explanation"
@@ -955,10 +931,8 @@ Description: "Example showing EHDS secondary use purpose and data permit."
 * occurredPeriod.start = "2026-03-01T10:15:00Z"
 * occurredPeriod.end = "2026-03-01T10:15:03Z"
 * recorded = "2026-03-01T10:15:04Z"
-* authorization[gdprArt6Basis].concept.coding = GDPRArt6CodeSystem#gdpr-art-6-1-d
-* authorization[gdprArt9Condition].concept.coding = GDPRArt9CodeSystem#gdpr-art-9-2-h
-* patient = Reference(patient-001)
-* encounter = Reference(encounter-001)
+* extension[gdprAuthorization].extension[gdprArt6Basis].valueCodeableConcept = GDPRArt6CodeSystem#gdpr-art-6-1-d
+* extension[gdprAuthorization].extension[gdprArt9Condition].valueCodeableConcept = GDPRArt9CodeSystem#gdpr-art-9-2-h
 * activity.text = "secondary-use-ai-validation"
 * agent[0].who = Reference(device-riskassist-ai)
 * entity[0].role = #source

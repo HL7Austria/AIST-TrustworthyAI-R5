@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Implementation Guide (IG) defines a custom FHIR R5 framework for representing selected AI-related transparency, traceability, legal-context, and human-oversight metadata in healthcare.
+This Implementation Guide (IG) defines a custom FHIR R4 framework for representing selected AI-related transparency, traceability, legal-context, and human-oversight metadata in healthcare.
 
 The IG focuses on how documentation requirements and transparency-relevant concepts from the Trust AI Act, the GDPR, and the European Health Data Space (EHDS) can be represented using machine-readable FHIR artifacts. It provides profiles, extensions, terminology, and examples for documenting AI-supported processing in clinical contexts.
 

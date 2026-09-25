@@ -2,7 +2,7 @@
 
 ## Overview
 
-This Proof of Concept (PoC) demonstrates how synthetic AI transparency metadata can be transformed into FHIR R5 resources.
+This Proof of Concept (PoC) demonstrates how synthetic AI transparency metadata can be transformed into FHIR R4 resources.
 
 The project simulates AI-assisted clinical risk assessment scenarios and maps the generated metadata into FHIR resources for transparency, provenance, auditability, and human oversight documentation.
 

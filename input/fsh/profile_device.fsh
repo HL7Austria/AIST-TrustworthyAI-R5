@@ -6,9 +6,9 @@ Description: "A Device profile representing an AI system or software component, 
 // =======================================================
 // 1. SYSTEM METADATA (SYS-01 (AI Act Annex IV | System Name & Version), SYS-02 (AI Act / GDPR | Manufacturer / Provider))
 // =======================================================
-* name 1..* MS
-* name.value 1..1
-* name.value ^short = "System Name"
+* deviceName 1..* MS
+* deviceName.name 1..1
+* deviceName.name ^short = "System Name"
 
 * version 1..* MS
 * version.value 1..1
@@ -44,11 +44,11 @@ Description: "A Device profile representing an AI system or software component, 
 // =======================================================
 // CONFORMITY, STANDARDS AND CERTIFICATIONS (SYS-12 (AI Act Art. 17 | QMS Certification), SYS-07.2 (AI Act Art. 13 | Operational Context & Maintenance))
 // =======================================================
-* conformsTo 0..* MS
-* conformsTo ^short = "Applicable standards and certifications"
-* conformsTo.specification 1..1 MS
-* conformsTo.specification ^short = "Standard, specification, or certification"
-* conformsTo.specification ^requirements = "AI Act Art. 17 | QMS Certification & AI Act Art. 13 | Operational Context & Maintenance"
+// R4 mapping: Device.conformsTo is R5-only; represented via ConformsToStandard extension.
+* extension contains ConformsToStandard named conformsTo 0..* MS
+* extension[conformsTo] ^short = "Applicable standards and certifications"
+* extension[conformsTo] ^requirements = "AI Act Art. 17 | QMS Certification & AI Act Art. 13 | Operational Context & Maintenance"
+
 
 // =======================================================
 // STATIC SYSTEM CHARACTERISTICS (SYS-03b (AI Act Art. 48 | CE Marking), SYS-07.1 (AI Act Art. 13 | Operational Context & Maintenance))

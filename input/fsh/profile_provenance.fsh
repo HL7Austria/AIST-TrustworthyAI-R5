@@ -24,6 +24,11 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 // =======================================================
 // GDPR (LAW-01a (GDPR Art. 6 | Legal Basis (General)) & LAW-01b (GDPR Art. 9 | Health Data Exception))
 // =======================================================
+// R4 mapping: Provenance.authorization is R5-only; represented via GDPRLegalAuthorization extension.
+* extension contains GDPRLegalAuthorization named gdprAuthorization 1..1 MS
+* extension[gdprAuthorization] ^short = "GDPR legal basis and condition authorizing the AI processing"
+* extension[gdprAuthorization] ^requirements = "GDPR Art. 6 | Legal Basis (General) & GDPR Art. 9 | Health Data Exception"
+/*
 * authorization 1..* MS
 * authorization ^slicing.discriminator.type = #value
 * authorization ^slicing.discriminator.path = "concept.coding.system"
@@ -60,6 +65,7 @@ Description: "A Provenance profile linking an AI-generated output to the contrib
 * authorization[gdprArt6Basis] ^requirements = "GDPR Art. 6 | Legal Basis (General)"
 * authorization[gdprArt9Condition] ^short = "Condition under GDPR Article 9 for processing health data"
 * authorization[gdprArt9Condition] ^requirements = "GDPR Art. 9 | Health Data Exception"
+*/
 
 // =======================================================
 // 3. AGENT (The Machine)

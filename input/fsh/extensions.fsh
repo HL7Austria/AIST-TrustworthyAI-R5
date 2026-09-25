@@ -17,6 +17,29 @@ Context: Device
 
 
 // Used in: Trust_AIDevice
+// R4 mapping: replaces the R5-only Device.conformsTo backbone element.
+// Purpose: Records an applicable standard, specification, or certification
+// (e.g. a QMS certification) that the AI system conforms to.
+Extension: ConformsToStandard
+Id: conforms-to-standard
+Title: "Conforms-To Standard or Certification"
+Description: "Records an applicable standard, specification, or certification that the AI system conforms to, replacing the R5-only Device.conformsTo element."
+Context: Device
+* value[x] 0..0
+* extension contains
+    category 0..1 MS and
+    specification 1..1 MS
+
+* extension[category].value[x] only CodeableConcept
+* extension[category].value[x] 1..1
+* extension[category] ^short = "Category of the standard or certification"
+
+* extension[specification].value[x] only CodeableConcept
+* extension[specification].value[x] 1..1
+* extension[specification] ^short = "Standard, specification, or certification"
+
+
+// Used in: Trust_AIDevice
 // Target resource: Device
 // Purpose: Documents whether use of the AI system involves a transfer of
 // personal data to a third country or an international organisation and,
@@ -158,6 +181,33 @@ Context: DocumentReference
 // 3. EHDS AND PROVENANCE EXTENSIONS
 // Resource: Trust_AIProvenance
 // =============================================================================
+
+// Used in: Trust_AIProvenance
+// R4 mapping: replaces the R5-only Provenance.authorization backbone element.
+// Purpose: Records the GDPR legal basis (Art. 6) and, where health data is
+// processed, the applicable condition (Art. 9) authorizing the processing.
+Extension: GDPRLegalAuthorization
+Id: gdpr-legal-authorization
+Title: "GDPR Legal Authorization"
+Description: "Records the GDPR Article 6 legal basis and, where applicable, the Article 9 condition authorizing processing of health data, replacing the R5-only Provenance.authorization element."
+Context: Provenance
+* value[x] 0..0
+* extension contains
+    gdprArt6Basis 1..1 MS and
+    gdprArt9Condition 1..1 MS
+
+* extension[gdprArt6Basis].value[x] only CodeableConcept
+* extension[gdprArt6Basis].value[x] 1..1
+* extension[gdprArt6Basis].valueCodeableConcept from GDPRArt6LegalBasisVS (required)
+* extension[gdprArt6Basis] ^short = "Legal basis under GDPR Article 6"
+* extension[gdprArt6Basis] ^requirements = "GDPR Art. 6 | Legal Basis (General)"
+
+* extension[gdprArt9Condition].value[x] only CodeableConcept
+* extension[gdprArt9Condition].value[x] 1..1
+* extension[gdprArt9Condition].valueCodeableConcept from GDPRArt9ConditionVS (required)
+* extension[gdprArt9Condition] ^short = "Condition under GDPR Article 9 for processing health data"
+* extension[gdprArt9Condition] ^requirements = "GDPR Art. 9 | Health Data Exception"
+
 
 // Used in: Trust_AIProvenance.extension[usageCategory]
 // Purpose: Distinguishes primary use from secondary use of electronic health

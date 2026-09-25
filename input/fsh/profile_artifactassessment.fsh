@@ -1,3 +1,6 @@
+/* R4 mapping: ArtifactAssessment is R5-only. Map human oversight to an
+	R4-compatible resource/profile before enabling this definition.
+
 Profile: Trust_AIHumanOversightAssessment
 Parent: ArtifactAssessment
 Id: trust-ai-human-oversight
@@ -41,3 +44,4 @@ Description: "An ArtifactAssessment profile documenting professional review of a
 * content.relatedArtifact 0..*
 * content.relatedArtifact ^short = "Supporting documentation or explainability evidence"
 * content.relatedArtifact ^requirements = "AI Act Art. 14 | Case-Specific Interpretability Information"
+*/
