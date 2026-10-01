@@ -42,3 +42,6 @@ pnpm-debug.log*
 *.cache
 *~
 *.swp
+
+# PoC generated output
+/poc/output/
