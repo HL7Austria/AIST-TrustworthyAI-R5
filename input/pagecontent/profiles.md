@@ -5,7 +5,7 @@ The Implementation Guide defines profiles covering the complete lifecycle of AI-
 
 These profiles describe the AI system, responsible organizations, and technical documentation independently of a specific clinical execution.
 
-### EU_AIDevice (Device)
+### Trust_AIDevice (Device)
 
 Represents the AI system as an identifiable and versioned system component.
 
@@ -21,7 +21,7 @@ It includes metadata such as:
 - expected lifetime
 - Trust AI database identifier
 
-### EU_AIOrganization (Organization)
+### Trust_AIOrganization (Organization)
 
 Represents organizations involved in the AI lifecycle, including manufacturers, deployers, and healthcare providers.
 
@@ -31,7 +31,7 @@ It may also contain contact information for:
 - Incident reporting
 - Responsible organizations
 
-### EU_AIModelCard (DocumentReference)
+### Trust_AIModelCard (DocumentReference)
 
 Represents model-card documentation and technical documentation.
 
@@ -48,19 +48,19 @@ It references supporting documentation and contains structured metadata regardin
 
 These profiles document AI execution and legal traceability.
 
-### EU_AIObservation (Observation)
+### Trust_AIObservation (Observation)
 
 Represents AI-generated clinical findings.
 
-### EU_AIAuditEvent (AuditEvent)
+### Trust_AIAuditEvent (AuditEvent)
 
 Documents technical execution logs and integrity information.
 
-### EU_AIProvenance (Provenance)
+### Trust_AIProvenance (Provenance)
 
 Documents data lineage, legal basis, source data, and execution context.
 
-### EU_AIConsent (Consent)
+### Trust_AIConsent (Consent)
 
 Documents patient consent and AI-related transparency information.
 
@@ -70,14 +70,14 @@ Documents patient consent and AI-related transparency information.
 
 These profiles document human oversight and patient communication.
 
-### EU_AIHumanOversightAssessment (ArtifactAssessment)
+### Trust_AIHumanOversightAssessment (ArtifactAssessment)
 
 Represents human validation, override, correction, and review of AI-generated outputs.
 
-### EU_AIPractitionerRole (PractitionerRole)
+### Trust_AIPractitionerRole (PractitionerRole)
 
 Represents the reviewing healthcare professional and associated AI-specific competencies.
 
-### EU_AIPatientExplanation (Communication)
+### Trust_AIPatientExplanation (Communication)
 
 Documents patient-facing explanations regarding AI-supported clinical decisions.

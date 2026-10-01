@@ -3,15 +3,15 @@ config:
   layout: fixed
 ---
 flowchart LR
-    Role("EU_AIPractitionerRole") -- organization --> Org["EU_AIOrganization"]
-    Device("EU_AIDevice") -- owner --> Org
-    Device -- ext[modelCard] --> ModelCard("EU_AIModelCard")
-    AuditEvent("EU_AIAuditEvent") -- "source.observer<br>agent.who" --> Device
-    AuditEvent -- "entity[outputData].what" --> Observation("EU_AIObservation")
-    Provenance("EU_AIProvenance") -- target --> Observation
-    Oversight("EU_AIHumanOversightAssessment") -- artifactReference --> Observation
+    Role("Trust_AIPractitionerRole") -- organization --> Org["Trust_AIOrganization"]
+    Device("Trust_AIDevice") -- owner --> Org
+    Device -- ext[modelCard] --> ModelCard("Trust_AIModelCard")
+    AuditEvent("Trust_AIAuditEvent") -- "source.observer<br>agent.who" --> Device
+    AuditEvent -- "entity[outputData].what" --> Observation("Trust_AIObservation")
+    Provenance("Trust_AIProvenance") -- target --> Observation
+    Oversight("Trust_AIHumanOversightAssessment") -- artifactReference --> Observation
     Oversight -- "content.author" --> Role
-    Comm("EU_AIPatientExplanation") -- sender --> Role
+    Comm("Trust_AIPatientExplanation") -- sender --> Role
     Comm -- about --> Oversight
     Observation -- device --> Device
     Provenance -- "agent.who" --> Device

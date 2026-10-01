@@ -345,7 +345,7 @@
     "correctedClinicalObservation": {
       "status": "final",
       "codeText": "Human-corrected early warning risk assessment",
-      "note": "This represents a human-corrected clinical observation derived from the original EU_AIObservation."
+      "note": "This represents a human-corrected clinical observation derived from the original Trust_AIObservation."
     },
     "auditEvent": {
       "action": "C",

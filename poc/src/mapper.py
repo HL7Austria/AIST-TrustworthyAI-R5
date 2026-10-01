@@ -38,27 +38,27 @@ FHIR_OUTPUT_DIR = Path("poc/output/fhir")
 
 CANONICAL = "http://example.org/fhir/trust-ai-transparency"
 
-PROFILE_EU_AI_ORGANIZATION = (
+PROFILE_Trust_AI_ORGANIZATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-organization"
 )
-PROFILE_EU_AI_DEVICE = f"{CANONICAL}/StructureDefinition/trust-ai-device"
-PROFILE_EU_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/trust-ai-model-card"
-PROFILE_EU_AI_PRACTITIONER_ROLE = (
+PROFILE_Trust_AI_DEVICE = f"{CANONICAL}/StructureDefinition/trust-ai-device"
+PROFILE_Trust_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/trust-ai-model-card"
+PROFILE_Trust_AI_PRACTITIONER_ROLE = (
     f"{CANONICAL}/StructureDefinition/trust-ai-practitionerrole"
 )
-PROFILE_EU_AI_OBSERVATION = (
+PROFILE_Trust_AI_OBSERVATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-observation"
 )
-PROFILE_EU_AI_AUDIT_EVENT = (
+PROFILE_Trust_AI_AUDIT_EVENT = (
     f"{CANONICAL}/StructureDefinition/trust-ai-machine-execution-audit-event"
 )
-PROFILE_EU_AI_PROVENANCE = (
+PROFILE_Trust_AI_PROVENANCE = (
     f"{CANONICAL}/StructureDefinition/trust-ai-provenance"
 )
-PROFILE_EU_AI_HUMAN_OVERSIGHT = (
+PROFILE_Trust_AI_HUMAN_OVERSIGHT = (
     f"{CANONICAL}/StructureDefinition/trust-ai-human-oversight"
 )
-PROFILE_EU_AI_PATIENT_EXPLANATION = (
+PROFILE_Trust_AI_PATIENT_EXPLANATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-patient-explanation"
 )
 
@@ -320,7 +320,7 @@ def map_organization(
     return {
         "resourceType": "Organization",
         "id": organization["id"],
-        "meta": create_meta(PROFILE_EU_AI_ORGANIZATION),
+        "meta": create_meta(PROFILE_Trust_AI_ORGANIZATION),
         "active": organization.get("active", True),
         "type": [{"text": organization.get("type", "organization")}],
         "name": organization["name"],
@@ -402,7 +402,7 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
         == "target-population"
         for prop in properties
     ):
-        raise ValueError("EU_AIDevice requires at least one target population.")
+        raise ValueError("Trust_AIDevice requires at least one target population.")
 
     data_transfer = ai_system.get("dataTransfer", {})
     transfer_children: list[dict[str, Any]] = [
@@ -452,7 +452,7 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "Device",
         "id": ai_system["id"],
-        "meta": create_meta(PROFILE_EU_AI_DEVICE),
+        "meta": create_meta(PROFILE_Trust_AI_DEVICE),
         "identifier": [
             {
                 "type": codeable_concept(
@@ -599,7 +599,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     )
     if not publication_date:
         raise ValueError(
-            "EU_AIModelCard requires modelCard.publicationDate, "
+            "Trust_AIModelCard requires modelCard.publicationDate, "
             "modelCard.date, or modelCard.createdAt."
         )
 
@@ -770,7 +770,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "DocumentReference",
         "id": model_card["id"],
-        "meta": create_meta(PROFILE_EU_AI_MODELCARD),
+        "meta": create_meta(PROFILE_Trust_AI_MODELCARD),
         "status": fhir.get("status", "current"),
         "subject": fhir_reference("Device", metadata["aiSystem"]["id"]),
         "type": codeable_concept(
@@ -813,7 +813,7 @@ def map_practitioner_role(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "PractitionerRole",
         "id": reviewer_role["id"],
-        "meta": create_meta(PROFILE_EU_AI_PRACTITIONER_ROLE),
+        "meta": create_meta(PROFILE_Trust_AI_PRACTITIONER_ROLE),
         "practitioner": fhir_reference("Practitioner", practitioner["id"]),
         "organization": fhir_reference(
             "Organization",
@@ -962,7 +962,7 @@ def map_ai_observation(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Observation",
         "id": ai_output["id"],
-        "meta": create_meta(PROFILE_EU_AI_OBSERVATION),
+        "meta": create_meta(PROFILE_Trust_AI_OBSERVATION),
         "status": fhir["status"],
         "code": {"text": fhir["codeText"]},
         "subject": fhir_reference("Patient", ai_output["subjectId"]),
@@ -1076,7 +1076,7 @@ def map_audit_event(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "AuditEvent",
         "id": audit["id"],
-        "meta": create_meta(PROFILE_EU_AI_AUDIT_EVENT),
+        "meta": create_meta(PROFILE_Trust_AI_AUDIT_EVENT),
         "code": cc_from_meta(fhir["code"]),
         "action": fhir["action"],
         "recorded": audit["recordedAt"],
@@ -1162,7 +1162,7 @@ def map_provenance(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Provenance",
         "id": provenance["id"],
-        "meta": create_meta(PROFILE_EU_AI_PROVENANCE),
+        "meta": create_meta(PROFILE_Trust_AI_PROVENANCE),
         "extension": extensions,
         "target": [
             fhir_reference("Observation", provenance["targetId"])
@@ -1234,7 +1234,7 @@ def map_human_oversight_assessment(
     return {
         "resourceType": "ArtifactAssessment",
         "id": oversight["id"],
-        "meta": create_meta(PROFILE_EU_AI_HUMAN_OVERSIGHT),
+        "meta": create_meta(PROFILE_Trust_AI_HUMAN_OVERSIGHT),
         "date": oversight["reviewedAt"],
         "artifactReference": fhir_reference(
             "Observation",
@@ -1308,7 +1308,7 @@ def map_patient_explanation(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Communication",
         "id": explanation["id"],
-        "meta": create_meta(PROFILE_EU_AI_PATIENT_EXPLANATION),
+        "meta": create_meta(PROFILE_Trust_AI_PATIENT_EXPLANATION),
         "extension": [
             {
                 "url": EXT_PATIENT_AI_INFO_PROVIDED,
