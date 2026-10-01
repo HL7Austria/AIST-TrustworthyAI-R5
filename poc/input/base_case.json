@@ -137,6 +137,12 @@
     "maintenanceNote": "Synthetic maintenance information for PoC purposes.",
     "qmsCertification": "Synthetic QMS certification reference for PoC purposes.",
     "modelCardId": "modelcard-riskassist-ai",
+    "conformityDeclaration": {
+      "id": "eu-conformity-declaration",
+      "title": "EU Declaration of Conformity: RiskAssist AI",
+      "contentType": "application/pdf",
+      "url": "https://fh-ooe.at/fhir/trust-ai-transparency/riskassist/eu-conformity-declaration"
+    },
     "dataTransfer": {
       "crossBorderTransfer": false,
       "thirdCountryTransfer": false
@@ -180,7 +186,7 @@
     "limitations": "The simulated output is not intended for clinical use and does not represent a validated AI model.",
     "trainingData": {
       "ehdsCategory": {
-        "system": "http://example.org/fhir/trust-ai-transparency/CodeSystem/ehds-data-category-cs",
+        "system": "http://example.org/fhir/trust-ai-transparency/CodeSystem/data-category-cs",
         "code": "ehr",
         "display": "Electronic Health Records"
       }
