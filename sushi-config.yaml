@@ -46,6 +46,8 @@ publisher:
 pages:
   index.md:
     title: Home
+  requirements.md:
+    title: Requirements Traceability
   profiles.md:
     title: Profiles
   extensions.md:
@@ -83,6 +85,7 @@ menu:
   Home: index.html
 
   Guide:
+    Requirements Traceability: requirements.html
     Profiles: profiles.html
     Extensions: extensions.html
     Terminology: terminology.html
