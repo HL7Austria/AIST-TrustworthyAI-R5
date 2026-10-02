@@ -89,7 +89,7 @@ Usage: #example
 Title: "EU Conformity Declaration"
 Description: "The conformity declaration document for the AI device used in this diagnostic report scenario."
 * status = #current
-* content.attachment = conformity-declaration-attachment
+* content.attachment = conformity-declaration-attachment-2
 
 Instance: conformity-declaration-attachment-2
 InstanceOf: Attachment

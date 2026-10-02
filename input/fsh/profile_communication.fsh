@@ -2,7 +2,7 @@ Profile: Trust_AIPatientExplanation
 Parent: Communication
 Id: trust-ai-patient-explanation
 Title: "Trust AI Patient Explanation Communication"
-Description: "A Communication profile documenting that an explanation regarding an AI-supported clinical decision was provided to a patient. The explanation may describe the role of the AI system, the related human oversight, and the key elements of the resulting clinical decision in accordance with Article 86 of the Trust AI Act."
+Description: "A Communication profile documenting that an explanation regarding an AI-supported clinical decision was provided to a patient. The explanation may describe the role of the AI system, the related human oversight, and the key elements of the resulting clinical decision in accordance with Article 86 of the EU AI Act."
 
 // =======================================================
 // SUBJECT & SENDER (The Actors)

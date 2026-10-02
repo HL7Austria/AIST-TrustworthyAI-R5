@@ -24,9 +24,9 @@ Description: "A Device profile representing an AI system or software component, 
 * identifier[euDatabaseId].type = TrustAIIdentifierTypeCodeSystem#trust-ai-registration-number
 * identifier[euDatabaseId].system 1..1
 * identifier[euDatabaseId].value 1..1
-* identifier[euDatabaseId] ^short = "Trust AI database registration number"
+* identifier[euDatabaseId] ^short = "EU database registration number"
 
-* identifier[euDatabaseId] ^definition = "The unique registration number assigned to the high-risk AI system in the official Trust AI database."
+* identifier[euDatabaseId] ^definition = "The unique registration number assigned to the high-risk AI system in the official EU database (AI Act Art. 49)."
 * identifier[euDatabaseId] ^requirements = "AI Act Art. 49 | EU Database Registration"
 // =======================================================
 // SYS-02.1 SYS-02.2 (AI Act / GDPR | Manufacturer / Provider)

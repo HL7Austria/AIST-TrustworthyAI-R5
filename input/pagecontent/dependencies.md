@@ -1,3 +1,3 @@
 # Dependencies
 
-{{{dependency-table}}}
+{% include dependency-table.xhtml %}

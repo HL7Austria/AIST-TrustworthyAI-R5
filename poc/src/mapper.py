@@ -38,27 +38,27 @@ FHIR_OUTPUT_DIR = Path("poc/output/fhir")
 
 CANONICAL = "http://example.org/fhir/trust-ai-transparency"
 
-PROFILE_EU_AI_ORGANIZATION = (
+PROFILE_Trust_AI_ORGANIZATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-organization"
 )
-PROFILE_EU_AI_DEVICE = f"{CANONICAL}/StructureDefinition/trust-ai-device"
-PROFILE_EU_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/trust-ai-model-card"
-PROFILE_EU_AI_PRACTITIONER_ROLE = (
+PROFILE_Trust_AI_DEVICE = f"{CANONICAL}/StructureDefinition/trust-ai-device"
+PROFILE_Trust_AI_MODELCARD = f"{CANONICAL}/StructureDefinition/trust-ai-model-card"
+PROFILE_Trust_AI_PRACTITIONER_ROLE = (
     f"{CANONICAL}/StructureDefinition/trust-ai-practitionerrole"
 )
-PROFILE_EU_AI_OBSERVATION = (
+PROFILE_Trust_AI_OBSERVATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-observation"
 )
-PROFILE_EU_AI_AUDIT_EVENT = (
+PROFILE_Trust_AI_AUDIT_EVENT = (
     f"{CANONICAL}/StructureDefinition/trust-ai-machine-execution-audit-event"
 )
-PROFILE_EU_AI_PROVENANCE = (
+PROFILE_Trust_AI_PROVENANCE = (
     f"{CANONICAL}/StructureDefinition/trust-ai-provenance"
 )
-PROFILE_EU_AI_HUMAN_OVERSIGHT = (
+PROFILE_Trust_AI_HUMAN_OVERSIGHT = (
     f"{CANONICAL}/StructureDefinition/trust-ai-human-oversight"
 )
-PROFILE_EU_AI_PATIENT_EXPLANATION = (
+PROFILE_Trust_AI_PATIENT_EXPLANATION = (
     f"{CANONICAL}/StructureDefinition/trust-ai-patient-explanation"
 )
 
@@ -73,13 +73,11 @@ EXT_AI_TRAINING_DATA = f"{CANONICAL}/StructureDefinition/ai-training-data"
 EXT_AI_RETENTION_INFORMATION = (
     f"{CANONICAL}/StructureDefinition/ai-retention-information"
 )
-EXT_EHDS_USAGE_CATEGORY = (
-    f"{CANONICAL}/StructureDefinition/ehds-usage-category"
+EXT_USAGE_CATEGORY = f"{CANONICAL}/StructureDefinition/usage-category"
+EXT_SECONDARY_USE_PURPOSE = (
+    f"{CANONICAL}/StructureDefinition/secondary-use-purpose"
 )
-EXT_EHDS_SECONDARY_USE_PURPOSE = (
-    f"{CANONICAL}/StructureDefinition/ehds-secondary-use-purpose"
-)
-EXT_EHDS_DATA_PERMIT = f"{CANONICAL}/StructureDefinition/ehds-data-permit"
+EXT_DATA_PERMIT = f"{CANONICAL}/StructureDefinition/data-permit"
 EXT_CASE_SPECIFIC_INDICATION = (
     f"{CANONICAL}/StructureDefinition/case-specific-indication"
 )
@@ -92,6 +90,12 @@ EXT_AI_CLINICAL_VALIDATION_STATUS = (
 )
 EXT_AUTOMATED_DECISION = (
     f"{CANONICAL}/StructureDefinition/automated-decision-flag"
+)
+EXT_CONFORMITY_DECLARATION = (
+    f"{CANONICAL}/StructureDefinition/trust-ai-conformity-reference"
+)
+EXT_PATIENT_AI_INFO_PROVIDED = (
+    f"{CANONICAL}/StructureDefinition/patient-ai-info-provided-flag"
 )
 
 CS_AI_INVOLVEMENT = f"{CANONICAL}/CodeSystem/trust-ai-involvement-cs"
@@ -107,11 +111,9 @@ CS_AI_CLINICAL_VALIDATION_STATUS = (
 CS_AI_DATA_QUALITY = f"{CANONICAL}/CodeSystem/trust-ai-data-quality-cs"
 CS_HUMAN_OVERSIGHT = f"{CANONICAL}/CodeSystem/trust-ai-human-oversight-cs"
 CS_AI_CONTACT_PURPOSE = f"{CANONICAL}/CodeSystem/trust-ai-contact-purpose-cs"
-CS_EHDS_USAGE_CATEGORY = f"{CANONICAL}/CodeSystem/ehds-usage-category-cs"
-CS_EHDS_DATA_CATEGORY = f"{CANONICAL}/CodeSystem/ehds-data-category-cs"
-CS_EHDS_SECONDARY_USE_PURPOSE = (
-    f"{CANONICAL}/CodeSystem/ehds-secondary-use-purpose-cs"
-)
+CS_USAGE_CATEGORY = f"{CANONICAL}/CodeSystem/usage-category-cs"
+CS_DATA_CATEGORY = f"{CANONICAL}/CodeSystem/data-category-cs"
+CS_SECONDARY_USE_PURPOSE = f"{CANONICAL}/CodeSystem/secondary-use-purpose-cs"
 CS_GDPR_ART6 = f"{CANONICAL}/CodeSystem/gdpr-art6-codesystem"
 CS_GDPR_ART9 = f"{CANONICAL}/CodeSystem/gdpr-art9-codesystem"
 CS_AI_ARTIFACT_TYPE = f"{CANONICAL}/CodeSystem/trust-ai-artifact-type-cs"
@@ -318,7 +320,7 @@ def map_organization(
     return {
         "resourceType": "Organization",
         "id": organization["id"],
-        "meta": create_meta(PROFILE_EU_AI_ORGANIZATION),
+        "meta": create_meta(PROFILE_Trust_AI_ORGANIZATION),
         "active": organization.get("active", True),
         "type": [{"text": organization.get("type", "organization")}],
         "name": organization["name"],
@@ -400,7 +402,7 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
         == "target-population"
         for prop in properties
     ):
-        raise ValueError("EU_AIDevice requires at least one target population.")
+        raise ValueError("Trust_AIDevice requires at least one target population.")
 
     data_transfer = ai_system.get("dataTransfer", {})
     transfer_children: list[dict[str, Any]] = [
@@ -450,7 +452,7 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "Device",
         "id": ai_system["id"],
-        "meta": create_meta(PROFILE_EU_AI_DEVICE),
+        "meta": create_meta(PROFILE_Trust_AI_DEVICE),
         "identifier": [
             {
                 "type": codeable_concept(
@@ -489,6 +491,13 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
                     ai_system["modelCardId"],
                 ),
             },
+            {
+                "url": EXT_CONFORMITY_DECLARATION,
+                "valueReference": fhir_reference(
+                    "DocumentReference",
+                    ai_system["conformityDeclaration"]["id"],
+                ),
+            },
         ],
     }
 
@@ -513,6 +522,26 @@ def map_ai_device(metadata: dict[str, Any]) -> dict[str, Any]:
         resource["note"] = notes
 
     return resource
+
+
+def map_conformity_declaration(metadata: dict[str, Any]) -> dict[str, Any]:
+    declaration = metadata["aiSystem"]["conformityDeclaration"]
+
+    return {
+        "resourceType": "DocumentReference",
+        "id": declaration["id"],
+        "status": "current",
+        "subject": fhir_reference("Device", metadata["aiSystem"]["id"]),
+        "content": [
+            {
+                "attachment": {
+                    "contentType": declaration["contentType"],
+                    "url": declaration["url"],
+                    "title": declaration["title"],
+                }
+            }
+        ],
+    }
 
 
 # -----------------------------------------------------------------------------
@@ -570,7 +599,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     )
     if not publication_date:
         raise ValueError(
-            "EU_AIModelCard requires modelCard.publicationDate, "
+            "Trust_AIModelCard requires modelCard.publicationDate, "
             "modelCard.date, or modelCard.createdAt."
         )
 
@@ -628,10 +657,10 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     for category in categories:
         training_children.append(
             {
-                "url": "ehdsCategory",
+                "url": "Category",
                 "valueCodeableConcept": normalized_coded_concept(
                     category,
-                    system=CS_EHDS_DATA_CATEGORY,
+                    system=CS_DATA_CATEGORY,
                 ),
             }
         )
@@ -639,10 +668,10 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     for purpose in training_data.get("secondaryUsePurposes", []):
         training_children.append(
             {
-                "url": "ehdsSecondaryUsePurpose",
+                "url": "SecondaryUsePurpose",
                 "valueCodeableConcept": normalized_coded_concept(
                     purpose,
-                    system=CS_EHDS_SECONDARY_USE_PURPOSE,
+                    system=CS_SECONDARY_USE_PURPOSE,
                 ),
             }
         )
@@ -650,7 +679,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     for permit in training_data.get("permits", []):
         training_children.append(
             {
-                "url": "ehdsPermit",
+                "url": "Permit",
                 "valueIdentifier": identifier_from_value(permit),
             }
         )
@@ -741,7 +770,7 @@ def map_model_card(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "DocumentReference",
         "id": model_card["id"],
-        "meta": create_meta(PROFILE_EU_AI_MODELCARD),
+        "meta": create_meta(PROFILE_Trust_AI_MODELCARD),
         "status": fhir.get("status", "current"),
         "subject": fhir_reference("Device", metadata["aiSystem"]["id"]),
         "type": codeable_concept(
@@ -784,7 +813,7 @@ def map_practitioner_role(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "PractitionerRole",
         "id": reviewer_role["id"],
-        "meta": create_meta(PROFILE_EU_AI_PRACTITIONER_ROLE),
+        "meta": create_meta(PROFILE_Trust_AI_PRACTITIONER_ROLE),
         "practitioner": fhir_reference("Practitioner", practitioner["id"]),
         "organization": fhir_reference(
             "Organization",
@@ -933,21 +962,7 @@ def map_ai_observation(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Observation",
         "id": ai_output["id"],
-        "meta": create_meta(PROFILE_EU_AI_OBSERVATION),
-        "extension": [
-            {
-                "url": EXT_CASE_SPECIFIC_INDICATION,
-                "valueCodeableConcept": codeable_concept(
-                    CS_CASE_SPECIFIC_INDICATION,
-                    ai_output["caseSpecificIndication"],
-                    ai_output.get("caseSpecificIndicationDisplay"),
-                ),
-            },
-            {
-                "url": EXT_AUTOMATED_DECISION,
-                "valueBoolean": bool(ai_output["automatedDecision"]),
-            },
-        ],
+        "meta": create_meta(PROFILE_Trust_AI_OBSERVATION),
         "status": fhir["status"],
         "code": {"text": fhir["codeText"]},
         "subject": fhir_reference("Patient", ai_output["subjectId"]),
@@ -1061,7 +1076,7 @@ def map_audit_event(metadata: dict[str, Any]) -> dict[str, Any]:
     resource: dict[str, Any] = {
         "resourceType": "AuditEvent",
         "id": audit["id"],
-        "meta": create_meta(PROFILE_EU_AI_AUDIT_EVENT),
+        "meta": create_meta(PROFILE_Trust_AI_AUDIT_EVENT),
         "code": cc_from_meta(fhir["code"]),
         "action": fhir["action"],
         "recorded": audit["recordedAt"],
@@ -1102,23 +1117,35 @@ def map_provenance(metadata: dict[str, Any]) -> dict[str, Any]:
 
     extensions: list[dict[str, Any]] = [
         {
-            "url": EXT_EHDS_USAGE_CATEGORY,
+            "url": EXT_USAGE_CATEGORY,
             "valueCodeableConcept": codeable_concept(
-                CS_EHDS_USAGE_CATEGORY,
+                CS_USAGE_CATEGORY,
                 legal["usageCategory"],
                 legal.get("usageCategoryDisplay"),
             ),
-        }
+        },
+        {
+            "url": EXT_CASE_SPECIFIC_INDICATION,
+            "valueCodeableConcept": codeable_concept(
+                CS_CASE_SPECIFIC_INDICATION,
+                ai_output["caseSpecificIndication"],
+                ai_output.get("caseSpecificIndicationDisplay"),
+            ),
+        },
+        {
+            "url": EXT_AUTOMATED_DECISION,
+            "valueBoolean": bool(ai_output["automatedDecision"]),
+        },
     ]
 
     if legal.get("usageCategory") == "secondary-use":
         for purpose in legal.get("secondaryUsePurposes", []):
             extensions.append(
                 {
-                    "url": EXT_EHDS_SECONDARY_USE_PURPOSE,
+                    "url": EXT_SECONDARY_USE_PURPOSE,
                     "valueCodeableConcept": normalized_coded_concept(
                         purpose,
-                        system=CS_EHDS_SECONDARY_USE_PURPOSE,
+                        system=CS_SECONDARY_USE_PURPOSE,
                     ),
                 }
             )
@@ -1127,7 +1154,7 @@ def map_provenance(metadata: dict[str, Any]) -> dict[str, Any]:
         if permit:
             extensions.append(
                 {
-                    "url": EXT_EHDS_DATA_PERMIT,
+                    "url": EXT_DATA_PERMIT,
                     "valueIdentifier": identifier_from_value(permit),
                 }
             )
@@ -1135,7 +1162,7 @@ def map_provenance(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Provenance",
         "id": provenance["id"],
-        "meta": create_meta(PROFILE_EU_AI_PROVENANCE),
+        "meta": create_meta(PROFILE_Trust_AI_PROVENANCE),
         "extension": extensions,
         "target": [
             fhir_reference("Observation", provenance["targetId"])
@@ -1207,7 +1234,7 @@ def map_human_oversight_assessment(
     return {
         "resourceType": "ArtifactAssessment",
         "id": oversight["id"],
-        "meta": create_meta(PROFILE_EU_AI_HUMAN_OVERSIGHT),
+        "meta": create_meta(PROFILE_Trust_AI_HUMAN_OVERSIGHT),
         "date": oversight["reviewedAt"],
         "artifactReference": fhir_reference(
             "Observation",
@@ -1281,7 +1308,13 @@ def map_patient_explanation(metadata: dict[str, Any]) -> dict[str, Any]:
     return {
         "resourceType": "Communication",
         "id": explanation["id"],
-        "meta": create_meta(PROFILE_EU_AI_PATIENT_EXPLANATION),
+        "meta": create_meta(PROFILE_Trust_AI_PATIENT_EXPLANATION),
+        "extension": [
+            {
+                "url": EXT_PATIENT_AI_INFO_PROVIDED,
+                "valueBoolean": bool(explanation["provided"]),
+            }
+        ],
         "status": fhir["status"],
         "category": [cc_from_meta(fhir["category"])],
         "subject": fhir_reference("Patient", explanation["subjectId"]),
@@ -1314,6 +1347,7 @@ def map_scenario(metadata: dict[str, Any]) -> list[dict[str, Any]]:
         map_organization(metadata, metadata["manufacturerOrganization"]),
         map_organization(metadata, metadata["operatorOrganization"]),
         map_model_card(metadata),
+        map_conformity_declaration(metadata),
         map_ai_device(metadata),
         map_practitioner(metadata),
         map_practitioner_role(metadata),
