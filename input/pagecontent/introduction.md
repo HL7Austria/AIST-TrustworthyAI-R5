@@ -4,7 +4,7 @@
 
 This Implementation Guide (IG) defines a custom FHIR R5 framework for representing selected AI-related transparency, traceability, legal-context, and human-oversight metadata in healthcare.
 
-The IG focuses on how documentation requirements and transparency-relevant concepts from the Trust AI Act, the GDPR, and the European Health Data Space (EHDS) can be represented using machine-readable FHIR artifacts. It provides profiles, extensions, terminology, and examples for documenting AI-supported processing in clinical contexts.
+The IG focuses on how documentation requirements and transparency-relevant concepts from the EU AI Act, the GDPR, and the European Health Data Space (EHDS) can be represented using machine-readable FHIR artifacts. It provides profiles, extensions, terminology, and examples for documenting AI-supported processing in clinical contexts.
 
 The IG does not claim to provide complete legal compliance or regulatory certification. Instead, it supports structured documentation, traceability, and interoperability for selected AI-related metadata.
 
@@ -41,14 +41,14 @@ The complete requirements matrix, the logical data models, the element-level map
 
 ## Architecture
 
-The Implementation Guide is organized into three main architectural contexts:
+The Implementation Guide is organized into three architectural layers:
 
-- Static System Context
-- AI Output and Execution Context
-- Clinical Decision and Patient-Facing Context
+- **Static System Context**: the AI system, the responsible organizations, and the model card
+- **AI Output Context**: the AI-generated output, its provenance and legal processing context, and the execution audit trail
+- **Clinical Decision Context**: human oversight of the output, the reviewer's role and qualification, and the patient-facing explanation
 
-Detailed descriptions of all profiles are available in the **Profiles** section.
+Detailed descriptions of all profiles are available on the **[Profiles](profiles.html)** page.
 
 [![overview](Trust_AI_Ecosystem_Model.png){: style="width: 100%"}](Trust_AI_Ecosystem_Model.png)
 
-FHIR-based traceability model linking AI system, clinical output, human oversight, and patient communication. Green elements represent the Static System Context, purple elements denote the AI output context, and blue elements indicate the clinical decision context. Yellow elements are included as supporting resources required for the representation of the workflow, but are not implemented as dedicated profiles in this IG.
+FHIR-based traceability model linking AI system, clinical output, human oversight, and patient communication. Green elements represent the Static System Context, purple elements denote the AI output context, and blue elements indicate the clinical decision context. Yellow elements are included as supporting resources required for the representation of the workflow, but are not implemented as dedicated profiles in this IG. White elements represent the AI output itself, which can be any FHIR resource that is marked as AI-generated according to the [TrustAIData](StructureDefinition-trust-ai-data.html) profile.

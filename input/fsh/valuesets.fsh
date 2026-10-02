@@ -538,7 +538,7 @@ Description: "Codes identifying regulatory identifier types associated with an A
 * ^caseSensitive = true
 
 * #trust-ai-registration-number "Trust AI Registration Number"
-    "Registration number assigned to an AI system in the EU database established under the Trust AI Act, where such registration is applicable."
+    "Registration number assigned to an AI system in the EU database established under the EU AI Act, where such registration is applicable."
 
 
 // ============================================================================

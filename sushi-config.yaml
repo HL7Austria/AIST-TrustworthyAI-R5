@@ -190,7 +190,7 @@ menu:
 groups:
   generalized:
     name: Generalized AI Output Scenario
-    description: Example how the IG can be used only using the generalized Output for elements without specified Resources.
+    description: Example of how the IG can be used for AI outputs without a dedicated profile, using the generalized AI output pattern.
     resources:
       - Patient/dr-patient
       - Practitioner/dr-practitioner
@@ -206,8 +206,8 @@ groups:
       - ArtifactAssessment/dr-human-assessment
       - Communication/dr-patient-communication
   spezialized:
-    name: Spezialied AI Output Scenario
-    description: Example how the spezialized AI Output such as AI Observation can be used.
+    name: Specialized AI Output Scenario
+    description: Example of how a specialized AI output profile such as Trust_AIObservation can be used.
     resources:
       - Patient/patient-001
       - Practitioner/practitioner-001

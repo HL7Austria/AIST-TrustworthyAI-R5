@@ -1,7 +1,7 @@
 Profile: Trust_AIModelCard
 Parent: DocumentReference
 Id: trust-ai-model-card
-Title: "Trust AI Act Model Card"
+Title: "Trust AI Model Card"
 Description: "A DocumentReference profile representing technical documentation about an AI system, such as intended use, limitations, risk-related information, performance-related information, and model documentation."
 
 // =============================================================================
