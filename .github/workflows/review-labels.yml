@@ -1,0 +1,26 @@
+# HL7 Austria IG review (https://github.com/HL7Austria/ig-review): label review comments.
+# Comments are issues with a hidden ig-review anchor block, created by readers on the published pages,
+# who usually cannot set labels themselves. Pages read the comments live from the GitHub API, so this
+# workflow publishes nothing and never triggers a site rebuild.
+name: ReviewLabels
+
+on:
+  issues:
+    types: [opened, edited]
+
+permissions:
+  issues: write
+
+jobs:
+  label:
+    if: contains(github.event.issue.body, '<!-- ig-review')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: HL7Austria/ig-review
+          path: ig-review-tool
+      - name: Label the review issue from its anchor block
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 ig-review-tool/tools/build_index.py --repo "${{ github.repository }}" --issue "${{ github.event.issue.number }}" --apply-labels

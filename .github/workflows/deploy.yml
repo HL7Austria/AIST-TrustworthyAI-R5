@@ -9,7 +9,7 @@ on:
   pull_request:
     branches: [ main ]
 
-# one deploy at a time: all branch builds (and review-index.yml) push to the same Pages branch
+# one deploy at a time: all branch builds push to the same Pages branch
 concurrency:
   group: publish-pages
   cancel-in-progress: false
@@ -87,13 +87,9 @@ jobs:
         repository: HL7Austria/ig-review
         path: ig-review-tool
 
-    - name: Add review tool and comment index
+    - name: Add review tool
       continue-on-error: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      run: |
-        python3 ig-review-tool/tools/inject.py output --repo "${{ github.repository }}" --branch "${{ steps.extract_branch.outputs.branch }}" --commit "${{ github.sha }}"
-        python3 ig-review-tool/tools/build_index.py --repo "${{ github.repository }}" --branch "${{ steps.extract_branch.outputs.branch }}" --out output/review-index.json
+      run: python3 ig-review-tool/tools/inject.py output --repo "${{ github.repository }}" --branch "${{ steps.extract_branch.outputs.branch }}" --commit "${{ github.sha }}"
 
     - name: Deploy Implementation Guide
       if: success()
