@@ -1,0 +1,61 @@
+# HL7 Austria IG review (https://github.com/HL7Austria/ig-review):
+# when a review comment (issue with a hidden ig-review anchor block) or one of its replies changes,
+# label the issue and republish the comment index next to the published IG pages of its branch.
+name: ReviewIndex
+
+on:
+  issues:
+    types: [opened, edited, closed, reopened, labeled, unlabeled, deleted]
+  issue_comment:
+    types: [created, edited, deleted]
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: IG branch whose comment index to rebuild
+        default: main
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: review-index
+  cancel-in-progress: false
+
+jobs:
+  index:
+    if: github.event_name == 'workflow_dispatch' || contains(github.event.issue.body, '<!-- ig-review')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          repository: HL7Austria/ig-review
+          path: ig-review-tool
+
+      - name: Label the issue, find its branch
+        id: b
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "branch=${{ inputs.branch }}" >> "$GITHUB_OUTPUT"
+          else
+            python3 ig-review-tool/tools/build_index.py --repo "${{ github.repository }}" --issue "${{ github.event.issue.number }}" --apply-labels >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Build the comment index
+        if: steps.b.outputs.branch != ''
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python3 ig-review-tool/tools/build_index.py --repo "${{ github.repository }}" --branch "${{ steps.b.outputs.branch }}" --out site/review-index.json
+
+      - name: Publish the index next to the IG pages
+        if: steps.b.outputs.branch != ''
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          personal_token: ${{ secrets.ROBO_OLIVER }}
+          external_repository: HL7Austria/hl7austria.github.io
+          publish_branch: pages
+          publish_dir: ./site
+          destination_dir: ./r5-aist-trustworthyai-${{ steps.b.outputs.branch }}
+          keep_files: true

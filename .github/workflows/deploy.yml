@@ -5,7 +5,7 @@ name: PublishIG
 # Run on updates to the master
 on:
   push:
-    branches: [ main ]
+    branches: [ main, 'ballot*' ]
   pull_request:
     branches: [ main ]
 
@@ -72,6 +72,23 @@ jobs:
     - name: Move index file
       run: |
         mv ./input/landing_page/_index.yml ./output/
+
+    # HL7 Austria IG review: lets readers mark text on the published pages and comment via GitHub issues
+    # (https://github.com/HL7Austria/ig-review). Never blocks the IG build.
+    - name: Checkout review tool
+      continue-on-error: true
+      uses: actions/checkout@v4
+      with:
+        repository: HL7Austria/ig-review
+        path: ig-review-tool
+
+    - name: Add review tool and comment index
+      continue-on-error: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      run: |
+        python3 ig-review-tool/tools/inject.py output --repo "${{ github.repository }}" --branch "${{ steps.extract_branch.outputs.branch }}" --commit "${{ github.sha }}"
+        python3 ig-review-tool/tools/build_index.py --repo "${{ github.repository }}" --branch "${{ steps.extract_branch.outputs.branch }}" --out output/review-index.json
 
     - name: Deploy Implementation Guide
       if: success()
