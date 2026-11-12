@@ -9,6 +9,11 @@ on:
   pull_request:
     branches: [ main ]
 
+# one deploy at a time: all branch builds (and review-index.yml) push to the same Pages branch
+concurrency:
+  group: publish-pages
+  cancel-in-progress: false
+
 jobs:
   build:
     runs-on: ubuntu-latest
